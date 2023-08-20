@@ -1,0 +1,39 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["jsonProtocol"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model User {
+  id                    Int        @id @default(autoincrement())
+  createdAt             DateTime   @default(now())
+  email                 String     @unique
+  firstName             String
+  lastName              String
+  password              String
+  avatar                String
+  workshopsHosted       Workshop[] @relation("WorkshopHost")
+  role                  Role       @default(USER)
+  workshopsParticipated Workshop?  @relation("WorkshopParticipant", fields: [workshopId], references: [id])
+  workshopId            Int?
+}
+
+model Workshop {
+  id               Int      @id @default(autoincrement())
+  hostId           Int
+  topic            String
+  presentationDate DateTime
+  maxParticipants  Int
+  participants     User[]   @relation("WorkshopParticipant")
+  host             User     @relation("WorkshopHost", fields: [hostId], references: [id])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
