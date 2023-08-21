@@ -10,7 +10,7 @@ datasource db {
 }
 
 model User {
-  id                    Int        @id @default(autoincrement())
+  id                    String     @id @default(cuid())
   createdAt             DateTime   @default(now())
   email                 String     @unique
   firstName             String
@@ -20,12 +20,12 @@ model User {
   workshopsHosted       Workshop[] @relation("WorkshopHost")
   role                  Role       @default(USER)
   workshopsParticipated Workshop?  @relation("WorkshopParticipant", fields: [workshopId], references: [id])
-  workshopId            Int?
+  workshopId            String?
 }
 
 model Workshop {
-  id               Int      @id @default(autoincrement())
-  hostId           Int
+  id               String   @id @default(cuid())
+  hostId           String
   topic            String
   presentationDate DateTime
   maxParticipants  Int

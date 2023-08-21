@@ -3,12 +3,15 @@
 import { Input } from '@nextui-org/input'
 import { Button } from '@nextui-org/button'
 import { SubmitHandler, ValidationRule, useForm } from 'react-hook-form'
-import { RegisterPayload } from '@types'
+import { LoginPayload } from '@types'
 import Link from 'next/link'
 import { ArrowRightIcon } from '@heroicons/react/24/solid'
 import Image from 'next/image'
 import { LoadingDots } from '@components/LoadingDots'
 import { useState } from 'react'
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import toast from 'react-hot-toast'
 
 const required = {
   value: true,
@@ -25,38 +28,30 @@ const passwordPattern: ValidationRule<RegExp> = {
   message: 'Password must be 8+ characters with at least 1 uppercase, 1 lowercase, 1 number, and may include special characters.'
 }
 
-export const RegisterForm = () => {
+export const SignInForm = () => {
   const [loading, setLoading] = useState(false)
-
-  const { register, handleSubmit, watch, formState } = useForm<RegisterPayload>()
-
+  const router = useRouter()
+  const { register, handleSubmit, watch, formState } = useForm<LoginPayload>()
   const { errors } = formState;
 
-  const onSubmit: SubmitHandler<RegisterPayload> = (data) => {
+  const onSubmit: SubmitHandler<LoginPayload> = (data) => {
     setLoading(true)
 
-    fetch(
-      '/api/auth/register',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: data.email,
-          password: data.password,
-          firstName: data.firstName,
-          lastName: data.lastName,
-        })
-      }
-    ).then(async (res) => {
-      setLoading(false)
+    const { email, password } = data
 
-      if (res.status === 200) {
-        console.info('Account created! Redirecting to login...');
+    signIn('credentials', {
+      redirect: false,
+      email: email,
+      password: password,
+      // @ts-ignore
+    }).then(({ error }) => {
+      if (error) {
+        setLoading(false);
+        toast.error(error);
       } else {
-        const { error } = await res.json();
-        console.error(error);
+        toast.success('You are signed in!')
+        router.refresh();
+        router.push('/');
       }
     }).catch(error => {
       setLoading(false)
@@ -65,8 +60,8 @@ export const RegisterForm = () => {
   }
 
   return (
-    <div className='pt-8 pb-4 bg-white rounded-2xl shadow-2xl max-w-xl'>
-      <div className='flex flex-col items-center gap-4 pb-4'>
+    <div className='pt-8 pb-4 bg-white rounded-2xl sm:shadow-2xl max-w-xl'>
+      <div className='flex flex-col items-center gap-4 pb-4 px-4'>
         <Image
           src='/logo.svg'
           alt='Workshop Nexus logo'
@@ -74,10 +69,10 @@ export const RegisterForm = () => {
           height={40}
         />
         <h1 className='text-2xl text-center font-semibold'>
-          Sign Up
+          Sign In
         </h1>
         <p className='text-center text-gray-600'>
-          Join <span className='text-gray-800 font-semibold'>Workshop Nexus</span> and start sharing your knowledge
+          Sign in now into <span className='text-gray-800 font-semibold'>Workshop Nexus</span> and start sharing your knowledge
         </p>
       </div>
       <form
@@ -85,24 +80,6 @@ export const RegisterForm = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className='flex flex-col gap-4 mb-4'>
-          <div className='flex flex-row gap-4'>
-            <Input
-              id='firstName'
-              label='First name'
-              {...register('firstName', { required })}
-              placeholder='Enter your first name'
-              validationState={errors.firstName?.type === 'required' ? 'invalid' : 'valid'}
-              errorMessage={errors.firstName?.message}
-            />
-            <Input
-              id='lastName'
-              {...register('lastName', { required })}
-              label='Last name'
-              placeholder='Enter your last name'
-              validationState={errors.lastName?.type === 'required' ? 'invalid' : 'valid'}
-              errorMessage={errors.lastName?.message}
-            />
-          </div>
           <div className='flex flex-row'>
             <Input
               id='email'
@@ -143,16 +120,16 @@ export const RegisterForm = () => {
               <ArrowRightIcon className='h-4 w-4 text-white' />
             )}
           >
-            Sign Up
+            Sign in
           </Button>
         </div>
       </form>
-      <p className='mt-4 text-center text-sm text-gray-600'>
-        Already have an account?{' '}
-        <Link href='/login' className='font-semibold text-gray-800'>
-          Sign in
+      <p className='text-center text-sm text-gray-600'>
+        Don&apos;t have an account?{' '}
+        <Link href='/signup' className='font-semibold text-gray-800'>
+          Sign up
         </Link>{' '}
-        instead.
+        for free.
       </p>
     </div>
   )
