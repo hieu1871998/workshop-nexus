@@ -62,12 +62,14 @@ export const SignInForm = () => {
   return (
     <div className='pt-8 pb-4 bg-white rounded-2xl sm:shadow-2xl max-w-xl'>
       <div className='flex flex-col items-center gap-4 pb-4 px-4'>
-        <Image
-          src='/logo.svg'
-          alt='Workshop Nexus logo'
-          width={40}
-          height={40}
-        />
+        <Link href='/'>
+          <Image
+            src='/logo.svg'
+            alt='Workshop Nexus logo'
+            width={40}
+            height={40}
+          />
+        </Link>
         <h1 className='text-2xl text-center font-semibold'>
           Sign In
         </h1>
@@ -129,7 +131,7 @@ export const SignInForm = () => {
         <Link href='/signup' className='font-semibold text-gray-800'>
           Sign up
         </Link>{' '}
-        for free.
+        now!
       </p>
     </div>
   )
