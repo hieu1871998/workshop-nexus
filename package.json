@@ -43,6 +43,7 @@
   },
   "packageManager": "yarn@3.6.2",
   "devDependencies": {
+    "@svgr/webpack": "^8.1.0",
     "@types/bcrypt": "^5.0.0"
   }
 }

@@ -12,6 +12,7 @@ import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
+import GoogleIcon from '@components/icons/Google/google-icon.svg'
 
 const required = {
   value: true,
@@ -112,17 +113,25 @@ export const SignInForm = () => {
             />
           </div>
         </div>
-        <div className='flex justify-end'>
+        <div className='flex flex-col'>
           <Button
             className='w-full bg-black text-white'
             type='submit'
-            endContent={loading ? (
+            startContent={loading ? (
               <LoadingDots color='#fff' />
             ) : (
               <ArrowRightIcon className='h-4 w-4 text-white' />
             )}
           >
             Sign in
+          </Button>
+          <p className='text-center'>or</p>
+          <Button
+            className='bg-[#4285F4] text-white'
+            startContent={<span className='text-xl'><GoogleIcon /></span>}
+            onClick={() => signIn('google')}
+          >
+            Sign in with Google
           </Button>
         </div>
       </form>
