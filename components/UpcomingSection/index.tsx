@@ -1,23 +1,34 @@
 import Image from 'next/image'
+import SolidJSThumbnail from '../../public/SolidJS.jpg'
+import { Card, CardBody, CardHeader, CardFooter } from '@nextui-org/card'
+import { Button } from '@nextui-org/button'
 
 export const UpcomingSection = () => {
   return (
     <section className='mt-10 py-10'>
       <h2 className='text-4xl font-bold mb-5'>
-        Upcoming workshops
+        Upcoming
       </h2>
-      <div>
+      <Card
+        className='rounded-2xl'
+      >
+        {/* <CardHeader>
+          <h3 className='text-2xl'>
+            Tech Spotlight: SolidJS: A worthy ReactJS alternative?
+          </h3>
+        </CardHeader> */}
         <Image
-          className='border rounded-xl mb-2'
-          src='/SolidJS.jpg'
+          className='object-cover rounded-2xl shadow-md h-auto'
+          src={SolidJSThumbnail}
           alt='Thumbnail'
-          width={900}
-          height={600}
+          priority
         />
-        <h3 className='text-2xl'>
-          Tech Spotlight: SolidJS: A worthy ReactJS alternative?
-        </h3>
-      </div>
+        <CardFooter>
+          <h3 className='text-xl'>
+            Tech Spotlight: SolidJS: A worthy ReactJS alternative?
+          </h3>
+        </CardFooter>
+      </Card>
     </section>
   )
 }
