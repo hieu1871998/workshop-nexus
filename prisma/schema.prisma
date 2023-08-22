@@ -41,18 +41,16 @@ model Session {
 
 model User {
   id                    String     @id @default(cuid())
-  createdAt             DateTime   @default(now())
-  email                 String     @unique
-  firstName             String
-  lastName              String
-  password              String
-  avatar                String
+  name                  String?
+  email                 String?    @unique
+  emailVerified         DateTime?
+  image                 String?
+  accounts              Account[]
+  sessions              Session[]
   workshopsHosted       Workshop[] @relation("WorkshopHost")
   role                  Role       @default(USER)
   workshopsParticipated Workshop?  @relation("WorkshopParticipant", fields: [workshopId], references: [id])
   workshopId            String?
-  accounts              Account[]
-  sessions              Session[]
 }
 
 model VerificationToken {

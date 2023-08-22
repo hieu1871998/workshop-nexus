@@ -129,7 +129,7 @@ export const SignInForm = () => {
           <Button
             className='bg-[#4285F4] text-white'
             startContent={<span className='text-xl'><GoogleIcon /></span>}
-            onClick={() => signIn('google')}
+            onClick={() => signIn('google', { callbackUrl: '/' })}
           >
             Sign in with Google
           </Button>
