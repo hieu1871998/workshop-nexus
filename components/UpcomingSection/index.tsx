@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import SolidJSThumbnail from '../../public/SolidJS.jpg'
-import { Card, CardBody, CardHeader, CardFooter } from '@nextui-org/card'
-import { Button } from '@nextui-org/button'
+import { Card, CardFooter } from '@nextui-org/card'
 
 export const UpcomingSection = () => {
   return (

@@ -1,6 +1,5 @@
 import { HeroSection } from '@components'
 import { UpcomingSection } from '@components/UpcomingSection'
-import Image from 'next/image'
 
 export default function Home() {
   return (

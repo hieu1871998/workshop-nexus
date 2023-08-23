@@ -38,12 +38,19 @@
     "react-hook-form": "^7.45.4",
     "react-hot-toast": "^2.4.1",
     "sass": "^1.66.1",
+    "sharp": "^0.32.5",
     "tailwindcss": "3.3.3",
     "typescript": "5.1.6"
   },
-  "packageManager": "yarn@3.6.2",
+  "packageManager": "yarn@4.0.0-rc.49",
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
-    "@types/bcrypt": "^5.0.0"
+    "@types/bcrypt": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-import-resolver-typescript": "^3.6.0",
+    "eslint-import-resolver-webpack": "^0.13.7",
+    "eslint-plugin-import": "^2.28.1"
   }
 }

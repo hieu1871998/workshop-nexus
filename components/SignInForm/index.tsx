@@ -11,6 +11,7 @@ import { LoadingDots } from '@components/LoadingDots'
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+// eslint-disable-next-line import/no-named-as-default
 import toast from 'react-hot-toast'
 import GoogleIcon from '@components/icons/Google/google-icon.svg'
 
@@ -20,6 +21,7 @@ const required = {
 }
 
 const emailPattern: ValidationRule<RegExp> = {
+  // eslint-disable-next-line max-len, no-control-regex
   value: /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/g,
   message: 'Please provide a valid email address.'
 }
@@ -32,8 +34,8 @@ const passwordPattern: ValidationRule<RegExp> = {
 export const SignInForm = () => {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
-  const { register, handleSubmit, watch, formState } = useForm<LoginPayload>()
-  const { errors } = formState;
+  const { register, handleSubmit, formState } = useForm<LoginPayload>()
+  const { errors } = formState
 
   const onSubmit: SubmitHandler<LoginPayload> = (data) => {
     setLoading(true)
@@ -44,15 +46,17 @@ export const SignInForm = () => {
       redirect: false,
       email: email,
       password: password,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment, @typescript-eslint/prefer-ts-expect-error
       // @ts-ignore
     }).then(({ error }) => {
       if (error) {
-        setLoading(false);
-        toast.error(error);
+        setLoading(false)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        toast.error(error)
       } else {
         toast.success('You are signed in!')
-        router.refresh();
-        router.push('/');
+        router.refresh()
+        router.push('/')
       }
     }).catch(error => {
       setLoading(false)
@@ -80,7 +84,7 @@ export const SignInForm = () => {
       </div>
       <form
         className='px-8 py-4 max-w-xl'
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={() => void handleSubmit(onSubmit)}
       >
         <div className='flex flex-col gap-4 mb-4'>
           <div className='flex flex-row'>
@@ -129,7 +133,7 @@ export const SignInForm = () => {
           <Button
             className='bg-[#4285F4] text-white'
             startContent={<span className='text-xl'><GoogleIcon /></span>}
-            onClick={() => signIn('google', { callbackUrl: '/' })}
+            onClick={() => void signIn('google', { callbackUrl: '/' })}
           >
             Sign in with Google
           </Button>

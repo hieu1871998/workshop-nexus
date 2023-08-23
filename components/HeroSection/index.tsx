@@ -1,7 +1,3 @@
-import { Button } from '@nextui-org/button'
-import Image from 'next/image'
-import { UserIcon } from '@heroicons/react/24/solid'
-import Link from 'next/link'
 import { UserSection } from './UserSection'
 
 export const HeroSection = () => {

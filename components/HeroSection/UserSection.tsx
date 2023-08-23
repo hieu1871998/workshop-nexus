@@ -1,7 +1,6 @@
 import { authOptions } from '@app/api/auth/[...nextauth]/route'
 import { ArrowRightIcon, UserIcon } from '@heroicons/react/24/solid'
 import { Button } from '@nextui-org/button'
-import { User } from '@nextui-org/user'
 import { getServerSession } from 'next-auth'
 import Link from 'next/link'
 

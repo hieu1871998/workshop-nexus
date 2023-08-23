@@ -16,6 +16,7 @@ const required = {
 }
 
 const emailPattern: ValidationRule<RegExp> = {
+  // eslint-disable-next-line max-len, no-control-regex
   value: /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/g,
   message: 'Please provide a valid email address.'
 }
@@ -28,9 +29,9 @@ const passwordPattern: ValidationRule<RegExp> = {
 export const SignUpForm = () => {
   const [loading, setLoading] = useState(false)
 
-  const { register, handleSubmit, watch, formState } = useForm<RegisterPayload>()
+  const { register, handleSubmit, formState } = useForm<RegisterPayload>()
 
-  const { errors } = formState;
+  const { errors } = formState
 
   const onSubmit: SubmitHandler<RegisterPayload> = (data) => {
     setLoading(true)
@@ -53,10 +54,11 @@ export const SignUpForm = () => {
       setLoading(false)
 
       if (res.status === 200) {
-        console.info('Account created! Redirecting to login...');
+        console.info('Account created! Redirecting to login...')
       } else {
-        const { error } = await res.json();
-        console.error(error);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const { error } = await res.json()
+        console.error(error)
       }
     }).catch(error => {
       setLoading(false)
@@ -84,7 +86,7 @@ export const SignUpForm = () => {
       </div>
       <form
         className='px-8 py-4 max-w-xl'
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={() => void handleSubmit(onSubmit)}
       >
         <div className='flex flex-col gap-4 mb-4'>
           <div className='flex flex-row gap-4'>

@@ -1,9 +1,7 @@
-import NextAuth, { type NextAuthOptions } from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
+import NextAuth, { type NextAuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
-import prisma from '@lib/prisma';
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { compare } from 'bcrypt';
+import prisma from '@lib/prisma'
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -39,8 +37,9 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     })
   ],
-};
+}
 
-const handler = NextAuth(authOptions);
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+const handler = NextAuth(authOptions)
 
-export { handler as GET, handler as POST };
+export { handler as GET, handler as POST }
