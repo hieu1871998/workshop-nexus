@@ -4,6 +4,7 @@ import prisma from '@lib/prisma'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 
 export const authOptions: NextAuthOptions = {
+  secret: 'e82644d188b2b8fdbc3d69cd5b1e7a5e',
   adapter: PrismaAdapter(prisma),
   providers: [
     // CredentialsProvider({

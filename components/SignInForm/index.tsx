@@ -78,8 +78,8 @@ export const SignInForm = () => {
         <h1 className='text-2xl text-center font-semibold'>
           Sign In
         </h1>
-        <p className='text-center text-gray-600'>
-          Sign in now into <span className='text-gray-800 font-semibold'>Workshop Nexus</span> and start sharing your knowledge
+        <p className='text-center text-gray-700'>
+          Sign in now into <span className='text-gray-900 font-semibold'>Workshop Nexus</span> and start sharing your knowledge
         </p>
       </div>
       <form
@@ -133,15 +133,15 @@ export const SignInForm = () => {
           <Button
             className='bg-[#4285F4] text-white'
             startContent={<span className='text-xl'><GoogleIcon /></span>}
-            onClick={() => void signIn('google', { callbackUrl: '/' })}
+            onClick={() => void signIn('google', { callbackUrl: '/' }).then((resp) => console.log('sign in: ', resp))}
           >
             Sign in with Google
           </Button>
         </div>
       </form>
-      <p className='text-center text-sm text-gray-600'>
+      <p className='text-center text-sm text-gray-700'>
         Don&apos;t have an account?{' '}
-        <Link href='/signup' className='font-semibold text-gray-800'>
+        <Link href='/signup' className='font-semibold text-gray-900'>
           Sign up
         </Link>{' '}
         now!

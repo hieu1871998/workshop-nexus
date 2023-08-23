@@ -11,7 +11,7 @@ export const UserSection = async () => {
   return (
     <div>
       {user ? (
-        <Link href='/signin'>
+        <Link href='/apply'>
           <Button
             className='px-10 bg-black text-white'
             radius='full'

@@ -80,8 +80,8 @@ export const SignUpForm = () => {
         <h1 className='text-2xl text-center font-semibold'>
           Sign up
         </h1>
-        <p className='text-center text-gray-600'>
-          Join <span className='text-gray-800 font-semibold'>Workshop Nexus</span> and start sharing your knowledge
+        <p className='text-center text-gray-700'>
+          Join <span className='text-gray-900 font-semibold'>Workshop Nexus</span> and start sharing your knowledge
         </p>
       </div>
       <form
@@ -151,9 +151,9 @@ export const SignUpForm = () => {
           </Button>
         </div>
       </form>
-      <p className='mt-4 text-center text-sm text-gray-600'>
+      <p className='mt-4 text-center text-sm text-gray-700'>
         Already have an account?{' '}
-        <Link href='/signin' className='font-semibold text-gray-800'>
+        <Link href='/signin' className='font-semibold text-gray-900'>
           Sign in
         </Link>{' '}
         instead.

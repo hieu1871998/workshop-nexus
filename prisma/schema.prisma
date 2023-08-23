@@ -65,10 +65,20 @@ model Workshop {
   id               String   @id @default(cuid())
   hostId           String
   topic            String
+  description      String
   presentationDate DateTime
   maxParticipants  Int
   participants     User[]   @relation("WorkshopParticipant")
   host             User     @relation("WorkshopHost", fields: [hostId], references: [id])
+  category         Category @relation(fields: [categoryId], references: [id])
+  categoryId       String
+}
+
+model Category {
+  id         String     @id @default(cuid())
+  label      String
+  workshopId String?
+  workshops  Workshop[]
 }
 
 enum Role {

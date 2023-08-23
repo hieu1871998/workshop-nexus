@@ -1,0 +1,99 @@
+/* SCSS variables */
+$primary-50: #F9EEEE;
+$primary-100: #FFA9A4;
+$primary-300: #FE424D;
+$primary-500: #E60A17;
+$primary-700: #CE1105;
+$primary-900: #AB0A00;
+
+$secondary-50: #F8EEF9;
+$secondary-100: #C77ADD;
+$secondary-300: #AD0AE6;
+$secondary-500: #9B14C3;
+$secondary-700: #8B1DA3;
+$secondary-900: #7B2583;
+
+$gray-white: #EDEDED;
+$gray-50: #F6F5F5;
+$gray-100: #EDEDED;
+$gray-300: #CCCCCC;
+$gray-500: #999999;
+$gray-700: #666666;
+$gray-900: #333333;
+$gray-black: #0D0E11;
+$gray-black-1e: #1E1E1E;
+
+$black-0: #00000000;
+$black-10: #0000001A;
+$black-20: #00000033;
+$black-30: #0000004D;
+$black-40: #00000066;
+$black-50: #00000080;
+$black-60: #00000099;
+$black-70: #000000B2;
+$black-80: #000000CC;
+$black-90: #000000E5;
+$black-100: #000000FF;
+
+$white-0: #FFFFFF00;
+$white-10: #FFFFFF1A;
+$white-20: #FFFFFF33;
+$white-30: #FFFFFF4D;
+$white-40: #FFFFFF66;
+$white-50: #FFFFFF80;
+$white-60: #FFFFFF99;
+$white-70: #FFFFFFB2;
+$white-80: #FFFFFFCC;
+$white-90: #FFFFFFE5;
+$white-100: #FFFFFFFF;
+
+/* Export variables */
+:export {
+  primary-50: $primary-50;
+  primary-100: $primary-100;
+  primary-300: $primary-300;
+  primary-500: $primary-500;
+  primary-700: $primary-700;
+  primary-900: $primary-900;
+
+  secondary-50: $secondary-50;
+  secondary-100: $secondary-100;
+  secondary-300: $secondary-300;
+  secondary-500: $secondary-500;
+  secondary-700: $secondary-700;
+  secondary-900: $secondary-900;
+
+  gray-white: $gray-white;
+  gray-50: $gray-50;
+  gray-100: $gray-100;
+  gray-300: $gray-300;
+  gray-500: $gray-500;
+  gray-700: $gray-700;
+  gray-900: $gray-900;
+  gray-black: $gray-black;
+  gray-black-1e: #1E1E1E;
+
+  black-0: $black-0;
+  black-10: $black-10;
+  black-20: $black-20;
+  black-30: $black-30;
+  black-40: $black-40;
+  black-50: $black-50;
+  black-60: $black-60;
+  black-70: $black-70;
+  black-80: $black-80;
+  black-90: $black-90;
+  black-100:$black-100;
+
+  white-0: $white-0;
+  white-10: $white-10;
+  white-20: $white-20;
+  white-30: $white-30;
+  white-40: $white-40;
+  white-50: $white-50;
+  white-60: $white-60;
+  white-70: $white-70;
+  white-80: $white-80;
+  white-90: $white-90;
+  white-100: $white-100;
+}
