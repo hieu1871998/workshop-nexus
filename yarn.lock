@@ -2793,31 +2793,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/client@npm:^5.1.1":
-  version: 5.1.1
-  resolution: "@prisma/client@npm:5.1.1"
+"@prisma/client@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "@prisma/client@npm:5.2.0"
   dependencies:
-    "@prisma/engines-version": "npm:5.1.1-1.6a3747c37ff169c90047725a05a6ef02e32ac97e"
+    "@prisma/engines-version": "npm:5.2.0-25.2804dc98259d2ea960602aca6b8e7fdc03c1758f"
   peerDependencies:
     prisma: "*"
   peerDependenciesMeta:
     prisma:
       optional: true
-  checksum: 2772c34ca2baf1b2f0e1225dee2b2b0348b81dd40438979bef88330468578065a11b437fa756d2ab1f448d262d0089311d0573b50f61c0797ae2aabdd951f0a8
+  checksum: 42a86517f98ec674d7fa1b769191f8fd42229d01b0d735ff6de2919af427905f3b061c93ca15b48f6daf5c1920794849076dc74b93be3d4b6e4086155429f94e
   languageName: node
   linkType: hard
 
-"@prisma/engines-version@npm:5.1.1-1.6a3747c37ff169c90047725a05a6ef02e32ac97e":
-  version: 5.1.1-1.6a3747c37ff169c90047725a05a6ef02e32ac97e
-  resolution: "@prisma/engines-version@npm:5.1.1-1.6a3747c37ff169c90047725a05a6ef02e32ac97e"
-  checksum: 7aaf08891e0b86c2ad6538c8ca2401aee54a0bd39d3d83827c1983efb4da61dfcf20165bfc6b4a513d98c9a7d8ca19209523584554a9ccc2135a443006a2a6c4
+"@prisma/engines-version@npm:5.2.0-25.2804dc98259d2ea960602aca6b8e7fdc03c1758f":
+  version: 5.2.0-25.2804dc98259d2ea960602aca6b8e7fdc03c1758f
+  resolution: "@prisma/engines-version@npm:5.2.0-25.2804dc98259d2ea960602aca6b8e7fdc03c1758f"
+  checksum: b3c81d57790b62295a7af1e5760bc842ff9d867b18f1c034ed692fccf2465aeecc9b169012e24833b653ef942ad397b28f5b352ad943f578dd1f98a5584e3d93
   languageName: node
   linkType: hard
 
-"@prisma/engines@npm:5.1.1":
-  version: 5.1.1
-  resolution: "@prisma/engines@npm:5.1.1"
-  checksum: 9cf59b46682a21b1eb5ddf3f33ca334a0686ff96ec2c9ddb629a7726515a5c1f818110e18a06b3c68aa794a3ecd2ef524aa6712eb52f15b5041d960d93e473b3
+"@prisma/engines@npm:5.2.0":
+  version: 5.2.0
+  resolution: "@prisma/engines@npm:5.2.0"
+  checksum: 7a48028b23ecb081a0cd506a8e9e435ca3f4e9583c5ff9448e2b0d839b17ccff954d7a7aa320e8cb22bf602566c571b8c0a6616d6651a628c10a10056d95a9f7
   languageName: node
   linkType: hard
 
@@ -8003,14 +8003,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prisma@npm:^5.1.1":
-  version: 5.1.1
-  resolution: "prisma@npm:5.1.1"
+"prisma@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "prisma@npm:5.2.0"
   dependencies:
-    "@prisma/engines": "npm:5.1.1"
+    "@prisma/engines": "npm:5.2.0"
   bin:
     prisma: build/index.js
-  checksum: 64c861de68bfaead333f811471a9f98891715376dd52d453174a6b0b9a6af804a3aec6b9c4520e77914b674dacb2883d4edc5574331b2ce3b3e712785aa5774f
+  checksum: cd7395d1e66abbff95a59b00f1f1c35b7469213f6adb23ce20872c072648cc9c698949e761e884ac94d4bae18897e9c52c84225678050018cf1233fbfe522bd3
   languageName: node
   linkType: hard
 
@@ -9469,7 +9469,7 @@ __metadata:
     "@heroicons/react": "npm:^2.0.18"
     "@next-auth/prisma-adapter": "npm:^1.0.7"
     "@nextui-org/react": "npm:^2.0.24"
-    "@prisma/client": "npm:^5.1.1"
+    "@prisma/client": "npm:^5.2.0"
     "@svgr/webpack": "npm:^8.1.0"
     "@types/bcrypt": "npm:^5.0.0"
     "@types/lodash": "npm:^4.14.197"
@@ -9496,7 +9496,7 @@ __metadata:
     next: "npm:13.4.19"
     next-auth: "npm:^4.23.1"
     postcss: "npm:8.4.28"
-    prisma: "npm:^5.1.1"
+    prisma: "npm:^5.2.0"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
     react-hook-form: "npm:^7.45.4"
