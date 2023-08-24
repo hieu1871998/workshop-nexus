@@ -1,15 +1,20 @@
-import { authOptions } from '@app/api/auth/[...nextauth]/route'
+'use client'
+
 import { ArrowRightIcon, UserIcon } from '@heroicons/react/24/solid'
 import { Button } from '@nextui-org/button'
-import { getServerSession } from 'next-auth'
+import { Session } from 'next-auth'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { fadeInDownMotion } from '@utils/motion'
 
-export const UserSection = async () => {
-  const session = await getServerSession(authOptions)
+export const UserSection = ({ session }: { session: Session | null }) => {
   const user = session?.user
 
   return (
-    <div>
+    <motion.div
+      {...fadeInDownMotion}
+      transition={{ duration: 1, delay: 1 }}
+    >
       {user ? (
         <Link href='/apply'>
           <Button
@@ -31,6 +36,6 @@ export const UserSection = async () => {
           </Button>
         </Link>
       )}
-    </div>
+    </motion.div>
   )
 }

@@ -1,5 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    turbo: {
+      loaders: {
+        '.svg': ['@svgr/webpack']
+      },
+    }
+  },
   webpack(config) {
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule) =>
@@ -26,7 +33,11 @@ const nextConfig = {
     fileLoaderRule.exclude = /\.svg$/i
 
     return config
-  }
+  },
+  transpilePackages: [
+    '@nextui-org/react',
+    'lodash'
+  ]
 }
 
 module.exports = nextConfig

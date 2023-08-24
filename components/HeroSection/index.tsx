@@ -1,16 +1,15 @@
+import { getServerSession } from 'next-auth'
+import { HeroSectionTitle } from './HeroSectionTitle'
 import { UserSection } from './UserSection'
+import { authOptions } from '@app/api/auth/[...nextauth]/route'
 
-export const HeroSection = () => {
+export const HeroSection = async () => {
+  const session = await getServerSession(authOptions)
   return (
     <section className='container mx-auto flex flex-col items-center'>
-      <h1 className='text-5xl font-bold text-left sm:text-center'>
-        Empowering growth and innovation
-      </h1>
-      <p className='text-3xl sm:text-4xl text-gray-700 text-left sm:text-center font-medium mt-4'>
-        Where Curiosity Meets Expertise: Dive into Engaging Workshops and Collaborative Learning
-      </p>
+      <HeroSectionTitle />
       <div className='w-full flex justify-start sm:justify-center mt-10'>
-        <UserSection />
+        <UserSection session={session} />
       </div>
     </section>
   )

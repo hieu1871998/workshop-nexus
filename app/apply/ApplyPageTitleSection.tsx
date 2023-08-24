@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 export const ApplyPageTitleSection = () => {
   return (
     <motion.section
-      className='flex flex-col col-span-1 min-h-screen justify-center'
+      className='flex flex-col col-span-1 pt-28 sm:pt-0 mb-10 sm:mb-0 sm:min-h-screen justify-center'
     >
       <motion.h1
         className='text-4xl font-bold text-gray-900'

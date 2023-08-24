@@ -22,7 +22,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyForm) => {
 
   return (
     <motion.div
-      className='shadow-2xl rounded-2xl'
+      className='sm:shadow-2xl rounded-2xl'
       {...fadeInDownMotion}
       transition={{ duration: 1 }}
       layout
