@@ -23,6 +23,7 @@ const config: Config = {
           500: '#999999',
           700: '#666666',
           900: '#333333',
+          950: '#000000'
         }
       },
     },
@@ -32,11 +33,22 @@ const config: Config = {
     nextui({
       layout: {
         radius: {
-          small: '4px',
-          medium: '4px',
-          large: '4px'
+          small: '6px',
+          medium: '6px',
+          large: '6px'
         }
       },
+      themes: {
+        light: {
+          colors: {
+            primary: {
+              DEFAULT: '#000000',
+              foreground: '#ffffff'
+            },
+            focus: '#000000',
+          },
+        }
+      }
     })
   ],
 }

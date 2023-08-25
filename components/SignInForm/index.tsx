@@ -119,12 +119,13 @@ export const SignInForm = () => {
         </div>
         <div className='flex flex-col'>
           <Button
-            className='w-full bg-black text-white'
+            className='w-full'
+            color='primary'
             type='submit'
             startContent={loading ? (
               <LoadingDots color='#fff' />
             ) : (
-              <ArrowRightIcon className='h-4 w-4 text-white' />
+              <ArrowRightIcon className='h-4 w-4' />
             )}
           >
             Sign in

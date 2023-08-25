@@ -18,8 +18,8 @@ export const UserSection = ({ session }: { session: Session | null }) => {
       {user ? (
         <Link href='/apply'>
           <Button
-            className='px-10 bg-black text-white'
-            radius='full'
+            className='px-10'
+            color='primary'
             startContent={<ArrowRightIcon className='w-4 h-4 text-white' />}
           >
             Start sharing your knowlegde
@@ -28,8 +28,8 @@ export const UserSection = ({ session }: { session: Session | null }) => {
       ) : (
         <Link href='/signin'>
           <Button
-            className='px-10 bg-black text-white'
-            radius='full'
+            className='px-10'
+            color='primary'
             startContent={<UserIcon className='w-4 h-4 text-white' />}
           >
             Sign in and start exploring

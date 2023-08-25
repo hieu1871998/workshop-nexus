@@ -58,7 +58,15 @@
     "import/no-duplicates": ["error"],
     "@typescript-eslint/no-unused-vars": "error",
     "semi": "off",
-    "@typescript-eslint/semi": ["warn", "never"]
+    "@typescript-eslint/semi": ["warn", "never"],
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        "checksVoidReturn": {
+          "attributes": false
+        }
+      }
+    ]
   },
   "settings": {
     "import/resolver": {

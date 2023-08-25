@@ -1,12 +1,13 @@
 'use client'
 
 import { Logo } from '@components/icons/Logo'
-import { Button, Input, Textarea } from '@nextui-org/react'
+import { Button, Input, Textarea, Select, SelectItem } from '@nextui-org/react'
 import { Session, User } from 'next-auth'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { motion } from 'framer-motion'
 import { fadeInDownMotion, fadeInMotion } from '@utils/motion'
 import { Workshop } from '@prisma/client'
+import { useGetWorkshopCategory } from '@network/queries'
 
 const MotionTextarea = motion(Textarea)
 
@@ -40,6 +41,15 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyForm) => {
     console.log('resp: ', resp)
   }
 
+  const { data: categoriesResp } = useGetWorkshopCategory()
+
+  const categoryItems = categoriesResp?.map(
+    category => ({
+      value: category.id,
+      label: category.label
+    })
+  ) ?? []
+
   return (
     <motion.div
       className='sm:shadow-2xl rounded-2xl'
@@ -65,8 +75,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyForm) => {
       </div>
       <form
         className='flex flex-col gap-5 p-5'
-        onSubmit={() => void handleSubmit(onSubmit)}
-        method='POST'
+        onSubmit={handleSubmit(onSubmit)}
       >
         <Input
           id='email'
@@ -79,7 +88,6 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyForm) => {
           id='topic'
           label='Topic'
           {...register('topic', { required })}
-          isRequired
           placeholder='What is your workshop topic?'
           validationState={errors.topic ? 'invalid' : 'valid'}
           errorMessage={errors.topic?.message}
@@ -87,7 +95,6 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyForm) => {
         <MotionTextarea
           id='description'
           {...register('description', { required })}
-          isRequired
           label='Description'
           placeholder='A little summary about your workshop'
           validationState={errors.description ? 'invalid' : 'valid'}
@@ -96,6 +103,22 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyForm) => {
           maxRows={10}
           layout
         />
+        <Select
+          items={categoryItems}
+          label='Category'
+          placeholder='Select a category'
+          {...register('categoryId', { required })}
+          validationState={errors.categoryId ? 'invalid' : 'valid'}
+          errorMessage={errors.categoryId?.message}
+        >
+          {category => (
+            <SelectItem
+              key={category.value}
+            >
+              {category.label}
+            </SelectItem>
+          )}
+        </Select>
         <Button className='bg-black text-white' type='submit'>
           Submit
         </Button>

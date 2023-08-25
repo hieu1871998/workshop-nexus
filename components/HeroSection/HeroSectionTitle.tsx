@@ -18,7 +18,7 @@ export const HeroSectionTitle = () => {
         {...fadeInDownMotion}
         transition={{ duration: 1, delay: 0.5 }}
       >
-        Where Curiosity Meets Expertise: Dive into Engaging Workshops and Collaborative Learning
+        Where curiosity meets expertise: Dive into engaging workshops and collaborative learning
       </motion.p>
     </div>
   )
