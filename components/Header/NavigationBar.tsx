@@ -34,7 +34,7 @@ export const NavigationBar = ({ session }: { session: Session | null }) => {
             <DropdownItem
               key='signout'
               color='danger'
-              onPress={() => void signOut()}
+              onPress={() => void signOut({ redirect: true, callbackUrl: '/' })}
             >
               Sign out
             </DropdownItem>

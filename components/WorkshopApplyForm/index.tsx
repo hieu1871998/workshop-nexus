@@ -1,11 +1,12 @@
 'use client'
 
 import { Logo } from '@components/icons/Logo'
-import { Input, Textarea } from '@nextui-org/react'
+import { Button, Input, Textarea } from '@nextui-org/react'
 import { Session, User } from 'next-auth'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { motion } from 'framer-motion'
 import { fadeInDownMotion, fadeInMotion } from '@utils/motion'
+import { Workshop } from '@prisma/client'
 
 const MotionTextarea = motion(Textarea)
 
@@ -13,11 +14,30 @@ interface WorkshopApplyForm {
   session: Session | null;
 }
 
+const required = {
+  value: true,
+  message: 'This field is required.',
+}
+
 export const WorkshopApplyForm = ({ session }: WorkshopApplyForm) => {
-  const { handleSubmit } = useForm<User>()
+  const { register, handleSubmit, formState: { errors } } = useForm<Workshop & User>()
 
-  const onSubmit: SubmitHandler<User> = () => {
+  const onSubmit: SubmitHandler<Workshop> = async (data, event) => {
+    event?.preventDefault()
 
+    console.log('data: ', data)
+    const resp = await fetch(
+      '/api/workshop/apply',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      }
+    )
+
+    console.log('resp: ', resp)
   }
 
   return (
@@ -43,28 +63,43 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyForm) => {
           You&apos;re applying as <span className='text-gray-900 font-semibold'>{session?.user?.name}</span>
         </motion.p>
       </div>
-      <motion.form
+      <form
         className='flex flex-col gap-5 p-5'
         onSubmit={() => void handleSubmit(onSubmit)}
-        layout
+        method='POST'
       >
         <Input
+          id='email'
           label='Email'
+          {...register('email', { required })}
           value={session?.user?.email ?? ''}
           readOnly
         />
         <Input
+          id='topic'
           label='Topic'
+          {...register('topic', { required })}
+          isRequired
           placeholder='What is your workshop topic?'
+          validationState={errors.topic ? 'invalid' : 'valid'}
+          errorMessage={errors.topic?.message}
         />
         <MotionTextarea
+          id='description'
+          {...register('description', { required })}
+          isRequired
           label='Description'
           placeholder='A little summary about your workshop'
+          validationState={errors.description ? 'invalid' : 'valid'}
+          errorMessage={errors.description?.message}
           minRows={2}
           maxRows={10}
           layout
         />
-      </motion.form>
+        <Button className='bg-black text-white' type='submit'>
+          Submit
+        </Button>
+      </form>
     </motion.div>
   )
 }
