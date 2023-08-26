@@ -13,10 +13,6 @@ export const metadata: Metadata = {
   description: 'A place to share your ideas with workshops, and to look forward to the upcoming ones.',
 }
 
-export const generateStaticParams = () => {
-  return [{ locale: 'en' }, { locale: 'vi' }]
-}
-
 const RootLayout = async ({
   children,
   params
