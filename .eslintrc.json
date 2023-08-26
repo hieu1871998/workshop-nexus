@@ -10,7 +10,7 @@
     "next/core-web-vitals",
     "prettier"
   ],
-  "ignorePatterns": ["*.config.js", "scripts/", "node_modules", "app/api/auth/register"],
+  "ignorePatterns": ["*.config.js", "*.config.mjs", "scripts/", "node_modules", "app/api/auth/register"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "tsconfigRootDir": "./",

@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth'
 import { NavigationBar } from './NavigationBar'
-import { authOptions } from '@app/api/auth/[...nextauth]/route'
+import { authOptions } from '@lib/auth'
 import Link from 'next/link'
 import { Logo } from '@components/icons/Logo'
 

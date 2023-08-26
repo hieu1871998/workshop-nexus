@@ -2,8 +2,11 @@
 
 import { fadeInDownMotion } from '@utils/motion'
 import { motion } from 'framer-motion'
+import useTranslation from 'next-translate/useTranslation'
 
 export const HeroSectionTitle = () => {
+  const { t } = useTranslation('home')
+
   return (
     <div className='flex flex-col items-center'>
       <motion.h1
@@ -11,14 +14,14 @@ export const HeroSectionTitle = () => {
         {...fadeInDownMotion}
         transition={{ duration: 1 }}
       >
-        Empowering growth and innovation
+        {t`heroTitle`}
       </motion.h1>
       <motion.p
         className='text-3xl sm:text-4xl text-gray-700 text-left sm:text-center font-medium mt-4'
         {...fadeInDownMotion}
         transition={{ duration: 1, delay: 0.5 }}
       >
-        Where curiosity meets expertise: Dive into engaging workshops and collaborative learning
+        {t`heroSubtitle`}
       </motion.p>
     </div>
   )

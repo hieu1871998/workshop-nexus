@@ -4191,6 +4191,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/negotiator@npm:^0":
+  version: 0.6.1
+  resolution: "@types/negotiator@npm:0.6.1"
+  checksum: 67158952b16ba263e5706eca8e5d31d73bc59f203b9f08c31860b750b4f51508598e016d0fb9f7c1eaaddb52dbde0187faf5c71fbc8b50830df3cd0bff70b450
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:*, @types/node@npm:20.5.1":
   version: 20.5.1
   resolution: "@types/node@npm:20.5.1"
@@ -7653,6 +7660,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next-translate-plugin@npm:^2.5.3":
+  version: 2.5.3
+  resolution: "next-translate-plugin@npm:2.5.3"
+  dependencies:
+    typescript: "npm:4.5.2"
+  peerDependencies:
+    next-translate: ">= 2.4.1"
+  checksum: 427acc85ce89667ba644a47f882c631335480d9de9976379cd73a80e8d72322a6a2168ac046b993b46cdc6469f570c334f9417f53a00bd00c300967fbb58bcea
+  languageName: node
+  linkType: hard
+
+"next-translate@npm:^2.5.3":
+  version: 2.5.3
+  resolution: "next-translate@npm:2.5.3"
+  peerDependencies:
+    next: ">= 13.2.5"
+    react: ">= 18.0.0"
+  checksum: 7be97fb44fa23843a9e1427878cb1149c688d8260e955fa3961e114fdae51155b99e1fd704d4f278af1923995c736171e272cab71a65e48ad3962c6db26153fd
+  languageName: node
+  linkType: hard
+
 "next@npm:13.4.19":
   version: 13.4.19
   resolution: "next@npm:13.4.19"
@@ -9639,6 +9667,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typescript@npm:4.5.2":
+  version: 4.5.2
+  resolution: "typescript@npm:4.5.2"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 477935930ae75e2b5b06c283175ed1a899c2330d9c4422047821c5592ccb6e72a620285279b738f69ff3234d17368cce07cae91c5890b6d42134275eb643b59a
+  languageName: node
+  linkType: hard
+
 "typescript@npm:5.1.6":
   version: 5.1.6
   resolution: "typescript@npm:5.1.6"
@@ -9646,6 +9684,16 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: f347cde665cf43dc4c1c7d9821c7d9bbec3c3914f4bdd82ee490e9fb9f6d99036ed8666463b6a192dd005eeef333c5087d5931bdd51ec853436ff9a670a7417e
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@npm%3A4.5.2#optional!builtin<compat/typescript>":
+  version: 4.5.2
+  resolution: "typescript@patch:typescript@npm%3A4.5.2#optional!builtin<compat/typescript>::version=4.5.2&hash=bcec9a"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 2b1b5da201d27f6a1ec6b5fa26c169e2d9999b0aa7833bcd71386214f0249aeafb290dc9d06b6fa78008bc945e32fc7c7ab91d580116a9a9d451ea5d609a1553
   languageName: node
   linkType: hard
 
@@ -9969,6 +10017,7 @@ __metadata:
     "@tanstack/react-query": "npm:^4.33.0"
     "@types/bcrypt": "npm:^5.0.0"
     "@types/lodash": "npm:^4.14.197"
+    "@types/negotiator": "npm:^0"
     "@types/node": "npm:20.5.1"
     "@types/react": "npm:18.2.20"
     "@types/react-dom": "npm:18.2.7"
@@ -9989,8 +10038,11 @@ __metadata:
     framer-motion: "npm:^10.16.0"
     global: "npm:^4.4.0"
     lodash: "npm:^4.17.21"
+    negotiator: "npm:^0.6.3"
     next: "npm:13.4.19"
     next-auth: "npm:^4.23.1"
+    next-translate: "npm:^2.5.3"
+    next-translate-plugin: "npm:^2.5.3"
     postcss: "npm:8.4.28"
     prisma: "npm:^5.2.0"
     react: "npm:18.2.0"

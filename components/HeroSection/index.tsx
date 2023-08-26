@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth'
 import { HeroSectionTitle } from './HeroSectionTitle'
 import { UserSection } from './UserSection'
-import { authOptions } from '@app/api/auth/[...nextauth]/route'
+import { authOptions } from '@lib/auth'
 
 export const HeroSection = async () => {
   const session = await getServerSession(authOptions)

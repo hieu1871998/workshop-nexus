@@ -6,9 +6,11 @@ import { Session } from 'next-auth'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { fadeInDownMotion } from '@utils/motion'
+import useTranslation from 'next-translate/useTranslation'
 
 export const UserSection = ({ session }: { session: Session | null }) => {
   const user = session?.user
+  const { t } = useTranslation('home')
 
   return (
     <motion.div
@@ -22,7 +24,7 @@ export const UserSection = ({ session }: { session: Session | null }) => {
             color='primary'
             startContent={<ArrowRightIcon className='w-4 h-4 text-white' />}
           >
-            Start sharing your knowlegde
+            {t`heroApplyButtonLabel`}
           </Button>
         </Link>
       ) : (
@@ -32,7 +34,7 @@ export const UserSection = ({ session }: { session: Session | null }) => {
             color='primary'
             startContent={<UserIcon className='w-4 h-4 text-white' />}
           >
-            Sign in and start exploring
+            {t`heroSignInButtonLabel`}
           </Button>
         </Link>
       )}
