@@ -1,0 +1,12 @@
+{
+  "common": {
+    "signOut": "Sign out",
+    "signIn": "Sign in"
+  },
+  "home": {
+    "heroTitle": "Empowering growth and innovation",
+    "heroSubtitle": "Where curiosity meets expertise: Dive into engaging workshops and collaborative learning",
+    "heroSignInButtonLabel": "Sign in and start exploring",
+    "heroApplyButtonLabel": "Start sharing your knowlegde"
+  }
+}

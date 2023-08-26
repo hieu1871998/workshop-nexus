@@ -10,7 +10,14 @@
     "next/core-web-vitals",
     "prettier"
   ],
-  "ignorePatterns": ["*.config.js", "*.config.mjs", "scripts/", "node_modules", "app/api/auth/register"],
+  "ignorePatterns": [
+    "*.config.js",
+    "*.config.mjs",
+    "scripts/",
+    "node_modules",
+    "app/api/auth/register",
+    "i18n.*"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "tsconfigRootDir": "./",
@@ -20,7 +27,27 @@
   "rules": {
     "@typescript-eslint/func-call-spacing": "warn",
     "@typescript-eslint/keyword-spacing": "warn",
-    "@typescript-eslint/member-delimiter-style": "warn",
+    "@typescript-eslint/member-delimiter-style": [
+      "warn",
+      {
+        "multiline": {
+          "delimiter": "comma",
+          "requireLast": true
+        },
+        "singleline": {
+          "delimiter": "comma",
+          "requireLast": true
+        },
+        "overrides": {
+          "interface": {
+            "multiline": {
+              "delimiter": "none",
+              "requireLast": false
+            }
+          }
+        }
+      }
+    ],
     "@typescript-eslint/naming-convention": [
       "warn",
       {

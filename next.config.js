@@ -1,14 +1,10 @@
-import nextTranslate from 'next-translate-plugin'
+const withNextIntl = require('next-intl/plugin')(
+  // This is the default (also the `src` folder is supported out of the box)
+  './i18n.ts'
+);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    turbo: {
-      loaders: {
-        '.svg': ['@svgr/webpack']
-      },
-    }
-  },
   webpack(config) {
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule) =>
@@ -42,4 +38,4 @@ const nextConfig = {
   ]
 }
 
-export default nextTranslate(nextConfig)
+module.exports = withNextIntl(nextConfig)

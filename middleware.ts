@@ -1,50 +1,15 @@
-import { match } from '@formatjs/intl-localematcher'
-import Negotiator from 'negotiator'
-import { NextRequest, NextResponse } from 'next/server'
+import createMiddleware from 'next-intl/middleware'
 
-const headers = { 'accept-language': 'en,vi;q=0.5' }
-const languages = new Negotiator({ headers }).languages()
-const locales = ['en', 'vi']
-const defaultLocale = 'en'
+export default createMiddleware({
+  // A list of all locales that are supported
+  locales: ['en', 'vi'],
 
-match(languages, locales, defaultLocale)
-
-const getLocale = (request: NextRequest) => {
-  const pathname = request.nextUrl.pathname
-  const isVi = pathname.includes('vi-VN')
-
-  if (isVi) {
-    return 'vi'
-  } else {
-    return defaultLocale
-  }
-}
-
-export const middleware = (request: NextRequest) => {
-  const pathname = request.nextUrl.pathname
-  const pathnameIsMissingLocale = locales.every(
-    (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
-  )
-
-  if (pathnameIsMissingLocale) {
-    const locale = getLocale(request)
-
-    return NextResponse.redirect(
-      new URL(`/${locale}/${pathname}`, request.url)
-    )
-  }
-}
+  // If this locale is matched, pathnames work without a prefix (e.g. `/about`)
+  defaultLocale: 'en'
+})
 
 export const config = {
-  matcher: [
-    '/',
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
-  ],
+  // Skip all paths that should not be internationalized. This example skips the
+  // folders "api", "_next" and all files with an extension (e.g. favicon.ico)
+  matcher: ['/((?!api|_next|.*\\..*).*)']
 }

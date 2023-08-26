@@ -1,0 +1,12 @@
+{
+  "common": {
+    "signIn": "Đăng nhập",
+    "signOut": "Đăng xuất"
+  },
+  "home": {
+    "heroTitle": "Khuyến khích sự phát triển và đổi mới",
+    "heroSubtitle": "Nơi sự tò mò gặp gỡ chuyên môn: Đắm chìm trong các buổi học thú vị và học tập cộng tác",
+    "heroSignInButtonLabel": "Đăng nhập và bắt đầu khám phá",
+    "heroApplyButtonLabel": "Bắt đầu chia sẻ kiến thức của bạn"
+  }
+}
