@@ -3011,6 +3011,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prisma/extension-accelerate@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "@prisma/extension-accelerate@npm:0.6.0"
+  peerDependencies:
+    "@prisma/client": ">=4.16.1"
+  checksum: df60bcdc7bf8d87a33e29af8e96acafc2ba1d50d48afccee6732cc8bb07e73d7d819d7300fd3606da5adb251e52a362dcdd5239b981bd216383d91c16332afc2
+  languageName: node
+  linkType: hard
+
 "@react-aria/accordion@npm:3.0.0-alpha.20":
   version: 3.0.0-alpha.20
   resolution: "@react-aria/accordion@npm:3.0.0-alpha.20"
@@ -10164,6 +10173,7 @@ __metadata:
     "@next-auth/prisma-adapter": "npm:^1.0.7"
     "@nextui-org/react": "npm:^2.1.5"
     "@prisma/client": "npm:^5.2.0"
+    "@prisma/extension-accelerate": "npm:^0.6.0"
     "@rehookify/datepicker": "npm:^6.1.0"
     "@svgr/webpack": "npm:^8.1.0"
     "@tailwindcss/aspect-ratio": "npm:^0.4.2"
