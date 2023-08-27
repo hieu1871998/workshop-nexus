@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "prisma generate --no-engine && next dev",
-    "dev-turbo": "prisma generate --no-engine && next dev --turbo",
-    "build": "prisma generate --no-engine && prisma db push && next build",
+    "dev": "prisma generate && next dev",
+    "dev-turbo": "prisma generate && next dev --turbo",
+    "build": "prisma generate && prisma db push && next build",
     "start": "next start",
     "lint": "next lint"
   },
