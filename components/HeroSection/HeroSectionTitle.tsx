@@ -1,5 +1,6 @@
 'use client'
 
+import { calSans } from '@theme/fonts/calsans'
 import { fadeInDownMotion } from '@utils/motion'
 import { motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
@@ -10,7 +11,7 @@ export const HeroSectionTitle = () => {
   return (
     <div className='flex flex-col items-center'>
       <motion.h1
-        className='text-5xl font-bold text-left sm:text-center'
+        className={`text-5xl ${calSans.className} font-bold text-left sm:text-center`}
         {...fadeInDownMotion}
         transition={{ duration: 1 }}
       >

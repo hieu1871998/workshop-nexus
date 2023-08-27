@@ -1,12 +1,26 @@
 {
   "common": {
     "signOut": "Sign out",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "signInWithGoogle": "Sign in with Google",
+    "email": "Email",
+    "password": "Password",
+    "notSignedIn": "You're not signed in",
+    "signedInAs": "Signed in as"
   },
   "home": {
     "heroTitle": "Empowering growth and innovation",
     "heroSubtitle": "Where curiosity meets expertise: Dive into engaging workshops and collaborative learning",
     "heroSignInButtonLabel": "Sign in and start exploring",
     "heroApplyButtonLabel": "Start sharing your knowlegde"
+  },
+  "signin": {
+    "subtitle": "Sign in now into <bold>Workshop Nexus</bold> and start sharing your knowledge",
+    "noAccount": "Don't have an account? <link>Sign up</link> now!"
+  },
+  "apply": {
+    "title": "Apply to hold your own workshop session",
+    "subtitle": "We're excited that you're interested in sharing your expertise and leading a workshop. This is your opportunity to create a transformative learning experience, fostering collaboration and growth within our company.",
+    "applyingAs": "You're applying as <user>{user}</user>"
   }
 }

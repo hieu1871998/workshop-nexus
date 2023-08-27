@@ -8,11 +8,12 @@ import { motion } from 'framer-motion'
 import { fadeInDownMotion, fadeInMotion } from '@utils/motion'
 import { Workshop } from '@prisma/client'
 import { useGetWorkshopCategory } from '@network/queries'
+import { useTranslations } from 'next-intl'
 
 const MotionTextarea = motion(Textarea)
 
 interface WorkshopApplyForm {
-  session: Session | null;
+  session: Session | null
 }
 
 const required = {
@@ -21,6 +22,7 @@ const required = {
 }
 
 export const WorkshopApplyForm = ({ session }: WorkshopApplyForm) => {
+  const t = useTranslations('apply')
   const { register, handleSubmit, formState: { errors } } = useForm<Workshop & User>()
 
   const onSubmit: SubmitHandler<Workshop> = async (data, event) => {
@@ -66,11 +68,17 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyForm) => {
           <Logo className='w-16 h-16 mb-5' />
         </motion.div>
         <motion.p
-          className='text-gray-700'
+          className='text-gray-900'
           {...fadeInMotion}
           transition={{ duration: 1, delay: 0.5 }}
         >
-          You&apos;re applying as <span className='text-gray-900 font-semibold'>{session?.user?.name}</span>
+          {t.rich('applyingAs', {
+            user: () => (
+              <span className='text-black font-semibold'>
+                {session?.user?.name}
+              </span>
+            ),
+          })}
         </motion.p>
       </div>
       <form

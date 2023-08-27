@@ -1,5 +1,7 @@
 import type { Config } from 'tailwindcss'
 import { nextui } from '@nextui-org/react'
+import typography from '@tailwindcss/typography'
+import aspectRatio from '@tailwindcss/aspect-ratio'
 
 const config: Config = {
   content: [
@@ -26,6 +28,10 @@ const config: Config = {
           950: '#000000'
         }
       },
+      fontFamily: {
+        sans: ['var(--font-urbanist)'],
+        'cal-sans': ['var(--font-cal-sans)']
+      }
     },
   },
   darkMode: 'class',
@@ -49,7 +55,9 @@ const config: Config = {
           },
         }
       }
-    })
+    }),
+    typography({ target: 'modern' }),
+    aspectRatio
   ],
 }
 export default config

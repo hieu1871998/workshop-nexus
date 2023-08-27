@@ -1,12 +1,15 @@
 import '../../globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Urbanist } from 'next/font/google'
 import { Providers } from '../../providers'
 import { Header } from '@components'
 import { notFound } from 'next/navigation'
 import { useLocale } from 'next-intl'
 
-const inter = Inter({ subsets: ['latin'] })
+const urbanist = Urbanist({
+  subsets: ['latin'],
+  variable: '--font-urbanist'
+})
 
 export const metadata: Metadata = {
   title: 'Workshop Nexus',
@@ -37,7 +40,7 @@ const RootLayout = async ({
 
   return (
     <html lang={locale}>
-      <body className={inter.className}>
+      <body className={urbanist.className}>
         <Providers locale={locale} messages={messages as IntlMessages}>
           <Header />
           {children}

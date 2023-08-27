@@ -6,7 +6,6 @@ import { SubmitHandler, ValidationRule, useForm } from 'react-hook-form'
 import { LoginPayload } from '@types'
 import Link from 'next/link'
 import { ArrowRightIcon } from '@heroicons/react/24/solid'
-import Image from 'next/image'
 import { LoadingDots } from '@components/LoadingDots'
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
@@ -14,6 +13,9 @@ import { useRouter } from 'next/navigation'
 // eslint-disable-next-line import/no-named-as-default
 import toast from 'react-hot-toast'
 import GoogleIcon from '@components/icons/Google/google-icon.svg'
+import { useTranslations } from 'next-intl'
+import { calSans } from '@theme/fonts/calsans'
+import { Logo } from '@components/icons/Logo'
 
 const required = {
   value: true,
@@ -33,6 +35,7 @@ const passwordPattern: ValidationRule<RegExp> = {
 
 export const SignInForm = () => {
   const [loading, setLoading] = useState(false)
+  const t = useTranslations()
   const router = useRouter()
   const { register, handleSubmit, formState } = useForm<LoginPayload>()
   const { errors } = formState
@@ -68,18 +71,15 @@ export const SignInForm = () => {
     <div className='pt-8 pb-4 bg-white rounded-2xl sm:shadow-2xl max-w-xl'>
       <div className='flex flex-col items-center gap-4 pb-4 px-4'>
         <Link href='/'>
-          <Image
-            src='/logo.svg'
-            alt='Workshop Nexus logo'
-            width={40}
-            height={40}
-          />
+          <Logo className='w-12 h-12' />
         </Link>
-        <h1 className='text-2xl text-center font-semibold'>
-          Sign In
+        <h1 className={`text-2xl text-center font-semibold ${calSans.className}`}>
+          {t('common.signIn')}
         </h1>
-        <p className='text-center text-gray-700'>
-          Sign in now into <span className='text-gray-900 font-semibold'>Workshop Nexus</span> and start sharing your knowledge
+        <p className='text-center text-gray-900'>
+          {t.rich('signin.subtitle', {
+            bold: chunk => <span className='font-bold'>{chunk}</span>
+          })}
         </p>
       </div>
       <form
@@ -95,8 +95,7 @@ export const SignInForm = () => {
                 pattern: emailPattern
               })}
               type='email'
-              label='Email'
-              placeholder='Enter your email'
+              label={t('common.email')}
               validationState={errors.email?.type ? 'invalid' : 'valid'}
               errorMessage={errors.email?.message}
             />
@@ -110,8 +109,7 @@ export const SignInForm = () => {
                 pattern: passwordPattern
               })}
               type='password'
-              label='Password'
-              placeholder='Enter your password'
+              label={t('common.password')}
               validationState={errors.password?.type ? 'invalid' : 'valid'}
               errorMessage={errors.password?.message}
             />
@@ -128,24 +126,22 @@ export const SignInForm = () => {
               <ArrowRightIcon className='h-4 w-4' />
             )}
           >
-            Sign in
+            {t('common.signIn')}
           </Button>
           <p className='text-center'>or</p>
           <Button
             className='bg-[#4285F4] text-white'
             startContent={<span className='text-xl'><GoogleIcon /></span>}
-            onClick={() => void signIn('google', { callbackUrl: '/' }).then((resp) => console.log('sign in: ', resp))}
+            onClick={() => void signIn('google', { callbackUrl: '/' })}
           >
-            Sign in with Google
+            {t('common.signInWithGoogle')}
           </Button>
         </div>
       </form>
-      <p className='text-center text-sm text-gray-700'>
-        Don&apos;t have an account?{' '}
-        <Link href='/signup' className='font-semibold text-gray-900'>
-          Sign up
-        </Link>{' '}
-        now!
+      <p className='text-center text-sm text-gray-900'>
+        {t.rich('signin.noAccount', {
+          link: chunk => <Link href='/signup' className='font-semibold'>{chunk}</Link>
+        })}
       </p>
     </div>
   )

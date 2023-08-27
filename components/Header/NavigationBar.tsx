@@ -6,6 +6,7 @@ import { Session } from 'next-auth'
 import { signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { calSans } from '@theme/fonts/calsans'
 
 export const NavigationBar = ({ session }: { session: Session | null, }) => {
   const router = useRouter()
@@ -13,7 +14,9 @@ export const NavigationBar = ({ session }: { session: Session | null, }) => {
 
   return (
     <div className='w-full flex justify-between items-center'>
-      <div>Workshop Nexus</div>
+      <div className={`${calSans.className} text-xl`}>
+        Workshop Nexus
+      </div>
       <Dropdown placement='bottom-end' closeOnSelect={false}>
         <DropdownTrigger>
           <Avatar
@@ -26,12 +29,12 @@ export const NavigationBar = ({ session }: { session: Session | null, }) => {
         <DropdownMenu aria-label='Profile Actions' variant='flat'>
           {session ? (
             <DropdownItem key='profile' className='h-14 gap-2'>
-              <p className='font-semibold'>Signed in as</p>
+              <p className='font-semibold'>{t('signedInAs')}</p>
               <p className='font-semibold'>{session?.user?.email}</p>
             </DropdownItem>
           ) : (
             <DropdownItem key='profile'>
-              You are not signed in
+              <span className='font-semibold'>{t('notSignedIn')}</span>
             </DropdownItem>
           )}
           {session ? (
