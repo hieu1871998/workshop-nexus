@@ -48,8 +48,7 @@ model User {
   sessions              Session[]
   workshopsHosted       Workshop[] @relation("WorkshopHost")
   role                  Role       @default(USER)
-  workshopsParticipated Workshop?  @relation("WorkshopParticipant", fields: [workshopId], references: [id])
-  workshopId            String?
+  workshopsParticipated Workshop[] @relation("WorkshopParticipant")
 }
 
 model VerificationToken {
@@ -61,16 +60,17 @@ model VerificationToken {
 }
 
 model Workshop {
-  id               String   @id @default(cuid())
+  id               String         @id @default(cuid())
   hostId           String
   topic            String
   description      String
   presentationDate DateTime
   maxParticipants  Int
-  participants     User[]   @relation("WorkshopParticipant")
-  host             User     @relation("WorkshopHost", fields: [hostId], references: [id])
-  category         Category @relation(fields: [categoryId], references: [id])
+  participants     User[]         @relation("WorkshopParticipant")
+  host             User           @relation("WorkshopHost", fields: [hostId], references: [id])
+  category         Category       @relation(fields: [categoryId], references: [id])
   categoryId       String
+  status           WorkshopStatus @default(PENDING)
 }
 
 model Category {
@@ -83,4 +83,13 @@ model Category {
 enum Role {
   USER
   ADMIN
+}
+
+enum WorkshopStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  ONGOING
+  COMPLETED
+  CANCELED
 }

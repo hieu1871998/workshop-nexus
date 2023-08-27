@@ -2,17 +2,17 @@
 
 import { Logo } from '@components/icons/Logo'
 import { Button, Input, Textarea, Select, SelectItem } from '@nextui-org/react'
-import { Session, User } from 'next-auth'
+import { Session } from 'next-auth'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { motion } from 'framer-motion'
 import { fadeInDownMotion, fadeInMotion } from '@utils/motion'
-import { Workshop } from '@prisma/client'
-import { useGetWorkshopCategory } from '@network/queries'
+import { useGetWorkshopCategories } from '@network/queries'
 import { useTranslations } from 'next-intl'
+import { WorkshopApplyPayload } from '@types'
 
 const MotionTextarea = motion(Textarea)
 
-interface WorkshopApplyForm {
+interface WorkshopApplyFormProps {
   session: Session | null
 }
 
@@ -21,14 +21,13 @@ const required = {
   message: 'This field is required.',
 }
 
-export const WorkshopApplyForm = ({ session }: WorkshopApplyForm) => {
+export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
   const t = useTranslations('apply')
-  const { register, handleSubmit, formState: { errors } } = useForm<Workshop & User>()
+  const { register, handleSubmit, formState: { errors } } = useForm<WorkshopApplyPayload>()
 
-  const onSubmit: SubmitHandler<Workshop> = async (data, event) => {
+  const onSubmit: SubmitHandler<WorkshopApplyPayload> = async (data, event) => {
     event?.preventDefault()
 
-    console.log('data: ', data)
     const resp = await fetch(
       '/api/workshop/apply',
       {
@@ -43,7 +42,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyForm) => {
     console.log('resp: ', resp)
   }
 
-  const { data: categoriesResp } = useGetWorkshopCategory()
+  const { data: categoriesResp } = useGetWorkshopCategories()
 
   const categoryItems = categoriesResp?.map(
     category => ({

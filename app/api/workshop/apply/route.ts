@@ -1,20 +1,47 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@lib/prisma'
+import { WorkshopApplyPayload } from '@types'
 
-export const POST = async (request: Request) => {
-  const data = await request.json() as unknown
-  console.log('workshop apply request: ', data)
+export const POST = async (request: NextRequest) => {
+  try {
+    const data = await request.json() as WorkshopApplyPayload
 
-  const workshop = await prisma.workshop.create({
-    data: {
-      description: 'Description',
-      maxParticipants: 1,
-      presentationDate: new Date(),
-      topic: 'Topic',
-      categoryId: '',
-      hostId: ''
+    const user = await prisma.user.findUnique({
+      where: {
+        email: data.email
+      }
+    })
+
+    if (user) {
+      const workshop = await prisma.workshop.create({
+        data: {
+          description: data.description,
+          maxParticipants: 1,
+          presentationDate: new Date(),
+          topic: data.topic,
+          categoryId: data.categoryId,
+          hostId: user.id
+        }
+      })
+
+      await prisma.user.update({
+        where: {
+          email: data.email
+        },
+        data: {
+          workshopsHosted: {
+            connect: workshop
+          }
+        },
+      })
+
+      return NextResponse.json({ data: workshop }, { status: 201 })
+    } else {
+      return NextResponse.json({ error: 'Cannot get current user' }, { status: 200 })
     }
-  })
+  } catch (error) {
+    console.error('Error posting new workshop: ', error)
 
-  return NextResponse.json({ data: workshop })
+    return NextResponse.json({ error }, { status: 500 })
+  }
 }

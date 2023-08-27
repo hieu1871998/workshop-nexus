@@ -1,6 +1,10 @@
 import { fetcher } from '@network/utils/fetcher'
-import { Category } from '@prisma/client'
+import { Category, Workshop } from '@prisma/client'
 
-export const fetchWorkshopCategory = async () => {
+export const fetchWorkshopCategories = async () => {
   return fetcher<Category[]>('/api/workshop/category')
+}
+
+export const fetchWorkshops = async () => {
+  return fetcher<Workshop[]>('/api/workshop')
 }
