@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server'
+import prisma from '@lib/prisma'
 
 export const GET = async () => {
   try {
-    const data = await prisma?.workshop.findMany()
+    const data = await prisma.workshop.findMany()
 
     return NextResponse.json({ data }, { status: 200 })
   } catch (error) {

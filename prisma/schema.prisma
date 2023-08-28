@@ -49,6 +49,7 @@ model User {
   workshopsHosted       Workshop[] @relation("WorkshopHost")
   role                  Role       @default(USER)
   workshopsParticipated Workshop[] @relation("WorkshopParticipant")
+  tags                  UserTag[]
 }
 
 model VerificationToken {
@@ -71,13 +72,15 @@ model Workshop {
   category         Category       @relation(fields: [categoryId], references: [id])
   categoryId       String
   status           WorkshopStatus @default(PENDING)
+  tags             WorkshopTag[]
 }
 
 model Category {
-  id         String     @id @default(cuid())
-  label      String
-  workshopId String?
-  workshops  Workshop[]
+  id        String     @id @default(cuid())
+  label     String     @unique
+  workshops Workshop[]
+  color     TagColor   @default(default)
+  variant   TagVariant @default(solid)
 }
 
 enum Role {
@@ -92,4 +95,39 @@ enum WorkshopStatus {
   ONGOING
   COMPLETED
   CANCELED
+}
+
+model UserTag {
+  id      Int        @id @default(autoincrement())
+  label   String     @unique
+  users   User[]
+  color   TagColor   @default(default)
+  variant TagVariant @default(solid)
+}
+
+model WorkshopTag {
+  id        Int        @id @default(autoincrement())
+  label     String     @unique
+  workshops Workshop[]
+  color     TagColor   @default(default)
+  variant   TagVariant @default(solid)
+}
+
+enum TagVariant {
+  bordered
+  dot
+  faded
+  flat
+  light
+  shadow
+  solid
+}
+
+enum TagColor {
+  default
+  primary
+  secondary
+  success
+  warning
+  danger
 }

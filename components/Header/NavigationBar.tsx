@@ -7,6 +7,7 @@ import { signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { calSans } from '@theme/fonts/calsans'
+import Link from 'next/link'
 
 export const NavigationBar = ({ session }: { session: Session | null, }) => {
   const router = useRouter()
@@ -28,12 +29,14 @@ export const NavigationBar = ({ session }: { session: Session | null, }) => {
         </DropdownTrigger>
         <DropdownMenu aria-label='Profile Actions' variant='flat'>
           {session ? (
-            <DropdownItem key='profile' className='h-14 gap-2'>
-              <p className='font-semibold'>{t('signedInAs')}</p>
-              <p className='font-semibold'>{session?.user?.email}</p>
+            <DropdownItem key='user' className='h-14 gap-2'>
+              <Link href={`/user/${session.user.id}`}>
+                <p className='font-semibold'>{t('signedInAs')}</p>
+                <p className='font-semibold'>{session?.user?.email}</p>
+              </Link>
             </DropdownItem>
           ) : (
-            <DropdownItem key='profile'>
+            <DropdownItem key='user'>
               <span className='font-semibold'>{t('notSignedIn')}</span>
             </DropdownItem>
           )}

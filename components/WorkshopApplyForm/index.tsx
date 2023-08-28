@@ -23,12 +23,12 @@ const required = {
 
 export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
   const t = useTranslations('apply')
-  const { register, handleSubmit, formState: { errors } } = useForm<WorkshopApplyPayload>()
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<WorkshopApplyPayload>()
 
   const onSubmit: SubmitHandler<WorkshopApplyPayload> = async (data, event) => {
     event?.preventDefault()
 
-    const resp = await fetch(
+    await fetch(
       '/api/workshop/apply',
       {
         method: 'POST',
@@ -39,7 +39,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
       }
     )
 
-    console.log('resp: ', resp)
+    reset()
   }
 
   const { data: categoriesResp } = useGetWorkshopCategories()

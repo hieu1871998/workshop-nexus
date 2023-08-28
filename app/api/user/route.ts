@@ -3,7 +3,6 @@ import { getServerSession } from 'next-auth'
 import { NextResponse } from 'next/server'
 
 export const GET =  async () => {
-  console.log('get user?')
   const session = await getServerSession(authOptions)
 
   if (session) {

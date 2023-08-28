@@ -51,6 +51,10 @@ const config: Config = {
               DEFAULT: '#000000',
               foreground: '#ffffff'
             },
+            secondary: {
+              DEFAULT: '#0070f3',
+              foreground: '#ffffff'
+            },
             focus: '#000000',
           },
         }
