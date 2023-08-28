@@ -6,7 +6,8 @@
     "email": "Email",
     "password": "Password",
     "notSignedIn": "You're not signed in",
-    "signedInAs": "Signed in as"
+    "signedInAs": "Signed in as",
+    "loading": "Loading"
   },
   "home": {
     "heroTitle": "Empowering growth and innovation",
