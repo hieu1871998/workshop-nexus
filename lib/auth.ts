@@ -41,6 +41,14 @@ export const authOptions: NextAuthOptions = {
           hd: 'bluebottle.digital'
         }
       }
-    })
+    }),
   ],
+  callbacks: {
+    session: ({ session, user }) => {
+      return ({
+        ...session,
+        user,
+      })
+    }
+  }
 }

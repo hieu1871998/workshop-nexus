@@ -53,7 +53,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 
   return (
     <motion.div
-      className='sm:shadow-2xl rounded-2xl'
+      className='sm:shadow-2xl rounded-2xl border'
       {...fadeInDownMotion}
       transition={{ duration: 1 }}
       layout
@@ -126,6 +126,27 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
             </SelectItem>
           )}
         </Select>
+        <div className='flex flex-row gap-5'>
+          <Input
+            id='maxParticipants'
+            label='Max participants'
+            {...register('maxParticipants', { required, min: 1 })}
+            defaultValue='1'
+            type='number'
+            placeholder='Estimated max participants'
+            validationState={errors.maxParticipants ? 'invalid' : 'valid'}
+            errorMessage={errors.maxParticipants?.message}
+          />
+          <Input
+            id='presentationDate'
+            label='Presentation date'
+            type='date'
+            {...register('presentationDate', { required })}
+            placeholder='When can you hold your workshop?'
+            validationState={errors.presentationDate ? 'invalid' : 'valid'}
+            errorMessage={errors.presentationDate?.message}
+          />
+        </div>
         <Button className='bg-black text-white' type='submit'>
           Submit
         </Button>
