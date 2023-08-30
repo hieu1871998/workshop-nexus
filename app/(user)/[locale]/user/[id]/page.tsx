@@ -19,10 +19,13 @@ const UserPage = async ({
               user={user}
             />
           </div>
+          <div className='col-span-2'>
+            <UserWorkshopTable
+              workshops={workshops}
+              user={user}
+            />
+          </div>
         </div>
-        <UserWorkshopTable
-          workshops={workshops}
-        />
       </div>
     </main>
   )

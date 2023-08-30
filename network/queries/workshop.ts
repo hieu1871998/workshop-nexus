@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 export const useGetWorkshopCategories = () =>
   useQuery({
     queryKey: ['WORKSHOP_CATEGORY'],
-    queryFn: () => fetchWorkshopCategories()
+    queryFn: () => fetchWorkshopCategories(),
   })
 
 export const useGetWorkshops = () =>

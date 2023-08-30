@@ -22,6 +22,7 @@
   "apply": {
     "title": "Apply to hold your own workshop session",
     "subtitle": "We're excited that you're interested in sharing your expertise and leading a workshop. This is your opportunity to create a transformative learning experience, fostering collaboration and growth within our company.",
-    "applyingAs": "You're applying as <user>{user}</user>"
+    "applyingAs": "You're applying as <user>{user}</user>",
+    "apply": "Apply"
   }
 }

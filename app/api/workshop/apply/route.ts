@@ -16,8 +16,8 @@ export const POST = async (request: NextRequest) => {
       const workshop = await prisma.workshop.create({
         data: {
           description: data.description,
-          maxParticipants: 1,
-          presentationDate: new Date(),
+          maxParticipants: data.maxParticipants,
+          presentationDate: data.presentationDate,
           topic: data.topic,
           categoryId: data.categoryId,
           hostId: user.id
@@ -37,7 +37,7 @@ export const POST = async (request: NextRequest) => {
 
       return NextResponse.json({ data: workshop }, { status: 201 })
     } else {
-      return NextResponse.json({ error: 'Cannot get current user' }, { status: 200 })
+      return NextResponse.json({ error: 'Cannot get current user' }, { status: 500 })
     }
   } catch (error) {
     console.error('Error posting new workshop: ', error)

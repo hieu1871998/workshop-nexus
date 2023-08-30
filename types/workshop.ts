@@ -1,5 +1,4 @@
 import { Prisma } from '@prisma/client'
-import { Dayjs } from 'dayjs'
 
 const workshopWithCategoryAndTags = Prisma.validator<Prisma.WorkshopDefaultArgs>()({
   include: {
@@ -17,7 +16,11 @@ export interface WorkshopApplyPayload {
   description: string
   categoryId: string
   maxParticipants: number
-  presentationDate: Dayjs
+  presentationDate: Date
+}
+
+export interface WorkshopUpdatePayload extends WorkshopApplyPayload {
+  id: string
 }
 
 export type WorkshopWithCategoryAndTags = Prisma.WorkshopGetPayload<typeof workshopWithCategoryAndTags>

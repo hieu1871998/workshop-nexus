@@ -9,6 +9,10 @@ import { fadeInDownMotion, fadeInMotion } from '@utils/motion'
 import { useGetWorkshopCategories } from '@network/queries'
 import { useTranslations } from 'next-intl'
 import { WorkshopApplyPayload } from '@types'
+import { applyWorkshop } from '@app/(user)/[locale]/apply/action'
+import { toast } from 'react-hot-toast'
+import { LoadingDots } from '@components/LoadingDots'
+import Link from 'next/link'
 
 const MotionTextarea = motion(Textarea)
 
@@ -23,26 +27,41 @@ const required = {
 
 export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
   const t = useTranslations('apply')
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<WorkshopApplyPayload>()
+  const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<WorkshopApplyPayload>()
 
   const onSubmit: SubmitHandler<WorkshopApplyPayload> = async (data, event) => {
     event?.preventDefault()
 
-    await fetch(
-      '/api/workshop/apply',
+    const promise = applyWorkshop(data)
+
+    await toast.promise(
+      promise,
       {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
+        loading: 'Sending your application...',
+        success: data => (
+          <div>
+            <p>
+              Your <span className='font-semibold'>{data?.topic}</span> workshop application is successful!
+            </p>
+            <p className='text-sx underline'>
+              <Link href={`/user/${session?.user.id}`}>
+                View your workshops
+              </Link>
+            </p>
+          </div>
+        ),
+        error: 'Error'
+      },
+      {
+        style: { minWidth: '400px' },
+        success: { duration: 10000 }
       }
     )
 
     reset()
   }
 
-  const { data: categoriesResp } = useGetWorkshopCategories()
+  const { data: categoriesResp, isLoading } = useGetWorkshopCategories()
 
   const categoryItems = categoriesResp?.map(
     category => ({
@@ -117,6 +136,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
           {...register('categoryId', { required })}
           validationState={errors.categoryId ? 'invalid' : 'valid'}
           errorMessage={errors.categoryId?.message}
+          isLoading={isLoading}
         >
           {category => (
             <SelectItem
@@ -130,7 +150,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
           <Input
             id='maxParticipants'
             label='Max participants'
-            {...register('maxParticipants', { required, min: 1 })}
+            {...register('maxParticipants', { required, min: 1, valueAsNumber: true })}
             defaultValue='1'
             type='number'
             placeholder='Estimated max participants'
@@ -141,14 +161,18 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
             id='presentationDate'
             label='Presentation date'
             type='date'
-            {...register('presentationDate', { required })}
+            {...register('presentationDate', { required, valueAsDate: true })}
             placeholder='When can you hold your workshop?'
             validationState={errors.presentationDate ? 'invalid' : 'valid'}
             errorMessage={errors.presentationDate?.message}
           />
         </div>
         <Button className='bg-black text-white' type='submit'>
-          Submit
+          {isSubmitting ? (
+            <LoadingDots color='#fff' />
+          ) : (
+            <span>{t('apply')}</span>
+          )}
         </Button>
       </form>
     </motion.div>

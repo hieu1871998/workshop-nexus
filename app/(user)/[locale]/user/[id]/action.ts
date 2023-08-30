@@ -1,7 +1,7 @@
 'use server'
 
 import prisma from '@lib/prisma'
-import { UserWithProfile, WorkshopWithCategoryAndTags } from '@types'
+import { UserWithProfile, WorkshopUpdatePayload, WorkshopWithCategoryAndTags } from '@types'
 
 
 export const getUser = async (id: string) => {
@@ -32,4 +32,21 @@ export const getWorkshops = async (hostId: string) => {
   })
 
   return workshops as WorkshopWithCategoryAndTags[]
+}
+
+export const updateWorkshop = async (data: WorkshopUpdatePayload) => {
+  const workshop = await prisma.workshop.update({
+    where: {
+      id: data.id,
+    },
+    data: {
+      description: data.description,
+      maxParticipants: data.maxParticipants,
+      presentationDate: data.presentationDate,
+      topic: data.topic,
+      categoryId: data.categoryId,
+    }
+  })
+
+  return workshop
 }

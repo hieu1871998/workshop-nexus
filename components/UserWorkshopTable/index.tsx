@@ -2,17 +2,16 @@
 
 import { Chip, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from '@nextui-org/react'
 import { Workshop, WorkshopStatus } from '@prisma/client'
-import { WorkshopWithCategoryAndTags } from '@types'
+import { UserWithProfile, WorkshopWithCategoryAndTags } from '@types'
 import { Key, useCallback } from 'react'
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid'
 
 interface UserWorkshopTableProps {
   workshops: WorkshopWithCategoryAndTags[]
+  user: UserWithProfile
 }
 
-export const UserWorkshopTable = ({
-  workshops
-}: UserWorkshopTableProps) => {
+export const UserWorkshopTable = ({ workshops }: UserWorkshopTableProps) => {
   const columns = [
     {
       key: 'topic',
@@ -22,18 +21,18 @@ export const UserWorkshopTable = ({
       key: 'description',
       label: 'Description'
     },
-    {
-      key: 'category',
-      label: 'Category'
-    },
-    {
-      key: 'tags',
-      label: 'Tags'
-    },
-    {
-      key: 'maxParticipants',
-      label: 'Participants'
-    },
+    // {
+    //   key: 'category',
+    //   label: 'Category'
+    // },
+    // {
+    //   key: 'tags',
+    //   label: 'Tags'
+    // },
+    // {
+    //   key: 'maxParticipants',
+    //   label: 'Participants'
+    // },
     {
       key: 'status',
       label: 'Status'
@@ -121,7 +120,7 @@ export const UserWorkshopTable = ({
     <Table
       classNames={{
         wrapper: 'border shadow-none rounded-2xl',
-        th: 'text-center text-base text-black'
+        th: 'text-center text-base text-white bg-black'
       }}
       aria-label='Users hosted workshops'
       isVirtualized

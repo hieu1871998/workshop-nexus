@@ -15,10 +15,7 @@ export const UserProfile = ({
           className='w-20 h-20'
           src={user?.image as string}
         />
-        <p className='text-lg mt-5 font-semibold'>
-          {user?.email}
-        </p>
-        <div className='flex gap-2'>
+        <div className='flex gap-2 mt-5'>
           {user.tags.map(tag => (
             <Chip
               key={tag.id}
@@ -30,7 +27,15 @@ export const UserProfile = ({
           ))}
         </div>
       </div>
-      <div className='p-5 border-t'>
+      <div className='p-5 border-t flex flex-col gap-2'>
+        <div className='grid grid-cols-4 gap-x-4'>
+          <div className='col-span-1'>
+            Email
+          </div>
+          <div className='font-semibold'>
+            {user?.email}
+          </div>
+        </div>
         <div className='grid grid-cols-4 gap-x-4'>
           <div className='col-span-1'>
             Name
