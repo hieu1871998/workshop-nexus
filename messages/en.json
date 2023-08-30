@@ -24,5 +24,9 @@
     "subtitle": "We're excited that you're interested in sharing your expertise and leading a workshop. This is your opportunity to create a transformative learning experience, fostering collaboration and growth within our company.",
     "applyingAs": "You're applying as <user>{user}</user>",
     "apply": "Apply"
+  },
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": "{locale, select, vi {Vietnamese} en {English} other {Unknown}}"
   }
 }

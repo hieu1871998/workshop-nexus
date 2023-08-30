@@ -2,7 +2,7 @@ import '../../globals.css'
 import type { Metadata } from 'next'
 import { Urbanist } from 'next/font/google'
 import { Providers } from '../../providers'
-import { Header } from '@components'
+import { Footer, Header } from '@components'
 import { notFound } from 'next/navigation'
 import { useLocale } from 'next-intl'
 
@@ -44,6 +44,7 @@ const RootLayout = async ({
         <Providers locale={locale} messages={messages as IntlMessages}>
           <Header />
           {children}
+          <Footer />
         </Providers>
       </body>
     </html>

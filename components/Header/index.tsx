@@ -8,7 +8,7 @@ export const Header = async () => {
   const session = await getServerSession(authOptions)
 
   return (
-    <header className='sticky top-0 bg-white bg-opacity-90 backdrop-blur-md z-50 border-b border-gray-50'>
+    <header className='sticky top-0 bg-white bg-opacity-90 backdrop-blur-md z-50 shadow-md shadow-gray-50'>
       <div className='container px-4 mx-auto flex gap-4'>
         <Link href='/'>
           <div className='p-2 -mx-2 text-gray-900 hover:bg-gray-900 hover:text-white transition-all'>
