@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "prisma generate && next dev",
-    "dev-turbo": "prisma generate && next dev --turbo",
-    "build": "prisma generate && prisma db push && next build",
+    "dev": "next dev",
+    "dev-turbo": "next dev --turbo",
+    "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push --skip-generate"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.4.0",
@@ -19,6 +21,7 @@
     "@prisma/extension-accelerate": "^0.6.0",
     "@rehookify/datepicker": "^6.1.0",
     "@tanstack/react-query": "^4.33.0",
+    "@tremor/react": "^3.6.6",
     "@types/lodash": "^4.14.197",
     "@types/node": "20.5.1",
     "@types/react": "18.2.20",
@@ -47,6 +50,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.45.4",
     "react-hot-toast": "^2.4.1",
+    "react-icons": "^4.10.1",
     "react-stately": "^3.25.0",
     "sass": "^1.66.1",
     "sharp": "^0.32.5",

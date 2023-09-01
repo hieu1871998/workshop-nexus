@@ -6,7 +6,7 @@ import { useLocale } from 'next-intl'
 import { notFound } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@lib/auth'
-import { Header } from '@components'
+import { AdminHeader, Footer } from '@components'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -43,12 +43,13 @@ export default async function RootLayout({
     <html lang='en'>
       <body className={inter.className}>
         <Providers locale={locale} messages={messages as IntlMessages}>
-          <Header />
+          <AdminHeader />
           {session?.user.role === 'ADMIN' ? children : (
             <main className='min-h-screen flex justify-center items-center'>
               Unauthorized
             </main>
           )}
+          <Footer />
         </Providers>
       </body>
     </html>

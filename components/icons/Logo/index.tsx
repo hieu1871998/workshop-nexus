@@ -1,4 +1,4 @@
-export const Logo = ({ className }: { className: string }) => {
+export const Logo = ({ className }: { className: string, }) => {
   return (
     <svg width='720' height='892' viewBox='0 0 720 892' fill='none' xmlns='http://www.w3.org/2000/svg' className={className}>
       {/* eslint-disable-next-line max-len */}

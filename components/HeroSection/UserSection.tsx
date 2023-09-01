@@ -5,7 +5,7 @@ import { Button } from '@nextui-org/button'
 import { Session } from 'next-auth'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { fadeInDownMotion } from '@utils/motion'
+import { fadeInDownMotion } from '@utils'
 import { useTranslations } from 'next-intl'
 
 export const UserSection = ({ session }: { session: Session | null, }) => {

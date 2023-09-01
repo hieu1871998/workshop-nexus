@@ -50,6 +50,7 @@ model User {
   role                  Role       @default(USER)
   workshopsParticipated Workshop[] @relation("WorkshopParticipant")
   tags                  UserTag[]
+  createdAt             DateTime   @default(now())
 }
 
 model VerificationToken {
@@ -73,6 +74,11 @@ model Workshop {
   categoryId       String
   status           WorkshopStatus @default(PENDING)
   tags             WorkshopTag[]
+  createdAt        DateTime       @default(now())
+  submissionDate   DateTime?
+  approvalDate     DateTime?
+  startDate        DateTime?
+  completionDate   DateTime?
 }
 
 model Category {

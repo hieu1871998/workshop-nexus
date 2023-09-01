@@ -1,10 +1,11 @@
 'use client'
 
 import { Chip, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from '@nextui-org/react'
-import { Workshop, WorkshopStatus } from '@prisma/client'
+import { WorkshopStatus } from '@prisma/client'
 import { UserWithProfile, WorkshopWithCategoryAndTags } from '@types'
 import { Key, useCallback } from 'react'
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid'
+import { getBadgeColor } from '@utils'
 
 interface UserWorkshopTableProps {
   workshops: WorkshopWithCategoryAndTags[]
@@ -42,17 +43,6 @@ export const UserWorkshopTable = ({ workshops }: UserWorkshopTableProps) => {
       label: 'Action'
     }
   ]
-
-  const getBadgeColor = (status: Workshop['status']) => {
-    switch (status) {
-      case 'APPROVED': return 'success'
-      case 'CANCELED': return 'danger'
-      case 'COMPLETED': return 'primary'
-      case 'ONGOING': return 'secondary'
-      case 'PENDING': return 'default'
-      case 'REJECTED': return 'danger'
-    }
-  }
 
   const renderCell = useCallback(
     (workshop: WorkshopWithCategoryAndTags, key: Key) => {

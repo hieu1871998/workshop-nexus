@@ -38,7 +38,15 @@ const nextConfig = {
   transpilePackages: [
     '@nextui-org/react',
     'lodash'
-  ]
+  ],
+  modularizeImports: {
+    lodash: {
+      transform: 'lodash/{{member}}',
+    },
+    'react-icons': {
+      transform: 'react-icons/{{member}}'
+    }
+  }
 }
 
 module.exports = withNextIntl(nextConfig)

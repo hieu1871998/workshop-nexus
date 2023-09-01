@@ -16,7 +16,8 @@
     "scripts/",
     "node_modules",
     "app/api/auth/register",
-    "i18n.*"
+    "i18n.*",
+    "tailwind.config.js"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {

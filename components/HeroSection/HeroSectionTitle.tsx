@@ -1,7 +1,7 @@
 'use client'
 
 import { calSans } from '@theme/fonts/calsans'
-import { fadeInDownMotion } from '@utils/motion'
+import { fadeInDownMotion } from '@utils'
 import { motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 
