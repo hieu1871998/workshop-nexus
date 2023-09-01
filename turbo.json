@@ -1,0 +1,25 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["db:generate"]
+    },
+    "build": {
+      "outputs": [".next/**", "!.next/cache/**"],
+      "dependsOn": ["db:generate", "db:push", "lint"]
+    },
+    "lint": {},
+    "clean": {
+      "cache": false
+    },
+    "db:generate": {
+      "outputs": ["./node_modules/@prisma/client"]
+    },
+    "db:push": {
+      "cache": false
+    }
+  },
+  "globalDotEnv": [".env.development.local"]
+}
