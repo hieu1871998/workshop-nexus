@@ -69,7 +69,6 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-import-resolver-typescript": "^3.6.0",
     "eslint-import-resolver-webpack": "^0.13.7",
-    "eslint-plugin-import": "^2.28.1",
-    "next-translate-plugin": "^2.5.3"
+    "eslint-plugin-import": "^2.28.1"
   }
 }
