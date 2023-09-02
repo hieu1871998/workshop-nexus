@@ -26,6 +26,7 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
+    "react-hooks/exhaustive-deps": "error",
     "@typescript-eslint/func-call-spacing": "warn",
     "@typescript-eslint/keyword-spacing": "warn",
     "@typescript-eslint/member-delimiter-style": [
@@ -37,7 +38,7 @@
         },
         "singleline": {
           "delimiter": "comma",
-          "requireLast": true
+          "requireLast": false
         },
         "overrides": {
           "interface": {

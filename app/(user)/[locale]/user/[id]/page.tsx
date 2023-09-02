@@ -5,7 +5,7 @@ import { UserWorkshopTable } from '@components'
 const UserPage = async ({
   params
 }: {
-  params: { id: string, },
+  params: { id: string },
 }) => {
   const user = await getUser(params.id)
   const workshops = await getWorkshops(params.id)

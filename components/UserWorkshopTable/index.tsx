@@ -5,7 +5,6 @@ import { WorkshopStatus } from '@prisma/client'
 import { UserWithProfile, WorkshopWithCategoryAndTags } from '@types'
 import { Key, useCallback } from 'react'
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid'
-import { getBadgeColor } from '@utils'
 
 interface UserWorkshopTableProps {
   workshops: WorkshopWithCategoryAndTags[]
@@ -75,7 +74,6 @@ export const UserWorkshopTable = ({ workshops }: UserWorkshopTableProps) => {
         case 'status': return (
           <div className='flex justify-center'>
             <Chip
-              color={getBadgeColor(cellValue as WorkshopStatus)}
               variant='dot'
             >
               {cellValue as WorkshopStatus}

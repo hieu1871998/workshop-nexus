@@ -72,7 +72,7 @@ model Workshop {
   host             User           @relation("WorkshopHost", fields: [hostId], references: [id])
   category         Category       @relation(fields: [categoryId], references: [id])
   categoryId       String
-  status           WorkshopStatus @default(PENDING)
+  status           WorkshopStatus @default(DRAFT)
   tags             WorkshopTag[]
   createdAt        DateTime       @default(now())
   submissionDate   DateTime?
@@ -101,6 +101,7 @@ enum WorkshopStatus {
   ONGOING
   COMPLETED
   CANCELED
+  DRAFT
 }
 
 model UserTag {

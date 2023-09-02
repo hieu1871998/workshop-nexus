@@ -8,7 +8,7 @@ import { motion } from 'framer-motion'
 import { fadeInDownMotion } from '@utils'
 import { useTranslations } from 'next-intl'
 
-export const UserSection = ({ session }: { session: Session | null, }) => {
+export const UserSection = ({ session }: { session: Session | null }) => {
   const user = session?.user
   const t = useTranslations('home')
 

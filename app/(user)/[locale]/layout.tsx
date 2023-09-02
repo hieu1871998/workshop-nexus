@@ -21,7 +21,7 @@ const RootLayout = async ({
   params
 }: {
   children: React.ReactNode,
-  params: { locale: 'en' | 'vi', },
+  params: { locale: 'en' | 'vi' },
 }) => {
   const locale = useLocale()
 

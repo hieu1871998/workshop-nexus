@@ -1,7 +1,7 @@
 import prisma from '@lib/prisma'
 import { NextResponse } from 'next/server'
 
-export const GET = async (_: Request, { params }: { params: { id: string, },}) => {
+export const GET = async (_: Request, { params }: { params: { id: string }}) => {
   console.log('params: ', params)
   const { id } = params
   try {

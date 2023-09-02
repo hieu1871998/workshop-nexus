@@ -20,7 +20,7 @@ export default async function RootLayout({
   params
 }: {
   children: React.ReactNode,
-  params: { locale: 'en' | 'vi', },
+  params: { locale: 'en' | 'vi' },
 }) {
   const session = await getServerSession(authOptions)
 

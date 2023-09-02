@@ -1,47 +1,27 @@
 'use server'
 
 import prisma from '@lib/prisma'
+import { Prisma } from '@prisma/client'
+import { map, orderBy } from 'lodash'
 
 export const getWorkshopCounts = async () => {
+  const counts = await prisma.workshop.groupBy({
+    by: ['status'],
+    _count: {
+      status: true,
+    },
+  })
   const total = await prisma.workshop.count()
-  const approved = await prisma.workshop.count({
-    where: {
-      status: 'APPROVED'
-    }
-  })
-  const canceled = await prisma.workshop.count({
-    where: {
-      status: 'CANCELED'
-    }
-  })
-  const completed = await prisma.workshop.count({
-    where: {
-      status: 'COMPLETED'
-    }
-  })
-  const ongoing = await prisma.workshop.count({
-    where: {
-      status: 'ONGOING'
-    }
-  })
-  const pending = await prisma.workshop.count({
-    where: {
-      status: 'PENDING'
-    }
-  })
-  const rejected = await prisma.workshop.count({
-    where: {
-      status: 'REJECTED'
-    }
-  })
+
+  const statuses = orderBy(map(counts, ({ status, _count }) => ({
+    name: status,
+    value: _count.status
+  })), 'value', 'desc')
 
   return {
     total,
-    approved,
-    canceled,
-    completed,
-    ongoing,
-    pending,
-    rejected,
+    statuses
   }
 }
+
+export type WorkshopCounts = Prisma.PromiseReturnType<typeof getWorkshopCounts>

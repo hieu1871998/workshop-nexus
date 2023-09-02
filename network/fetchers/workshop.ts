@@ -1,6 +1,9 @@
+import { WorkshopDetail } from '@app/api/workshop/[id]/route'
 import { fetcher } from '@network/utils/fetcher'
 import { Category, Workshop } from '@prisma/client'
 import { WorkshopApplyPayload, WorkshopUpdatePayload } from '@types'
+
+const BASE_URL = 'http://localhost:3000'
 
 export const fetchWorkshopCategories = async () => {
   return fetcher<Category[]>('/api/workshop/category')
@@ -32,6 +35,30 @@ export const updateWorkshop = async (payload: WorkshopUpdatePayload) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
+    }
+  )
+}
+
+export const approveWorkshop = async (id: string) => {
+  return fetcher<Workshop>(
+    `/api/admin/workshop/${id}/approve`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    }
+  )
+}
+
+export const getWorkshopDetail = async (id: string) => {
+  return fetcher<WorkshopDetail>(
+    `${BASE_URL}/api/workshop/${id}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
     }
   )
 }
