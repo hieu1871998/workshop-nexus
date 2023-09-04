@@ -3,15 +3,15 @@
 import { Tooltip, User, useDisclosure } from '@nextui-org/react'
 import { WorkshopStatus } from '@prisma/client'
 import { Badge } from '@tremor/react'
-import { DashboardWorkshop } from '@types'
 import { getBadgeColor } from '@utils'
 import dayjs from 'dayjs'
 import { useMemo } from 'react'
 import { FiCheck, FiCheckCircle, FiClock, FiFileText, FiPlay, FiSlash, FiX, FiXCircle } from 'react-icons/fi'
 import { AdminWorkshopDetailModal } from './AdminWorkshopDetailModal'
+import { AdminWorkshop } from '@types'
 
 interface AdminWorkshopTableCellProps {
-  workshop: DashboardWorkshop
+  workshop: AdminWorkshop
   columnKey: React.Key
 }
 
@@ -43,7 +43,7 @@ export const AdminWorkshopTableCell = ({
       switch (columnKey) {
         case 'topic':
         case 'description': return (
-          <p className='text-base'>{cellValue as string}</p>
+          <p className='text-base line-clamp-2'>{cellValue as string}</p>
         )
         case 'host': return (
           <User

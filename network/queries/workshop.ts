@@ -1,7 +1,7 @@
-import { approveWorkshop, fetchWorkshopCategories, fetchWorkshops, getWorkshopDetail } from '@network/fetchers'
+import { approveWorkshop, fetchWorkshopCategories, fetchWorkshops, getAdminWorkshops, getWorkshopDetail } from '@network/fetchers'
 import { Workshop } from '@prisma/client'
-import { MutationOptions, useMutation, useQuery } from '@tanstack/react-query'
-import { ErrorResponse } from '@types'
+import { MutationOptions, useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query'
+import { BaseListPayload, ErrorResponse } from '@types'
 
 export const useGetWorkshopCategories = () =>
   useQuery({
@@ -28,7 +28,15 @@ export const useApproveWorkshop = (
     ErrorResponse,
     string
   >
-) => useMutation(
-  id => approveWorkshop(id),
-  options
-)
+) => useMutation({
+  ...options,
+  mutationFn: id => approveWorkshop(id)
+})
+
+export const useGetAdminWorkshops = (payload: BaseListPayload) =>
+  useInfiniteQuery({
+    queryKey: ['GET_ADMIN_WORKSHOPS', payload],
+    queryFn: ({ pageParam = 0 }) => getAdminWorkshops({ ...payload, page: pageParam as number }),
+    refetchOnWindowFocus: false,
+    getNextPageParam: lastPage => lastPage?.nextPage,
+  })

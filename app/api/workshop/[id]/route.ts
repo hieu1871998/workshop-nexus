@@ -9,7 +9,10 @@ const getWorkshopDetail = async (id: string) => {
       category: true,
       host: true,
       participants: true,
-      tags: true
+      tags: true,
+      _count: {
+        select: { participants: true }
+      }
     }
   })
 

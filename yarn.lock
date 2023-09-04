@@ -2949,6 +2949,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nextui-org/use-infinite-scroll@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@nextui-org/use-infinite-scroll@npm:2.1.0"
+  dependencies:
+    "@types/lodash.debounce": "npm:^4.0.7"
+    lodash.debounce: "npm:^4.0.8"
+  peerDependencies:
+    react: ">=18"
+  checksum: 473e686c013ea387cde7b86bb88e0ebea73d743698782dccff3d0585968ff8d64d61861d1f2c49ba16a13dc4b9c1d09b1b2a7a4af76a54d95071ffba9aed76c7
+  languageName: node
+  linkType: hard
+
 "@nextui-org/use-is-mobile@npm:2.0.3":
   version: 2.0.3
   resolution: "@nextui-org/use-is-mobile@npm:2.0.3"
@@ -4960,6 +4972,15 @@ __metadata:
   version: 0.0.29
   resolution: "@types/json5@npm:0.0.29"
   checksum: 4e5aed58cabb2bbf6f725da13421aa50a49abb6bc17bfab6c31b8774b073fa7b50d557c61f961a09a85f6056151190f8ac95f13f5b48136ba5841f7d4484ec56
+  languageName: node
+  linkType: hard
+
+"@types/lodash.debounce@npm:^4.0.7":
+  version: 4.0.7
+  resolution: "@types/lodash.debounce@npm:4.0.7"
+  dependencies:
+    "@types/lodash": "npm:*"
+  checksum: e873b2d77f89010876baba3437ef826b17221b98948e00b5590828334a481dea1c8f9d28543210e564adc53199584f42c3cb171f8b6c3614fefc0b4e0888679c
   languageName: node
   linkType: hard
 
@@ -11712,6 +11733,7 @@ __metadata:
     "@internationalized/date": "npm:^3.4.0"
     "@next-auth/prisma-adapter": "npm:^1.0.7"
     "@nextui-org/react": "npm:^2.1.5"
+    "@nextui-org/use-infinite-scroll": "npm:^2.1.0"
     "@prisma/client": "npm:^5.2.0"
     "@prisma/extension-accelerate": "npm:^0.6.0"
     "@rehookify/datepicker": "npm:^6.1.0"

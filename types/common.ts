@@ -1,5 +1,7 @@
 export interface BaseListPayload {
-  pageIndex?: number
+  page?: number
   pageSize?: number
   cursor?: string
+  orderBy?: string
+  orderDirection?: string
 }

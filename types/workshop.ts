@@ -24,3 +24,24 @@ export interface WorkshopUpdatePayload extends WorkshopApplyPayload {
 }
 
 export type WorkshopWithCategoryAndTags = Prisma.WorkshopGetPayload<typeof workshopWithCategoryAndTags>
+
+export interface AdminWorkshopsResponse {
+  hasNextPage: boolean
+  nextPage?: number
+  total: number
+  workshops: AdminWorkshop[]
+}
+
+const adminWorkshop = Prisma.validator<Prisma.WorkshopDefaultArgs>()({
+  include: {
+    category: true,
+    tags: true,
+    host: true,
+    participants: true,
+    _count: {
+      select: { participants: true }
+    }
+  }
+})
+
+export type AdminWorkshop = Prisma.WorkshopGetPayload<typeof adminWorkshop>

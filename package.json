@@ -17,6 +17,7 @@
     "@internationalized/date": "^3.4.0",
     "@next-auth/prisma-adapter": "^1.0.7",
     "@nextui-org/react": "^2.1.5",
+    "@nextui-org/use-infinite-scroll": "^2.1.0",
     "@prisma/client": "^5.2.0",
     "@prisma/extension-accelerate": "^0.6.0",
     "@rehookify/datepicker": "^6.1.0",
