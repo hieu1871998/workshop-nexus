@@ -7,7 +7,7 @@ import { UserDropdown } from '@components'
 export const NavigationBar = ({ session }: { session: Session | null }) => {
   return (
     <div className='w-full flex justify-between items-center'>
-      <div className={`${calSans} text-xl`}>
+      <div className={`${calSans.className} text-xl`}>
         Zenith
       </div>
       <UserDropdown session={session} />
