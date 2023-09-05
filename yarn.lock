@@ -9020,6 +9020,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next-themes@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "next-themes@npm:0.2.1"
+  peerDependencies:
+    next: "*"
+    react: "*"
+    react-dom: "*"
+  checksum: 6c955c114b7aa920fc14edd3832d0ea95be245ad33f79f397f613696a7c16c7f4112d6e61893d4977255b270f920811741eafdf8be49bd99cecafabf09e8a499
+  languageName: node
+  linkType: hard
+
 "next@npm:^13.4.20-canary.15":
   version: 13.4.20-canary.15
   resolution: "next@npm:13.4.20-canary.15"
@@ -11770,6 +11781,7 @@ __metadata:
     next-auth: "npm:^4.23.1"
     next-i18n-router: "npm:^3.1.1"
     next-intl: "npm:3.0.0-beta.12"
+    next-themes: "npm:^0.2.1"
     postcss: "npm:8.4.28"
     prisma: "npm:^5.2.0"
     react: "npm:18.2.0"
