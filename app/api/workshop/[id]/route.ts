@@ -21,7 +21,6 @@ const getWorkshopDetail = async (id: string) => {
 
 export const GET = async (_: NextRequest, context: { params: { id: string } }) => {
   const { id } = context.params
-  console.log('id: ', id)
 
   try {
     const data = await prisma.workshop.findUnique({

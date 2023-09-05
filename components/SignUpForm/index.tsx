@@ -72,7 +72,7 @@ export const SignUpForm = () => {
         <Link href='/'>
           <Image
             src='/logo.svg'
-            alt='Workshop Nexus logo'
+            alt='Zenith logo'
             width={40}
             height={40}
           />
@@ -81,7 +81,7 @@ export const SignUpForm = () => {
           Sign up
         </h1>
         <p className='text-center text-gray-700'>
-          Join <span className='text-gray-900 font-semibold'>Workshop Nexus</span> and start sharing your knowledge
+          Join <span className='text-gray-900 font-semibold'>Zenith</span> and start sharing your knowledge
         </p>
       </div>
       <form

@@ -12,7 +12,7 @@ const urbanist = Urbanist({
 })
 
 export const metadata: Metadata = {
-  title: 'Workshop Nexus',
+  title: 'Zenith',
   description: 'A place to share your ideas with workshops, and to look forward to the upcoming ones.',
 }
 

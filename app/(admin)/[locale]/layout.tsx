@@ -11,7 +11,7 @@ import { AdminHeader, Footer } from '@components'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Admin Console | Workshop Nexus',
+  title: 'Admin | Zenith',
   description: 'A place to share your ideas with workshops, and to look forward to the upcoming ones.',
 }
 

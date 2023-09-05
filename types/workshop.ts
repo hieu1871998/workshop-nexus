@@ -1,4 +1,5 @@
-import { Prisma } from '@prisma/client'
+import { Prisma, WorkshopStatus } from '@prisma/client'
+import { BaseListPayload } from './common'
 
 const workshopWithCategoryAndTags = Prisma.validator<Prisma.WorkshopDefaultArgs>()({
   include: {
@@ -45,3 +46,7 @@ const adminWorkshop = Prisma.validator<Prisma.WorkshopDefaultArgs>()({
 })
 
 export type AdminWorkshop = Prisma.WorkshopGetPayload<typeof adminWorkshop>
+
+export interface GetAdminWorkshopsPayload extends BaseListPayload {
+  status: WorkshopStatus[]
+}

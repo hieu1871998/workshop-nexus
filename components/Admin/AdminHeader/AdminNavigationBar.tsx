@@ -1,6 +1,6 @@
 'use client'
 
-import { Navbar, NavbarContent, NavbarItem, NavbarMenuToggle } from '@nextui-org/react'
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle } from '@nextui-org/react'
 import { Session } from 'next-auth'
 import Link from 'next/link'
 import { Logo } from '@components/icons/Logo'
@@ -18,13 +18,6 @@ export const AdminNavigationBar = ({ session }: AdminNavigationBarProps) => {
 
   return (
     <div className='w-full'>
-      <div>
-        <Link href='/admin'>
-          <div className='p-2 -mx-2 text-gray-900 hover:bg-gray-900 hover:text-white transition-all'>
-            <Logo className='w-12 h-12' />
-          </div>
-        </Link>
-      </div>
       <Navbar
         maxWidth='2xl'
         classNames={{
@@ -36,6 +29,13 @@ export const AdminNavigationBar = ({ session }: AdminNavigationBarProps) => {
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           className='sm:hidden'
         />
+        <NavbarBrand>
+          <Link href='/admin'>
+            <div className='p-2 -mx-2 text-gray-900 hover:bg-gray-900 hover:text-white transition-all'>
+              <Logo className='w-12 h-12' />
+            </div>
+          </Link>
+        </NavbarBrand>
         <NavbarContent className='hidden sm:flex gap-5' justify='center'>
           <NavbarItem isActive={pathname === '/admin'}>
             <Link href='/admin'>
@@ -44,7 +44,7 @@ export const AdminNavigationBar = ({ session }: AdminNavigationBarProps) => {
           </NavbarItem>
           <NavbarItem isActive={pathname === '/admin/workshop'}>
             <Link href='/admin/workshop'>
-              Workshop
+              Workshops
             </Link>
           </NavbarItem>
         </NavbarContent>
