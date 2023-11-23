@@ -1,11 +1,11 @@
 import { PulsingLoader } from '@components/PulsingLoader'
 
 const LoadingPage = () => {
-  return (
-    <main className='-mt-16 min-h-screen container mx-auto flex flex-col justify-center items-center'>
-      <PulsingLoader />
-    </main>
-  )
+	return (
+		<main className='container mx-auto -mt-16 flex min-h-screen flex-col items-center justify-center'>
+			<PulsingLoader />
+		</main>
+	)
 }
 
 export default LoadingPage

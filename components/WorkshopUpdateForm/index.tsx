@@ -1,5 +1,3 @@
 export const WorkshopUpdateForm = () => {
-  return (
-    <div></div>
-  )
+	return <div></div>
 }

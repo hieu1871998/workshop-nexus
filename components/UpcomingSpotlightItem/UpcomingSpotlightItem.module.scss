@@ -1,56 +1,56 @@
 @import '../../theme/colors/colors.scss';
 
 .upcomingSpotlightItem {
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 
-  .cover {
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+	.cover {
+		transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+	}
 
-  .title {
-    color: $gray-900;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+	.title {
+		color: $gray-900;
+		transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+	}
 
-  .description {
-    color: $gray-700;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+	.description {
+		color: $gray-700;
+		transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+	}
 
-  .category {
-    color: $gray-500;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+	.category {
+		color: $gray-500;
+		transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+	}
 
-  .logo {
-    color: $gray-900;
-    width: 50px;
-    height: 50px;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+	.logo {
+		color: $gray-900;
+		width: 50px;
+		height: 50px;
+		transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+	}
 
-  &:hover {
-    background-color: $gray-900;
-    color: #fff;
+	&:hover {
+		background-color: $gray-900;
+		color: #fff;
 
-    .cover {
-      scale: 1.1;
-    }
+		.cover {
+			scale: 1.1;
+		}
 
-    .title {
-      color: #fff;
-    }
+		.title {
+			color: #fff;
+		}
 
-    .description {
-      color: $gray-300
-    }
+		.description {
+			color: $gray-300;
+		}
 
-    .category {
-      color: $gray-500
-    }
+		.category {
+			color: $gray-500;
+		}
 
-    .logo {
-      color: #fff;
-    }
-  }
+		.logo {
+			color: #fff;
+		}
+	}
 }

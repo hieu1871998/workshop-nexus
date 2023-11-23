@@ -1,32 +1,32 @@
 {
-  "common": {
-    "signIn": "Đăng nhập",
-    "signOut": "Đăng xuất",
-    "signInWithGoogle": "Đăng nhập bằng Google",
-    "email": "Email",
-    "password": "Mật khẩu",
-    "notSignedIn": "Bạn chưa đăng nhập",
-    "signedInAs": "Đã đăng nhập bằng",
-    "loading": "Loading"
-  },
-  "home": {
-    "heroTitle": "Khuyến khích sự phát triển và đổi mới",
-    "heroSubtitle": "Nơi sự tò mò gặp gỡ chuyên môn: Đắm chìm trong các buổi học thú vị và học tập cộng tác",
-    "heroSignInButtonLabel": "Đăng nhập và bắt đầu khám phá",
-    "heroApplyButtonLabel": "Bắt đầu chia sẻ kiến thức của bạn"
-  },
-  "signin": {
-    "subtitle": "Sign in now into <bold>Zenith</bold> and start sharing your knowledge",
-    "noAccount": "Don't have an account? <link>Sign up</link> now!"
-  },
-  "apply": {
-    "title": "Apply to hold your own workshop session",
-    "subtitle": "We're excited that you're interested in sharing your expertise and leading a workshop. This is your opportunity to create a transformative learning experience, fostering collaboration and growth within our company.",
-    "applyingAs": "You're applying as <user>{user}</user>",
-    "apply": "Apply"
-  },
-  "LocaleSwitcher": {
-    "label": "Đổi ngôn ngữ",
-    "locale": "{locale, select, vi {Tiếng Việt} en {Tiếng Anh} other {Unknown}}"
-  }
+	"common": {
+		"signIn": "Đăng nhập",
+		"signOut": "Đăng xuất",
+		"signInWithGoogle": "Đăng nhập bằng Google",
+		"email": "Email",
+		"password": "Mật khẩu",
+		"notSignedIn": "Bạn chưa đăng nhập",
+		"signedInAs": "Đã đăng nhập bằng",
+		"loading": "Loading"
+	},
+	"home": {
+		"heroTitle": "Khuyến khích sự phát triển và đổi mới",
+		"heroSubtitle": "Nơi sự tò mò gặp gỡ chuyên môn: Đắm chìm trong các buổi học thú vị và học tập cộng tác",
+		"heroSignInButtonLabel": "Đăng nhập và bắt đầu khám phá",
+		"heroApplyButtonLabel": "Bắt đầu chia sẻ kiến thức của bạn"
+	},
+	"signin": {
+		"subtitle": "Sign in now into <bold>Zenith</bold> and start sharing your knowledge",
+		"noAccount": "Don't have an account? <link>Sign up</link> now!"
+	},
+	"apply": {
+		"title": "Apply to hold your own workshop session",
+		"subtitle": "We're excited that you're interested in sharing your expertise and leading a workshop. This is your opportunity to create a transformative learning experience, fostering collaboration and growth within our company.",
+		"applyingAs": "You're applying as <user>{user}</user>",
+		"apply": "Apply"
+	},
+	"LocaleSwitcher": {
+		"label": "Đổi ngôn ngữ",
+		"locale": "{locale, select, vi {Tiếng Việt} en {Tiếng Anh} other {Unknown}}"
+	}
 }

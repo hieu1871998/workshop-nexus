@@ -1,0 +1,14 @@
+**/.git
+**/.svn
+**/.hg
+**/node_modules
+**/.yarn
+**/.vscode
+**/prisma
+
+.prettierrc.mjs
+.stylelintrc.json
+.yarnrc.yml
+postcss.config.js
+README.md
+yarn.lock
