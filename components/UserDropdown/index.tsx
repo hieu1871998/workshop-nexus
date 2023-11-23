@@ -1,8 +1,6 @@
 'use client'
 
 import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { Session } from 'next-auth'
 import { signOut } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
@@ -12,7 +10,6 @@ interface UserDropdownProps {
 }
 
 export const UserDropdown = ({ session }: UserDropdownProps) => {
-	const router = useRouter()
 	const t = useTranslations('common')
 
 	const isAdmin = session?.user.role === 'ADMIN'
@@ -33,31 +30,21 @@ export const UserDropdown = ({ session }: UserDropdownProps) => {
 			<DropdownMenu
 				aria-label='Profile Actions'
 				variant='flat'
+				disabledKeys={isAdmin ? [] : ['admin']}
 			>
 				{session ? (
 					<DropdownItem
 						key='user'
 						className='h-14 gap-2'
+						href={`/user/${session.user.id}`}
 					>
-						<Link href={`/user/${session.user.id}`}>
-							<p className='font-semibold'>{t('signedInAs')}</p>
-							<p className='font-semibold'>{session?.user?.email}</p>
-						</Link>
+						<p className='font-semibold'>{t('signedInAs')}</p>
+						<p className='font-semibold'>{session?.user?.email}</p>
 					</DropdownItem>
 				) : (
 					<DropdownItem key='user'>
 						<span className='font-semibold'>{t('notSignedIn')}</span>
 					</DropdownItem>
-				)}
-				{isAdmin ? (
-					<DropdownItem
-						key='admin'
-						color='secondary'
-					>
-						<Link href='/admin'>Admin Dashboard</Link>
-					</DropdownItem>
-				) : (
-					<></>
 				)}
 				{session ? (
 					<DropdownItem
@@ -70,7 +57,7 @@ export const UserDropdown = ({ session }: UserDropdownProps) => {
 				) : (
 					<DropdownItem
 						key='signin'
-						onPress={() => router.push('/signin')}
+						href='/signin'
 					>
 						{t('signIn')}
 					</DropdownItem>

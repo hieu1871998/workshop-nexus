@@ -37,7 +37,8 @@ export const useApproveWorkshop = (options: MutationOptions<Workshop | undefined
 export const useGetAdminWorkshops = (payload: GetAdminWorkshopsPayload) =>
 	useInfiniteQuery({
 		queryKey: ['GET_ADMIN_WORKSHOPS', payload],
-		queryFn: ({ pageParam = 0 }) => getAdminWorkshops({ ...payload, page: pageParam as number }),
+		queryFn: ({ pageParam = 0 }) => getAdminWorkshops({ ...payload, page: pageParam }),
 		refetchOnWindowFocus: false,
 		getNextPageParam: lastPage => lastPage?.nextPage,
+		initialPageParam: 0,
 	})

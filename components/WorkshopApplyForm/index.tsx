@@ -99,6 +99,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 			</div>
 			<form
 				className='flex flex-col gap-5 p-5'
+				// eslint-disable-next-line @typescript-eslint/no-misused-promises
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				<Input
@@ -113,7 +114,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 					label='Topic'
 					{...register('topic', { required })}
 					placeholder='What is your workshop topic?'
-					validationState={errors.topic ? 'invalid' : 'valid'}
+					isInvalid={!!errors.topic}
 					errorMessage={errors.topic?.message}
 				/>
 				<MotionTextarea
@@ -121,7 +122,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 					{...register('description', { required })}
 					label='Description'
 					placeholder='A little summary about your workshop'
-					validationState={errors.description ? 'invalid' : 'valid'}
+					isInvalid={!!errors.description}
 					errorMessage={errors.description?.message}
 					minRows={2}
 					maxRows={10}
@@ -132,7 +133,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 					label='Category'
 					placeholder='Select a category'
 					{...register('categoryId', { required })}
-					validationState={errors.categoryId ? 'invalid' : 'valid'}
+					isInvalid={!!errors.categoryId}
 					errorMessage={errors.categoryId?.message}
 					isLoading={isLoading}
 				>
@@ -146,7 +147,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 						defaultValue='1'
 						type='number'
 						placeholder='Estimated max participants'
-						validationState={errors.maxParticipants ? 'invalid' : 'valid'}
+						isInvalid={!!errors.maxParticipants}
 						errorMessage={errors.maxParticipants?.message}
 					/>
 					<Input
@@ -155,7 +156,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 						type='date'
 						{...register('presentationDate', { required, valueAsDate: true })}
 						placeholder='When can you hold your workshop?'
-						validationState={errors.presentationDate ? 'invalid' : 'valid'}
+						isInvalid={!!errors.presentationDate}
 						errorMessage={errors.presentationDate?.message}
 					/>
 				</div>

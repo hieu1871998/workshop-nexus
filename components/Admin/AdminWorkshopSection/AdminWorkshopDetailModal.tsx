@@ -10,7 +10,7 @@ interface AdminWorkshopDetailModal {
 
 export const AdminWorkshopDetailModal = ({ id, isOpen, onOpenChange, onClose }: AdminWorkshopDetailModal) => {
 	const { data: workshopDetailResp, isFetched } = useGetWorkshop(id, isOpen)
-	const { mutateAsync: approve, isLoading } = useApproveWorkshop({
+	const { mutateAsync: approve, isPending } = useApproveWorkshop({
 		onSuccess: resp => {
 			console.log('onSuccess: ', resp)
 			onClose()
@@ -74,8 +74,8 @@ export const AdminWorkshopDetailModal = ({ id, isOpen, onOpenChange, onClose }: 
 				<ModalFooter>
 					<Button
 						color='primary'
-						onPress={onApprove}
-						isLoading={isLoading}
+						onPress={() => void onApprove()}
+						isLoading={isPending}
 						isDisabled={!isFetched}
 					>
 						Approve

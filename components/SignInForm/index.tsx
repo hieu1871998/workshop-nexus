@@ -1,75 +1,66 @@
 'use client'
 
-import { useState } from 'react'
-import { SubmitHandler, useForm, ValidationRule } from 'react-hook-form'
-// eslint-disable-next-line import/no-named-as-default
-import toast from 'react-hot-toast'
 import GoogleIcon from '@components/icons/Google/google-icon.svg'
 import { Logo } from '@components/icons/Logo'
-import { LoadingDots } from '@components/LoadingDots'
-import { ArrowRightIcon } from '@heroicons/react/24/solid'
 import { Button } from '@nextui-org/button'
-import { Input } from '@nextui-org/input'
 import { calSans } from '@theme/fonts/calsans'
-import { LoginPayload } from '@types'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
 
-const required = {
-	value: true,
-	message: 'This field is required.',
-}
+// const required = {
+// 	value: true,
+// 	message: 'This field is required.',
+// }
 
-const emailPattern: ValidationRule<RegExp> = {
-	// eslint-disable-next-line max-len, no-control-regex
-	value:
-		/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/g,
-	message: 'Please provide a valid email address.',
-}
+// const emailPattern: ValidationRule<RegExp> = {
+// 	// eslint-disable-next-line max-len, no-control-regex
+// 	value:
+// 		/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/g,
+// 	message: 'Please provide a valid email address.',
+// }
 
-const passwordPattern: ValidationRule<RegExp> = {
-	value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
-	message:
-		'Password must be 8+ characters with at least 1 uppercase, 1 lowercase, 1 number, and may include special characters.',
-}
+// const passwordPattern: ValidationRule<RegExp> = {
+// 	value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
+// 	message:
+// 		'Password must be 8+ characters with at least 1 uppercase, 1 lowercase, 1 number, and may include special characters.',
+// }
 
 export const SignInForm = () => {
-	const [loading, setLoading] = useState(false)
+	// const [loading, setLoading] = useState(false)
 	const t = useTranslations()
-	const router = useRouter()
-	const { register, handleSubmit, formState } = useForm<LoginPayload>()
-	const { errors } = formState
+	// const router = useRouter()
+	// const { register, handleSubmit, formState } = useForm<LoginPayload>()
+	// const { errors } = formState
 
-	const onSubmit: SubmitHandler<LoginPayload> = data => {
-		setLoading(true)
+	// const onSubmit: SubmitHandler<LoginPayload> = data => {
+	// 	setLoading(true)
 
-		const { email, password } = data
+	// 	const { email, password } = data
 
-		signIn('credentials', {
-			redirect: false,
-			email: email,
-			password: password,
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment, @typescript-eslint/prefer-ts-expect-error
-			// @ts-ignore
-		})
-			.then(({ error }) => {
-				if (error) {
-					setLoading(false)
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-					toast.error(error)
-				} else {
-					toast.success('You are signed in!')
-					router.refresh()
-					router.push('/')
-				}
-			})
-			.catch(error => {
-				setLoading(false)
-				console.error('Error fetching user: ', error)
-			})
-	}
+	// 	signIn('credentials', {
+	// 		redirect: false,
+	// 		email: email,
+	// 		password: password,
+	// 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment, @typescript-eslint/prefer-ts-expect-error
+	// 		// @ts-ignore
+	// 	})
+	// 		.then(({ error }) => {
+	// 			if (error) {
+	// 				setLoading(false)
+	// 				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+	// 				toast.error(error)
+	// 			} else {
+	// 				toast.success('You are signed in!')
+	// 				router.refresh()
+	// 				router.push('/')
+	// 			}
+	// 		})
+	// 		.catch(error => {
+	// 			setLoading(false)
+	// 			console.error('Error fetching user: ', error)
+	// 		})
+	// }
 
 	return (
 		<div className='max-w-xl rounded-2xl bg-white pb-4 pt-8 sm:shadow-2xl'>
@@ -83,8 +74,20 @@ export const SignInForm = () => {
 						bold: chunk => <span className='font-bold'>{chunk}</span>,
 					})}
 				</p>
+				<Button
+					className='mt-5 w-full bg-[#4285F4] text-white'
+					type='button'
+					startContent={
+						<span className='text-xl'>
+							<GoogleIcon />
+						</span>
+					}
+					onClick={() => void signIn('google', { callbackUrl: '/' })}
+				>
+					{t('common.signInWithGoogle')}
+				</Button>
 			</div>
-			<form
+			{/* <form
 				className='max-w-xl px-8 py-4'
 				onSubmit={() => void handleSubmit(onSubmit)}
 			>
@@ -127,20 +130,9 @@ export const SignInForm = () => {
 						{t('common.signIn')}
 					</Button>
 					<p className='text-center'>or</p>
-					<Button
-						className='bg-[#4285F4] text-white'
-						startContent={
-							<span className='text-xl'>
-								<GoogleIcon />
-							</span>
-						}
-						onClick={() => void signIn('google', { callbackUrl: '/' })}
-					>
-						{t('common.signInWithGoogle')}
-					</Button>
 				</div>
-			</form>
-			<p className='text-center text-sm text-gray-900'>
+			</form> */}
+			{/* <p className='text-center text-sm text-gray-900'>
 				{t.rich('signin.noAccount', {
 					link: chunk => (
 						<Link
@@ -151,7 +143,7 @@ export const SignInForm = () => {
 						</Link>
 					),
 				})}
-			</p>
+			</p> */}
 		</div>
 	)
 }
