@@ -3,7 +3,6 @@ import type { Config } from 'tailwindcss'
 import { nextui } from '@nextui-org/react'
 import typography from '@tailwindcss/typography'
 import aspectRatio from '@tailwindcss/aspect-ratio'
-import HeadlessUI from '@headlessui/tailwindcss'
 
 const config: Config = {
 	content: [
@@ -120,35 +119,7 @@ const config: Config = {
 		},
 	},
 	darkMode: 'class',
-	plugins: [
-		nextui({
-			// layout: {
-			//   radius: {
-			//     small: '6px',
-			//     medium: '6px',
-			//     large: '6px'
-			//   }
-			// },
-			// themes: {
-			//   light: {
-			//     colors: {
-			//       primary: {
-			//         DEFAULT: '#000000',
-			//         foreground: '#ffffff'
-			//       },
-			//       secondary: {
-			//         DEFAULT: '#0070f3',
-			//         foreground: '#ffffff'
-			//       },
-			//       focus: '#000000',
-			//     },
-			//   }
-			// }
-		}),
-		typography({ target: 'modern' }),
-		aspectRatio,
-		HeadlessUI,
-	],
+	plugins: [nextui(), typography({ target: 'modern' }), aspectRatio],
 	safelist: [
 		{
 			pattern:

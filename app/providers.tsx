@@ -3,7 +3,7 @@
 import { Toaster } from 'react-hot-toast'
 import { NextUIProvider } from '@nextui-org/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { NextIntlProvider } from 'next-intl'
+import { NextIntlClientProvider } from 'next-intl'
 import { ThemeProvider as NextThemeProvider } from 'next-themes'
 
 interface ProvidersProps {
@@ -16,7 +16,7 @@ export const Providers = ({ children, locale, messages }: ProvidersProps) => {
 	const queryClient = new QueryClient()
 
 	return (
-		<NextIntlProvider
+		<NextIntlClientProvider
 			locale={locale}
 			messages={messages}
 		>
@@ -28,6 +28,6 @@ export const Providers = ({ children, locale, messages }: ProvidersProps) => {
 					</NextUIProvider>
 				</NextThemeProvider>
 			</QueryClientProvider>
-		</NextIntlProvider>
+		</NextIntlClientProvider>
 	)
 }

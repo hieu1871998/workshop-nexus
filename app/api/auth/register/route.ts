@@ -1,10 +1,10 @@
 import prisma from '@lib/prisma'
+import { RegisterPayload } from '@types'
 import { hash } from 'bcrypt'
-import { NextApiRequest, NextApiResponse } from 'next'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-export async function POST(request: Request) {
-	const { email, password, firstName, lastName } = await request.json()
+export async function POST(request: NextRequest) {
+	const { email, password, firstName, lastName } = (await request.json()) as RegisterPayload
 	const avatar = `https://source.boringavatars.com/beam/120/${firstName}?colors=264653,f4a261,e76f51`
 
 	const exists = await prisma.user.findUnique({
@@ -19,10 +19,10 @@ export async function POST(request: Request) {
 		const user = await prisma.user.create({
 			data: {
 				email,
-				// password: await hash(password, 10),
-				// firstName,
-				// lastName,
-				// avatar
+				password: await hash(password, 10),
+				firstName,
+				lastName,
+				avatar,
 			},
 		})
 
