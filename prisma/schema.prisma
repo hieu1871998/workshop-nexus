@@ -14,15 +14,14 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@index([userId])
@@ -40,17 +39,17 @@ model Session {
 
 model User {
   id                    String     @id @default(cuid())
-  name                  String?
   email                 String?    @unique
+  role                  Role       @default(USER)
   emailVerified         DateTime?
   image                 String?
+  name                  String?
+  createdAt             DateTime   @default(now())
   accounts              Account[]
   sessions              Session[]
   workshopsHosted       Workshop[] @relation("WorkshopHost")
-  role                  Role       @default(USER)
+  tags                  UserTag[]  @relation("UserToUserTag")
   workshopsParticipated Workshop[] @relation("WorkshopParticipant")
-  tags                  UserTag[]
-  createdAt             DateTime   @default(now())
 }
 
 model VerificationToken {
@@ -65,28 +64,53 @@ model Workshop {
   id               String         @id @default(cuid())
   hostId           String
   topic            String
-  description      String
   presentationDate DateTime
   maxParticipants  Int
-  participants     User[]         @relation("WorkshopParticipant")
-  host             User           @relation("WorkshopHost", fields: [hostId], references: [id])
-  category         Category       @relation(fields: [categoryId], references: [id])
+  description      String
   categoryId       String
   status           WorkshopStatus @default(DRAFT)
-  tags             WorkshopTag[]
-  createdAt        DateTime       @default(now())
-  submissionDate   DateTime?
   approvalDate     DateTime?
-  startDate        DateTime?
   completionDate   DateTime?
+  createdAt        DateTime       @default(now())
+  startDate        DateTime?
+  submissionDate   DateTime?
+  category         Category       @relation(fields: [categoryId], references: [id])
+  host             User           @relation("WorkshopHost", fields: [hostId], references: [id])
+  participants     User[]         @relation("WorkshopParticipant")
+  tags             WorkshopTag[]  @relation("WorkshopToWorkshopTag")
 }
 
 model Category {
   id        String     @id @default(cuid())
   label     String     @unique
-  workshops Workshop[]
   color     TagColor   @default(default)
   variant   TagVariant @default(solid)
+  workshops Workshop[]
+}
+
+model UserTag {
+  id      Int        @id @default(autoincrement())
+  label   String     @unique
+  variant TagVariant @default(solid)
+  color   TagColor   @default(default)
+  users   User[]     @relation("UserToUserTag")
+}
+
+model WorkshopTag {
+  id        Int        @id @default(autoincrement())
+  label     String     @unique
+  variant   TagVariant @default(solid)
+  color     TagColor   @default(default)
+  workshops Workshop[] @relation("WorkshopToWorkshopTag")
+}
+
+model Contact {
+  id       String   @id
+  name     String
+  email    String
+  subject  String
+  message  String
+  sentDate DateTime @default(now())
 }
 
 enum Role {
@@ -102,22 +126,6 @@ enum WorkshopStatus {
   COMPLETED
   CANCELED
   DRAFT
-}
-
-model UserTag {
-  id      Int        @id @default(autoincrement())
-  label   String     @unique
-  users   User[]
-  color   TagColor   @default(default)
-  variant TagVariant @default(solid)
-}
-
-model WorkshopTag {
-  id        Int        @id @default(autoincrement())
-  label     String     @unique
-  workshops Workshop[]
-  color     TagColor   @default(default)
-  variant   TagVariant @default(solid)
 }
 
 enum TagVariant {
