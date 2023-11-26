@@ -20,6 +20,7 @@ export const Providers = ({ children, locale, messages }: ProvidersProps) => {
 		<NextIntlClientProvider
 			locale={locale}
 			messages={messages}
+			timeZone='Asia/Ho_Chi_Minh'
 		>
 			<QueryClientProvider client={queryClient}>
 				<LazyMotion features={domAnimation}>
