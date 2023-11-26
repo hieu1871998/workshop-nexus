@@ -43,6 +43,15 @@ const nextConfig = {
 			transform: 'react-icons/{{member}}',
 		},
 	},
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'public.blob.vercel-storage.com',
+				port: '',
+			},
+		],
+	},
 }
 
 module.exports = withNextIntl(nextConfig)

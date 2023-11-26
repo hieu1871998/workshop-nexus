@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Clouds from '@public/switch/switch-clouds.svg'
 import Stars from '@public/switch/switch-stars.svg'
-import { motion, Transition } from 'framer-motion'
+import { m, Transition } from 'framer-motion'
 import { useTheme } from 'next-themes'
 
 import styles from './DarkModeSwitch.module.scss'
@@ -26,39 +26,39 @@ export const DarkModeSwitch = () => {
 	}, [active, setTheme])
 
 	return (
-		<motion.div
+		<m.div
 			className={styles.switch}
 			data-active={active}
 			onClick={() => setActive(value => !value)}
 		>
-			<motion.div
+			<m.div
 				className={styles.clouds}
 				layout
 				transition={transition}
 			>
 				<Clouds />
-			</motion.div>
-			<motion.div
+			</m.div>
+			<m.div
 				className={styles.stars}
 				layout
 				transition={transition}
 			>
 				<Stars />
-			</motion.div>
-			<motion.div
+			</m.div>
+			<m.div
 				className={styles.handleWrapper}
 				layout
 				transition={transition}
 			>
-				<motion.div className={`${styles.aura} ${styles.auraSm}`} />
-				<motion.div className={`${styles.aura} ${styles.auraMd}`} />
-				<motion.div className={`${styles.aura} ${styles.auraLg}`} />
-				<motion.div
+				<m.div className={`${styles.aura} ${styles.auraSm}`} />
+				<m.div className={`${styles.aura} ${styles.auraMd}`} />
+				<m.div className={`${styles.aura} ${styles.auraLg}`} />
+				<m.div
 					className={styles.handle}
 					layout
 					transition={transition}
 				>
-					<motion.div
+					<m.div
 						className={styles.handleDark}
 						layout
 						transition={transition}
@@ -66,9 +66,9 @@ export const DarkModeSwitch = () => {
 						<div className={`${styles.crater} left-3 top-1 h-2 w-2`} />
 						<div className={`${styles.crater} left-1 top-3.5 h-3.5 w-3.5`} />
 						<div className={`${styles.crater} bottom-1 right-1 h-2 w-2`} />
-					</motion.div>
-				</motion.div>
-			</motion.div>
-		</motion.div>
+					</m.div>
+				</m.div>
+			</m.div>
+		</m.div>
 	)
 }

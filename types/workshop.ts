@@ -1,4 +1,5 @@
 import { Prisma, WorkshopStatus } from '@prisma/client'
+
 import { BaseListPayload } from './common'
 
 const workshopWithCategoryAndTags = Prisma.validator<Prisma.WorkshopDefaultArgs>()({
@@ -18,6 +19,7 @@ export interface WorkshopApplyPayload {
 	categoryId: string
 	maxParticipants: number
 	presentationDate: Date
+	thumbnailId: string
 }
 
 export interface WorkshopUpdatePayload extends WorkshopApplyPayload {

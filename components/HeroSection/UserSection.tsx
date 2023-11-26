@@ -3,7 +3,7 @@
 import { ArrowRightIcon, UserIcon } from '@heroicons/react/24/solid'
 import { Button } from '@nextui-org/button'
 import { fadeInDownMotion } from '@utils'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import Link from 'next/link'
 import { Session } from 'next-auth'
 import { useTranslations } from 'next-intl'
@@ -13,7 +13,7 @@ export const UserSection = ({ session }: { session: Session | null }) => {
 	const t = useTranslations('home')
 
 	return (
-		<motion.div
+		<m.div
 			{...fadeInDownMotion}
 			transition={{ duration: 1, delay: 1 }}
 		>
@@ -38,6 +38,6 @@ export const UserSection = ({ session }: { session: Session | null }) => {
 					</Button>
 				</Link>
 			)}
-		</motion.div>
+		</m.div>
 	)
 }

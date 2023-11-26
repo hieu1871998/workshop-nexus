@@ -1,20 +1,24 @@
 'use client'
 
+import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 import { applyWorkshop } from '@app/(user)/[locale]/apply/action'
 import { Logo } from '@components/icons/Logo'
 import { LoadingDots } from '@components/LoadingDots'
+import { CameraIcon } from '@heroicons/react/24/outline'
 import { useGetWorkshopCategories } from '@network/queries'
-import { Button, Input, Select, SelectItem, Textarea } from '@nextui-org/react'
+import { Avatar, Button, Image, Input, Select, SelectItem, Textarea } from '@nextui-org/react'
+import { WorkshopThumbnail } from '@prisma/client'
 import { WorkshopApplyPayload } from '@types'
 import { fadeInDownMotion, fadeInMotion } from '@utils'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import Link from 'next/link'
 import { Session } from 'next-auth'
 import { useTranslations } from 'next-intl'
+import Upload from 'rc-upload'
 
-const MotionTextarea = motion(Textarea)
+const MotionTextarea = m(Textarea)
 
 interface WorkshopApplyFormProps {
 	session: Session | null
@@ -34,10 +38,16 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 		reset,
 	} = useForm<WorkshopApplyPayload>()
 
+	const [blob, setBlob] = useState<WorkshopThumbnail>()
+	const [thumbnail, setThumbnail] = useState<{ image: string | null }>({ image: null })
+
 	const onSubmit: SubmitHandler<WorkshopApplyPayload> = async (data, event) => {
 		event?.preventDefault()
 
-		const promise = applyWorkshop(data)
+		const promise = applyWorkshop({
+			...data,
+			thumbnailId: blob?.id ?? '',
+		})
 
 		await toast.promise(
 			promise,
@@ -64,7 +74,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 		reset()
 	}
 
-	const { data: categoriesResp, isLoading } = useGetWorkshopCategories()
+	const { data: categoriesResp, isLoading, refetch } = useGetWorkshopCategories()
 
 	const categoryItems =
 		categoriesResp?.map(category => ({
@@ -73,21 +83,21 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 		})) ?? []
 
 	return (
-		<motion.div
+		<m.div
 			className='rounded-2xl border sm:shadow-2xl'
 			{...fadeInDownMotion}
 			transition={{ duration: 1 }}
 			layout
 		>
 			<div className='flex flex-col items-center border-b p-5'>
-				<motion.div
+				<m.div
 					className='mb-5 h-16 w-16'
 					{...fadeInDownMotion}
 					transition={{ duration: 1 }}
 				>
 					<Logo className='mb-5 h-16 w-16' />
-				</motion.div>
-				<motion.p
+				</m.div>
+				<m.p
 					className='text-gray-900'
 					{...fadeInMotion}
 					transition={{ duration: 1, delay: 0.5 }}
@@ -95,7 +105,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 					{t.rich('applyingAs', {
 						user: () => <span className='font-semibold text-black'>{session?.user?.name}</span>,
 					})}
-				</motion.p>
+				</m.p>
 			</div>
 			<form
 				className='flex flex-col gap-5 p-5'
@@ -136,6 +146,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 					isInvalid={!!errors.categoryId}
 					errorMessage={errors.categoryId?.message}
 					isLoading={isLoading}
+					onFocus={() => void refetch()}
 				>
 					{category => <SelectItem key={category.value}>{category.label}</SelectItem>}
 				</Select>
@@ -160,6 +171,47 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 						errorMessage={errors.presentationDate?.message}
 					/>
 				</div>
+				<Upload
+					className='aspect-16/9 w-full'
+					accept='images/*'
+					onStart={file => {
+						const reader = new FileReader()
+
+						reader.onload = event => {
+							setThumbnail(prev => ({ ...prev, image: event.target?.result as string }))
+						}
+
+						reader.readAsDataURL(file)
+					}}
+					onSuccess={res => {
+						setBlob(res as unknown as WorkshopThumbnail)
+					}}
+					onError={err => {
+						console.error('Error uploading file', err)
+					}}
+					onProgress={({ percent }) => {
+						console.log('onProgress', `${percent}%`)
+					}}
+					action={file => {
+						return `/api/upload/thumbnail?filename=${file.name}`
+					}}
+				>
+					{thumbnail.image ? (
+						<Image
+							className='h-full w-full object-cover object-center'
+							src={thumbnail.image}
+							alt='Thumbnail'
+						/>
+					) : (
+						<Avatar
+							className='h-full w-full bg-gray-50'
+							showFallback={!blob}
+							radius='md'
+							src=''
+							fallback={<CameraIcon className='h-10 w-10 text-gray-700' />}
+						/>
+					)}
+				</Upload>
 				<Button
 					className='bg-black text-white'
 					type='submit'
@@ -167,6 +219,6 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 					{isSubmitting ? <LoadingDots color='#fff' /> : <span>{t('apply')}</span>}
 				</Button>
 			</form>
-		</motion.div>
+		</m.div>
 	)
 }

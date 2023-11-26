@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
-import type { Config } from 'tailwindcss'
 import { nextui } from '@nextui-org/react'
-import typography from '@tailwindcss/typography'
 import aspectRatio from '@tailwindcss/aspect-ratio'
+import typography from '@tailwindcss/typography'
+import type { Config } from 'tailwindcss'
 
 const config: Config = {
 	content: [
@@ -115,6 +115,11 @@ const config: Config = {
 			fontFamily: {
 				sans: ['var(--font-urbanist)'],
 				'cal-sans': ['var(--font-cal-sans)'],
+			},
+			aspectRatio: {
+				'16/9': '16 / 9',
+				'4/3': '4 / 3',
+				'3/4': '3/ 4',
 			},
 		},
 	},

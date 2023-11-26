@@ -32,6 +32,7 @@ export default function LocaleSwitcher() {
 			isLoading={isPending}
 			onChange={onSelectChange}
 			labelPlacement='outside-left'
+			aria-label='Locale Switcher'
 		>
 			{['en', 'vi'].map(cur => (
 				<SelectItem

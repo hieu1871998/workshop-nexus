@@ -3,6 +3,7 @@
 import { Toaster } from 'react-hot-toast'
 import { NextUIProvider } from '@nextui-org/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { domAnimation, LazyMotion } from 'framer-motion'
 import { NextIntlClientProvider } from 'next-intl'
 import { ThemeProvider as NextThemeProvider } from 'next-themes'
 
@@ -21,12 +22,14 @@ export const Providers = ({ children, locale, messages }: ProvidersProps) => {
 			messages={messages}
 		>
 			<QueryClientProvider client={queryClient}>
-				<NextThemeProvider>
-					<NextUIProvider>
-						<Toaster />
-						{children}
-					</NextUIProvider>
-				</NextThemeProvider>
+				<LazyMotion features={domAnimation}>
+					<NextThemeProvider>
+						<NextUIProvider>
+							<Toaster />
+							{children}
+						</NextUIProvider>
+					</NextThemeProvider>
+				</LazyMotion>
 			</QueryClientProvider>
 		</NextIntlClientProvider>
 	)
