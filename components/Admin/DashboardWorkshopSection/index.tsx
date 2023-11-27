@@ -1,6 +1,5 @@
 'use client'
-
-import { WorkshopCounts } from '@app/(admin)/[locale]/admin/action'
+import { WorkshopCounts } from '@app/[locale]/(admin)/admin/action'
 import { Card, CardBody, CardHeader, Divider } from '@nextui-org/react'
 import { BarList, Flex, Metric, Text, Title } from '@tremor/react'
 
