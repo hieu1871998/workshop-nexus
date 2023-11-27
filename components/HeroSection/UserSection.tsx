@@ -1,7 +1,7 @@
 'use client'
 
 import { ArrowRightIcon, UserIcon } from '@heroicons/react/24/solid'
-import { Button } from '@nextui-org/button'
+import { Button } from '@mantine/core'
 import { fadeInDownMotion } from '@utils'
 import { m } from 'framer-motion'
 import Link from 'next/link'
@@ -20,9 +20,9 @@ export const UserSection = ({ session }: { session: Session | null }) => {
 			{user ? (
 				<Link href='/apply'>
 					<Button
-						className='px-10'
-						color='primary'
-						startContent={<ArrowRightIcon className='h-4 w-4 text-white' />}
+						classNames={{ root: 'px-10' }}
+						color='blue'
+						leftSection={<ArrowRightIcon className='h-4 w-4 text-white' />}
 					>
 						{t('heroApplyButtonLabel')}
 					</Button>
@@ -30,9 +30,9 @@ export const UserSection = ({ session }: { session: Session | null }) => {
 			) : (
 				<Link href='/signin'>
 					<Button
-						className='px-10'
-						color='primary'
-						startContent={<UserIcon className='h-4 w-4 text-white' />}
+						classNames={{ root: 'px-10' }}
+						color='blue'
+						leftSection={<UserIcon className='h-4 w-4 text-white' />}
 					>
 						{t('heroSignInButtonLabel')}
 					</Button>

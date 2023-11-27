@@ -1,5 +1,6 @@
 import { Providers } from '@app/providers'
 import { ColorSchemeScript, MantineProvider } from '@mantine/core'
+import { theme } from '@theme/mantine'
 import { Urbanist } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { useLocale } from 'next-intl'
@@ -39,7 +40,7 @@ const RootLayout = async ({ children, params }: { children: React.ReactNode; par
 					locale={locale}
 					messages={messages as IntlMessages}
 				>
-					<MantineProvider>{children}</MantineProvider>
+					<MantineProvider theme={theme}>{children}</MantineProvider>
 				</Providers>
 			</body>
 		</html>

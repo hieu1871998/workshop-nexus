@@ -7,7 +7,8 @@
 		"password": "Password",
 		"notSignedIn": "You're not signed in",
 		"signedInAs": "Signed in as",
-		"loading": "Loading"
+		"loading": "Loading",
+		"profile": "Profile"
 	},
 	"home": {
 		"heroTitle": "Empowering growth and innovation",

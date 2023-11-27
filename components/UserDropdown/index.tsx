@@ -1,6 +1,7 @@
 'use client'
 
-import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react'
+import { Avatar, Badge, Group, Menu, Text, UnstyledButton } from '@mantine/core'
+import Link from 'next/link'
 import { Session } from 'next-auth'
 import { signOut } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
@@ -15,54 +16,74 @@ export const UserDropdown = ({ session }: UserDropdownProps) => {
 	const isAdmin = session?.user.role === 'ADMIN'
 
 	return (
-		<Dropdown
-			placement='bottom-end'
-			closeOnSelect={false}
+		<Menu
+			position='bottom-end'
+			offset={-8}
 		>
-			<DropdownTrigger>
-				<Avatar
-					isBordered
-					as='button'
-					className='transition-transform'
-					src={session?.user?.image ?? ''}
-				/>
-			</DropdownTrigger>
-			<DropdownMenu
-				aria-label='Profile Actions'
-				variant='flat'
-				disabledKeys={isAdmin ? [] : ['admin']}
-			>
-				{session ? (
-					<DropdownItem
-						key='user'
-						className='h-14 gap-2'
-						href={`/user/${session.user.id}`}
-					>
-						<p className='font-semibold'>{t('signedInAs')}</p>
-						<p className='font-semibold'>{session?.user?.email}</p>
-					</DropdownItem>
-				) : (
-					<DropdownItem key='user'>
+			<Menu.Target>
+				<UnstyledButton
+					style={{
+						padding: 'var(--mantine-spacing-md)',
+						color: 'var(--mantine-color-text)',
+						borderRadius: 'var(--mantine-radius-sm)',
+					}}
+				>
+					<Group>
+						<div className='text-right'>
+							<Text
+								size='sm'
+								fw={500}
+							>
+								{session?.user?.name}
+							</Text>
+							{isAdmin && <Badge variant='outline'>Admin</Badge>}
+						</div>
+						<Avatar
+							className='transition-transform'
+							src={session?.user?.image ?? ''}
+						/>
+					</Group>
+				</UnstyledButton>
+			</Menu.Target>
+			<Menu.Dropdown>
+				<Menu.Label>
+					{session ? (
+						<>
+							<p className='font-semibold'>{t('signedInAs')}</p>
+							<p className='font-semibold'>{session?.user?.email}</p>
+						</>
+					) : (
 						<span className='font-semibold'>{t('notSignedIn')}</span>
-					</DropdownItem>
-				)}
+					)}
+				</Menu.Label>
 				{session ? (
-					<DropdownItem
-						key='signout'
-						color='danger'
-						onPress={() => void signOut({ redirect: true, callbackUrl: '/' })}
-					>
-						{t('signOut')}
-					</DropdownItem>
+					<>
+						<Menu.Item
+							key='profile'
+							component={Link}
+							href={`/user/${session.user.id}`}
+						>
+							{t('profile')}
+						</Menu.Item>
+						<Menu.Item
+							key='signout'
+							color='red'
+							onClick={() => void signOut({ redirect: true, callbackUrl: '/' })}
+						>
+							{t('signOut')}
+						</Menu.Item>
+					</>
 				) : (
-					<DropdownItem
+					<Menu.Item
 						key='signin'
+						color='blue'
+						component={Link}
 						href='/signin'
 					>
 						{t('signIn')}
-					</DropdownItem>
+					</Menu.Item>
 				)}
-			</DropdownMenu>
-		</Dropdown>
+			</Menu.Dropdown>
+		</Menu>
 	)
 }

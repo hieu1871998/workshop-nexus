@@ -2,7 +2,7 @@
 
 import GoogleIcon from '@components/icons/Google/google-icon.svg'
 import { Logo } from '@components/icons/Logo'
-import { Button } from '@nextui-org/button'
+import { Button } from '@mantine/core'
 import { calSans } from '@theme/fonts/calsans'
 import Link from 'next/link'
 import { signIn } from 'next-auth/react'
@@ -75,9 +75,10 @@ export const SignInForm = () => {
 					})}
 				</p>
 				<Button
-					className='mt-5 w-full bg-[#4285F4] text-white'
+					classNames={{ root: 'mt-5 bg-[#4285F4]' }}
 					type='button'
-					startContent={
+					fullWidth
+					leftSection={
 						<span className='text-xl'>
 							<GoogleIcon />
 						</span>

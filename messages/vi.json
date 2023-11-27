@@ -7,7 +7,8 @@
 		"password": "Mật khẩu",
 		"notSignedIn": "Bạn chưa đăng nhập",
 		"signedInAs": "Đã đăng nhập bằng",
-		"loading": "Loading"
+		"loading": "Loading",
+		"profile": "Hồ sơ"
 	},
 	"home": {
 		"heroTitle": "Khuyến khích sự phát triển và đổi mới",
