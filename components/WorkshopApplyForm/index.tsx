@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
-import { applyWorkshop } from '@app/(user)/[locale]/apply/action'
+import { applyWorkshop } from '@app/[locale]/(user)/apply/action'
 import { Logo } from '@components/icons/Logo'
 import { LoadingDots } from '@components/LoadingDots'
 import { CameraIcon } from '@heroicons/react/24/outline'

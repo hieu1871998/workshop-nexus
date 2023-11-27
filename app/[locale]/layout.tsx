@@ -1,24 +1,19 @@
-import { Footer, Header } from '@components'
-import type { Metadata } from 'next'
+import { Providers } from '@app/providers'
+import { ColorSchemeScript, MantineProvider } from '@mantine/core'
 import { Urbanist } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { useLocale } from 'next-intl'
 
-import { Providers } from '../../providers'
-
-import '../../globals.css'
+import '@mantine/core/styles.css'
+import '../globals.css'
 
 const urbanist = Urbanist({
 	subsets: ['latin'],
 	variable: '--font-urbanist',
 })
 
-export const metadata: Metadata = {
-	title: 'Zenith',
-	description: 'A place to share your ideas with workshops, and to look forward to the upcoming ones.',
-}
-
 const RootLayout = async ({ children, params }: { children: React.ReactNode; params: { locale: 'en' | 'vi' } }) => {
+	// eslint-disable-next-line react-hooks/rules-of-hooks
 	const locale = useLocale()
 
 	// Show a 404 error if the user requests an unknown locale
@@ -29,21 +24,22 @@ const RootLayout = async ({ children, params }: { children: React.ReactNode; par
 	let messages
 	try {
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-		messages = (await import(`../../../messages/${locale}.json`)).default
+		messages = (await import(`../../messages/${locale}.json`)).default
 	} catch (error) {
 		notFound()
 	}
 
 	return (
-		<html lang={locale}>
+		<html>
+			<head>
+				<ColorSchemeScript />
+			</head>
 			<body className={urbanist.className}>
 				<Providers
 					locale={locale}
 					messages={messages as IntlMessages}
 				>
-					<Header />
-					{children}
-					<Footer />
+					<MantineProvider>{children}</MantineProvider>
 				</Providers>
 			</body>
 		</html>
