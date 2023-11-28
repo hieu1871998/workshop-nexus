@@ -10,7 +10,7 @@ import LocaleSwitcher from './LocaleSwitcher'
 
 export const Footer = () => {
 	return (
-		<footer className='border-t'>
+		<footer className='border-t bg-white'>
 			<div className='container mx-auto px-5 py-10'>
 				<div className='mb-4'>
 					<DarkModeSwitch />

@@ -1,12 +1,17 @@
 import { Providers } from '@app/providers'
 import { ColorSchemeScript, MantineProvider } from '@mantine/core'
+import { DatesProvider } from '@mantine/dates'
 import { theme } from '@theme/mantine'
 import { Urbanist } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { useLocale } from 'next-intl'
 
-import '@mantine/core/styles.css'
+import 'dayjs/locale/en'
+import 'dayjs/locale/vi'
 import '../globals.css'
+import '@mantine/core/styles.css'
+import '@mantine/dates/styles.css'
+import '@mantine/dropzone/styles.css'
 
 const urbanist = Urbanist({
 	subsets: ['latin'],
@@ -40,7 +45,9 @@ const RootLayout = async ({ children, params }: { children: React.ReactNode; par
 					locale={locale}
 					messages={messages as IntlMessages}
 				>
-					<MantineProvider theme={theme}>{children}</MantineProvider>
+					<DatesProvider settings={{ locale }}>
+						<MantineProvider theme={theme}>{children}</MantineProvider>
+					</DatesProvider>
 				</Providers>
 			</body>
 		</html>

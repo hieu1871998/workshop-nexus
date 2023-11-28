@@ -1,22 +1,25 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 import { applyWorkshop } from '@app/[locale]/(user)/apply/action'
 import { Logo } from '@components/icons/Logo'
-import { LoadingDots } from '@components/LoadingDots'
-import { CameraIcon } from '@heroicons/react/24/outline'
+import { ArrowUpIcon, CameraIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Autocomplete, Button, Group, Input, NumberInput, rem, Stack, Text, Textarea, TextInput } from '@mantine/core'
+import { DatePickerInput } from '@mantine/dates'
+import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone'
+import { useForm as useMantineForm } from '@mantine/form'
 import { useGetWorkshopCategories } from '@network/queries'
-import { Avatar, Button, Image, Input, Select, SelectItem, Textarea } from '@nextui-org/react'
 import { WorkshopThumbnail } from '@prisma/client'
 import { WorkshopApplyPayload } from '@types'
 import { fadeInDownMotion, fadeInMotion } from '@utils'
 import { m } from 'framer-motion'
+import { isEmpty } from 'lodash'
+import Image from 'next/image'
 import Link from 'next/link'
 import { Session } from 'next-auth'
 import { useTranslations } from 'next-intl'
-import Upload from 'rc-upload'
 
 const MotionTextarea = m(Textarea)
 
@@ -31,50 +34,65 @@ const required = {
 
 export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 	const t = useTranslations('apply')
-	const {
-		register,
-		handleSubmit,
-		formState: { errors, isSubmitting },
-		reset,
-	} = useForm<WorkshopApplyPayload>()
 
+	const form = useMantineForm<WorkshopApplyPayload>({
+		name: 'workshop-apply',
+		validate: {
+			topic: value => (isEmpty(value) ? 'Looks like the topic field is empty—please fill it in.' : null),
+			description: value =>
+				isEmpty(value) ? "The description field can't be left blank—please provide a description." : null,
+			categoryId: value => (isEmpty(value) ? 'Please select a category from the list provided.' : null),
+			maxParticipants: value => (value < 1 ? 'Maximum participants must be a valid number greater than zero.' : null),
+			presentationDate: value => (isEmpty(value) ? 'Please choose a valid date for the presentation.' : null),
+		},
+	})
+
+	const [loading, setLoading] = useState(false)
 	const [blob, setBlob] = useState<WorkshopThumbnail>()
+	const [files, setFiles] = useState<FileWithPath[]>([])
 	const [thumbnail, setThumbnail] = useState<{ image: string | null }>({ image: null })
 
 	const onSubmit: SubmitHandler<WorkshopApplyPayload> = async (data, event) => {
-		event?.preventDefault()
+		try {
+			setLoading(true)
+			event?.preventDefault()
 
-		const promise = applyWorkshop({
-			...data,
-			thumbnailId: blob?.id ?? '',
-		})
+			const promise = applyWorkshop({
+				...data,
+				thumbnailId: blob?.id ?? '',
+			})
 
-		await toast.promise(
-			promise,
-			{
-				loading: 'Sending your application...',
-				success: data => (
-					<div>
-						<p>
-							Your <span className='font-semibold'>{data?.topic}</span> workshop application is successful!
-						</p>
-						<p className='text-sx underline'>
-							<Link href={`/user/${session?.user.id}`}>View your workshops</Link>
-						</p>
-					</div>
-				),
-				error: 'Error',
-			},
-			{
-				style: { minWidth: '400px' },
-				success: { duration: 10000 },
-			}
-		)
+			await toast.promise(
+				promise,
+				{
+					loading: 'Sending your application...',
+					success: data => (
+						<div>
+							<p>
+								Your <span className='font-semibold'>{data?.topic}</span> workshop application is successful!
+							</p>
+							<p className='text-sx underline'>
+								<Link href={`/user/${session?.user.id}`}>View your workshops</Link>
+							</p>
+						</div>
+					),
+					error: 'Error',
+				},
+				{
+					style: { minWidth: '400px' },
+					success: { duration: 10000 },
+				}
+			)
 
-		reset()
+			setLoading(false)
+			form.reset()
+		} catch (error) {
+			console.error('Error submitting: ', error)
+			setLoading(false)
+		}
 	}
 
-	const { data: categoriesResp, isLoading, refetch } = useGetWorkshopCategories()
+	const { data: categoriesResp, refetch } = useGetWorkshopCategories()
 
 	const categoryItems =
 		categoriesResp?.map(category => ({
@@ -82,9 +100,11 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 			label: category.label,
 		})) ?? []
 
+	const previewUrl = useMemo(() => (isEmpty(files) ? undefined : URL.createObjectURL(files[0])), [files])
+
 	return (
 		<m.div
-			className='rounded-2xl border sm:shadow-2xl'
+			className='rounded-2xl border bg-white sm:shadow-2xl'
 			{...fadeInDownMotion}
 			transition={{ duration: 1 }}
 			layout
@@ -110,68 +130,68 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 			<form
 				className='flex flex-col gap-5 p-5'
 				// eslint-disable-next-line @typescript-eslint/no-misused-promises
-				onSubmit={handleSubmit(onSubmit)}
+				onSubmit={form.onSubmit(onSubmit, validationErrors => {
+					console.error('validationErrors: ', validationErrors)
+				})}
 			>
-				<Input
-					id='email'
+				<TextInput
 					label='Email'
-					{...register('email', { required })}
+					{...form.getInputProps('email')}
+					description='Your email, primed and ready'
 					value={session?.user?.email ?? ''}
-					readOnly
+					disabled
 				/>
-				<Input
-					id='topic'
+				<TextInput
+					{...form.getInputProps('topic')}
 					label='Topic'
-					{...register('topic', { required })}
-					placeholder='What is your workshop topic?'
-					isInvalid={!!errors.topic}
-					errorMessage={errors.topic?.message}
+					withAsterisk
+					description='What is your workshop about?'
+					placeholder='Input workshop topic'
 				/>
 				<MotionTextarea
-					id='description'
-					{...register('description', { required })}
+					{...form.getInputProps('description')}
 					label='Description'
-					placeholder='A little summary about your workshop'
-					isInvalid={!!errors.description}
-					errorMessage={errors.description?.message}
-					minRows={2}
-					maxRows={10}
+					description='A little summary about your workshop'
+					placeholder='Input workshop summary'
+					withAsterisk
+					autosize
+					minRows={4}
+					maxRows={8}
 					layout
 				/>
-				<Select
-					items={categoryItems}
+				<Autocomplete
+					{...form.getInputProps('categoryId')}
+					data={categoryItems}
 					label='Category'
+					description="Choose your workshop's flavor!"
 					placeholder='Select a category'
-					{...register('categoryId', { required })}
-					isInvalid={!!errors.categoryId}
-					errorMessage={errors.categoryId?.message}
-					isLoading={isLoading}
+					withAsterisk
 					onFocus={() => void refetch()}
-				>
-					{category => <SelectItem key={category.value}>{category.label}</SelectItem>}
-				</Select>
-				<div className='flex flex-row gap-5'>
-					<Input
-						id='maxParticipants'
-						label='Max participants'
-						{...register('maxParticipants', { required, min: 1, valueAsNumber: true })}
-						defaultValue='1'
-						type='number'
-						placeholder='Estimated max participants'
-						isInvalid={!!errors.maxParticipants}
-						errorMessage={errors.maxParticipants?.message}
-					/>
-					<Input
-						id='presentationDate'
-						label='Presentation date'
-						type='date'
-						{...register('presentationDate', { required, valueAsDate: true })}
-						placeholder='When can you hold your workshop?'
-						isInvalid={!!errors.presentationDate}
-						errorMessage={errors.presentationDate?.message}
-					/>
+				/>
+				<div className='grid grid-cols-2 gap-5'>
+					<div className='col-span-1'>
+						<NumberInput
+							{...form.getInputProps('maxParticipants')}
+							label='Max participants'
+							defaultValue={1}
+							min={1}
+							description='Estimated max participants'
+							placeholder='Input max participants'
+							withAsterisk
+							isAllowed={value => !isEmpty(value)}
+						/>
+					</div>
+					<div className='col-span-1'>
+						<DatePickerInput
+							{...form.getInputProps('presentationDate')}
+							label='Presentation date'
+							description='When can you hold your workshop?'
+							placeholder='Input presentation date'
+							withAsterisk
+						/>
+					</div>
 				</div>
-				<Upload
+				{/* <Upload
 					className='aspect-16/9 w-full'
 					accept='images/*'
 					onStart={file => {
@@ -204,19 +224,76 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 						/>
 					) : (
 						<Avatar
-							className='h-full w-full bg-gray-50'
-							showFallback={!blob}
-							radius='md'
+							radius={0}
 							src=''
 							fallback={<CameraIcon className='h-10 w-10 text-gray-700' />}
 						/>
 					)}
-				</Upload>
+				</Upload> */}
+				<Stack gap={5}>
+					<div>
+						<Input.Label required>Thumbnail</Input.Label>
+						<Input.Description>Sprinkle charm onto your content with a captivating thumbnail upload!</Input.Description>
+					</div>
+					<Dropzone
+						classNames={{ root: 'p-0' }}
+						onDrop={setFiles}
+						onReject={files => console.log('rejected files', files)}
+						maxSize={3 * 1024 ** 2}
+						accept={IMAGE_MIME_TYPE}
+						multiple={false}
+					>
+						<Group
+							className='relative'
+							justify='center'
+							gap='xl'
+							mih={220}
+							style={{ pointerEvents: 'none' }}
+						>
+							<Dropzone.Accept>
+								<ArrowUpIcon style={{ width: rem(40), height: rem(40), color: 'var(--mantine-color-blue-6)' }} />
+							</Dropzone.Accept>
+							<Dropzone.Reject>
+								<XMarkIcon style={{ width: rem(40), height: rem(40), color: 'var(--mantine-color-red-6)' }} />
+							</Dropzone.Reject>
+							<Dropzone.Idle>
+								<CameraIcon style={{ width: rem(40), height: rem(40), color: 'var(--mantine-color-dimmed)' }} />
+							</Dropzone.Idle>
+							{previewUrl ? (
+								<Image
+									className='h-full w-full object-cover object-center'
+									src={previewUrl}
+									alt='Thumbnail preview'
+									fill
+								/>
+							) : (
+								<div>
+									<Text
+										size='lg'
+										inline
+									>
+										Drag images here or click to select files
+									</Text>
+									<Text
+										size='sm'
+										c='dimmed'
+										inline
+										mt={7}
+									>
+										File should not exceed 5mb
+									</Text>
+								</div>
+							)}
+						</Group>
+					</Dropzone>
+				</Stack>
 				<Button
-					className='bg-black text-white'
 					type='submit'
+					loaderProps={{ type: 'dots' }}
+					fullWidth
+					loading={loading}
 				>
-					{isSubmitting ? <LoadingDots color='#fff' /> : <span>{t('apply')}</span>}
+					{t('apply')}
 				</Button>
 			</form>
 		</m.div>

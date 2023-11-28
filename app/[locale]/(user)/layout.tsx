@@ -8,11 +8,11 @@ export const metadata: Metadata = {
 
 const RootUserLayout = ({ children }: { children: React.ReactNode }) => {
 	return (
-		<>
+		<main className='bg-black-haze'>
 			<Header />
 			{children}
 			<Footer />
-		</>
+		</main>
 	)
 }
 

@@ -8,8 +8,8 @@ const BookingPage = async () => {
 	const session = await getServerSession(authOptions)
 
 	return (
-		<main className='container mx-auto max-w-5xl px-4'>
-			<div className='grid h-full grid-cols-1 gap-x-10 sm:grid-cols-2'>
+		<main className='container mx-auto max-w-6xl px-4'>
+			<div className='grid h-full grid-cols-1 gap-x-10 py-10 sm:grid-cols-2'>
 				<ApplyPageTitleSection />
 				<section className='col-span-1 flex h-full flex-col justify-center'>
 					<WorkshopApplyForm session={session} />
