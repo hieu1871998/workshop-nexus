@@ -18,6 +18,8 @@ module.exports = {
 	rules: {
 		'prettier/prettier': 'warn',
 		'simple-import-sort/exports': 2,
+		'@typescript-eslint/no-unused-vars': ['warn'],
+		'no-console': 'warn',
 		'simple-import-sort/imports': [
 			2,
 			{

@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import { FiChevronDown } from 'react-icons/fi'
-import { useGetAdminWorkshops } from '@network/queries'
+import { useGetAdminUsers, useGetAdminWorkshops } from '@network/queries'
 import {
 	Button,
 	Dropdown,
