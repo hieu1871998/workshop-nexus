@@ -1,22 +1,37 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 import { applyWorkshop } from '@app/[locale]/(user)/apply/action'
 import { Logo } from '@components/icons/Logo'
-import { ArrowUpIcon, CameraIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Autocomplete, Button, Group, Input, NumberInput, rem, Stack, Text, Textarea, TextInput } from '@mantine/core'
+import { ArrowUpIcon, BackspaceIcon, CameraIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import {
+	ActionIcon,
+	Button,
+	FileInput,
+	Group,
+	Image,
+	Input,
+	NumberInput,
+	rem,
+	Select,
+	Text,
+	Textarea,
+	TextInput,
+	Tooltip,
+} from '@mantine/core'
 import { DatePickerInput } from '@mantine/dates'
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone'
 import { useForm as useMantineForm } from '@mantine/form'
+import { uploadWorkshopThumbnail } from '@network/fetchers'
 import { useGetWorkshopCategories } from '@network/queries'
-import { WorkshopThumbnail } from '@prisma/client'
 import { WorkshopApplyPayload } from '@types'
 import { fadeInDownMotion, fadeInMotion } from '@utils'
+import dayjs from 'dayjs'
 import { m } from 'framer-motion'
 import { isEmpty } from 'lodash'
-import Image from 'next/image'
+import NextImage from 'next/image'
 import Link from 'next/link'
 import { Session } from 'next-auth'
 import { useTranslations } from 'next-intl'
@@ -27,40 +42,41 @@ interface WorkshopApplyFormProps {
 	session: Session | null
 }
 
-const required = {
-	value: true,
-	message: 'This field is required.',
-}
-
 export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 	const t = useTranslations('apply')
 
 	const form = useMantineForm<WorkshopApplyPayload>({
 		name: 'workshop-apply',
+		initialValues: {
+			email: session?.user.email ?? '',
+			topic: '',
+			description: '',
+			categoryId: '',
+			maxParticipants: 1,
+			presentationDate: dayjs().add(7, 'day').toDate(),
+			thumbnailId: '',
+		},
 		validate: {
 			topic: value => (isEmpty(value) ? 'Looks like the topic field is empty—please fill it in.' : null),
 			description: value =>
 				isEmpty(value) ? "The description field can't be left blank—please provide a description." : null,
 			categoryId: value => (isEmpty(value) ? 'Please select a category from the list provided.' : null),
 			maxParticipants: value => (value < 1 ? 'Maximum participants must be a valid number greater than zero.' : null),
-			presentationDate: value => (isEmpty(value) ? 'Please choose a valid date for the presentation.' : null),
+			presentationDate: value => (!value ? 'Please choose a valid date for the presentation.' : null),
+			thumbnailId: value => (isEmpty(value) ? 'Please upload a thumbnail.' : null),
 		},
 	})
 
 	const [loading, setLoading] = useState(false)
-	const [blob, setBlob] = useState<WorkshopThumbnail>()
 	const [files, setFiles] = useState<FileWithPath[]>([])
-	const [thumbnail, setThumbnail] = useState<{ image: string | null }>({ image: null })
+	const [uploading, setUploading] = useState(false)
 
 	const onSubmit: SubmitHandler<WorkshopApplyPayload> = async (data, event) => {
 		try {
 			setLoading(true)
 			event?.preventDefault()
 
-			const promise = applyWorkshop({
-				...data,
-				thumbnailId: blob?.id ?? '',
-			})
+			const promise = applyWorkshop(data)
 
 			await toast.promise(
 				promise,
@@ -102,9 +118,26 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 
 	const previewUrl = useMemo(() => (isEmpty(files) ? undefined : URL.createObjectURL(files[0])), [files])
 
+	const handleUpload = async (file: FileWithPath) => {
+		try {
+			setUploading(true)
+			const response = await uploadWorkshopThumbnail(file)
+
+			if (response) {
+				form.setFieldValue('thumbnailId', response.id)
+			}
+
+			setUploading(false)
+		} catch (error) {
+			console.error('Error uploading thumbnail: ', error)
+			setFiles([])
+			setLoading(false)
+		}
+	}
+
 	return (
 		<m.div
-			className='rounded-2xl border bg-white sm:shadow-2xl'
+			className='rounded-2xl border bg-white'
 			{...fadeInDownMotion}
 			transition={{ duration: 1 }}
 			layout
@@ -129,7 +162,6 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 			</div>
 			<form
 				className='flex flex-col gap-5 p-5'
-				// eslint-disable-next-line @typescript-eslint/no-misused-promises
 				onSubmit={form.onSubmit(onSubmit, validationErrors => {
 					console.error('validationErrors: ', validationErrors)
 				})}
@@ -159,14 +191,16 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 					maxRows={8}
 					layout
 				/>
-				<Autocomplete
+				<Select
 					{...form.getInputProps('categoryId')}
 					data={categoryItems}
 					label='Category'
 					description="Choose your workshop's flavor!"
 					placeholder='Select a category'
+					searchable
 					withAsterisk
 					onFocus={() => void refetch()}
+					checkIconPosition='right'
 				/>
 				<div className='grid grid-cols-2 gap-5'>
 					<div className='col-span-1'>
@@ -188,60 +222,31 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 							description='When can you hold your workshop?'
 							placeholder='Input presentation date'
 							withAsterisk
+							minDate={dayjs().add(7, 'day').toDate()}
+							defaultValue={dayjs().add(7, 'day').toDate()}
 						/>
 					</div>
 				</div>
-				{/* <Upload
-					className='aspect-16/9 w-full'
-					accept='images/*'
-					onStart={file => {
-						const reader = new FileReader()
-
-						reader.onload = event => {
-							setThumbnail(prev => ({ ...prev, image: event.target?.result as string }))
-						}
-
-						reader.readAsDataURL(file)
-					}}
-					onSuccess={res => {
-						setBlob(res as unknown as WorkshopThumbnail)
-					}}
-					onError={err => {
-						console.error('Error uploading file', err)
-					}}
-					onProgress={({ percent }) => {
-						console.log('onProgress', `${percent}%`)
-					}}
-					action={file => {
-						return `/api/upload/thumbnail?filename=${file.name}`
-					}}
+				<Input.Wrapper
+					label='Thumbnail'
+					description='Sprinkle charm onto your content with a captivating thumbnail upload!'
+					withAsterisk
+					{...form.getInputProps('thumbnailId')}
 				>
-					{thumbnail.image ? (
-						<Image
-							className='h-full w-full object-cover object-center'
-							src={thumbnail.image}
-							alt='Thumbnail'
-						/>
-					) : (
-						<Avatar
-							radius={0}
-							src=''
-							fallback={<CameraIcon className='h-10 w-10 text-gray-700' />}
-						/>
-					)}
-				</Upload> */}
-				<Stack gap={5}>
-					<div>
-						<Input.Label required>Thumbnail</Input.Label>
-						<Input.Description>Sprinkle charm onto your content with a captivating thumbnail upload!</Input.Description>
-					</div>
 					<Dropzone
-						classNames={{ root: 'p-0' }}
-						onDrop={setFiles}
+						classNames={{ root: 'p-0 my-1.5 border-red' }}
+						onDrop={files => {
+							setFiles(files)
+
+							const file = files[0]
+
+							void handleUpload(file)
+						}}
 						onReject={files => console.log('rejected files', files)}
 						maxSize={3 * 1024 ** 2}
 						accept={IMAGE_MIME_TYPE}
 						multiple={false}
+						loading={uploading}
 					>
 						<Group
 							className='relative'
@@ -261,10 +266,12 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 							</Dropzone.Idle>
 							{previewUrl ? (
 								<Image
-									className='h-full w-full object-cover object-center'
+									radius='md'
 									src={previewUrl}
 									alt='Thumbnail preview'
 									fill
+									fit='cover'
+									component={NextImage}
 								/>
 							) : (
 								<div>
@@ -286,15 +293,36 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 							)}
 						</Group>
 					</Dropzone>
-				</Stack>
-				<Button
-					type='submit'
-					loaderProps={{ type: 'dots' }}
-					fullWidth
-					loading={loading}
-				>
-					{t('apply')}
-				</Button>
+				</Input.Wrapper>
+				<FileInput
+					label='Attachments'
+					description='Additional files like documents, presentation, etc...'
+					placeholder='Upload files'
+				/>
+				<div className='flex gap-2'>
+					<Button
+						type='submit'
+						loaderProps={{ type: 'dots' }}
+						loading={loading || uploading}
+						fullWidth
+					>
+						{t('apply')}
+					</Button>
+					<Tooltip label='Reset'>
+						<ActionIcon
+							type='reset'
+							variant='default'
+							size='lg'
+							aria-label='Reset'
+							onClick={() => {
+								form.reset()
+								setFiles([])
+							}}
+						>
+							<BackspaceIcon className='h-5 w-5' />
+						</ActionIcon>
+					</Tooltip>
+				</div>
 			</form>
 		</m.div>
 	)

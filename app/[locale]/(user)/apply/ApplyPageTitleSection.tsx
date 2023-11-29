@@ -8,7 +8,7 @@ export const ApplyPageTitleSection = () => {
 	const t = useTranslations('apply')
 
 	return (
-		<m.section className='sticky top-0 col-span-1 mb-10 flex flex-col pt-28 sm:mb-0 sm:min-h-screen sm:pt-36'>
+		<m.section className='col-span-1 mb-10 flex flex-col pt-28 sm:mb-0 sm:pt-36'>
 			<m.h1
 				className={`text-4xl font-semibold ${calSans.className}`}
 				initial={{ y: 40, opacity: 0 }}

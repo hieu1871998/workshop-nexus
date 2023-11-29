@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowRightIcon, UserIcon } from '@heroicons/react/24/solid'
+import { ArrowRightIcon, UserIcon } from '@heroicons/react/24/outline'
 import { Button } from '@mantine/core'
 import { fadeInDownMotion } from '@utils'
 import { m } from 'framer-motion'

@@ -12,7 +12,7 @@ export const theme = createTheme({
 	},
 	defaultRadius: 'md',
 	black: '#202020',
-	primaryColor: 'chambray',
+	primaryColor: 'dark',
 	cursorType: 'pointer',
 	fontFamily: '--var(--font-urbanist)',
 	headings: {

@@ -1,7 +1,7 @@
 'use client'
 
 import { Key, useCallback } from 'react'
-import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid'
+import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { Chip, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from '@nextui-org/react'
 import { WorkshopStatus } from '@prisma/client'
 import { UserWithProfile, WorkshopWithCategoryAndTags } from '@types'

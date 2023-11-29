@@ -61,25 +61,26 @@ model VerificationToken {
 }
 
 model Workshop {
-  id                  String            @id @default(cuid())
+  id                  String               @id @default(cuid())
   hostId              String
   topic               String
   presentationDate    DateTime
   maxParticipants     Int
   description         String
   categoryId          String
-  status              WorkshopStatus    @default(DRAFT)
+  status              WorkshopStatus       @default(DRAFT)
   approvalDate        DateTime?
   completionDate      DateTime?
-  createdAt           DateTime          @default(now())
+  createdAt           DateTime             @default(now())
   startDate           DateTime?
   submissionDate      DateTime?
-  category            Category          @relation(fields: [categoryId], references: [id])
-  host                User              @relation("WorkshopHost", fields: [hostId], references: [id])
-  participants        User[]            @relation("WorkshopParticipant")
-  tags                WorkshopTag[]     @relation("WorkshopToWorkshopTag")
-  WorkshopThumbnail   WorkshopThumbnail @relation(fields: [workshopThumbnailId], references: [id])
-  workshopThumbnailId String            @unique
+  category            Category             @relation(fields: [categoryId], references: [id])
+  host                User                 @relation("WorkshopHost", fields: [hostId], references: [id])
+  participants        User[]               @relation("WorkshopParticipant")
+  tags                WorkshopTag[]        @relation("WorkshopToWorkshopTag")
+  workshopThumbnail   WorkshopThumbnail    @relation(fields: [workshopThumbnailId], references: [id])
+  workshopThumbnailId String               @unique
+  workshopAttachment  WorkshopAttachment[]
 }
 
 model Category {
@@ -156,4 +157,14 @@ model WorkshopThumbnail {
   contentDisposition String
   url                String
   workshop           Workshop?
+}
+
+model WorkshopAttachment {
+  id                 String    @id @default(cuid())
+  pathname           String
+  contentType        String
+  contentDisposition String
+  url                String
+  workshop           Workshop? @relation(fields: [workshopId], references: [id])
+  workshopId         String?
 }
