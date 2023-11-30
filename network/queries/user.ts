@@ -15,11 +15,18 @@ export const useGetUserWorkshops = (payload: GetUserWorkshopPayload) =>
 		queryKey: [QueryKey.GET_USER_WORKSHOPS],
 	})
 
-export const useGetAdminUsers = (payload: GetAdminUsersPayload) =>
+export const useGetInfiniteAdminUsers = (payload: GetAdminUsersPayload) =>
 	useInfiniteQuery({
 		queryKey: ['GET_ADMIN_USERS', payload],
 		queryFn: ({ pageParam = 0 }) => getAdminUsers({ ...payload, page: pageParam }),
 		refetchOnWindowFocus: false,
 		getNextPageParam: lastPage => lastPage?.nextPage,
 		initialPageParam: 0,
+	})
+
+export const useGetAdminUsers = (payload: GetAdminUsersPayload) =>
+	useQuery({
+		queryFn: () => getAdminUsers(payload),
+		queryKey: [QueryKey.GET_USER_WORKSHOPS],
+		refetchOnWindowFocus: false,
 	})
