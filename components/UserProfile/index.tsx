@@ -1,42 +1,48 @@
-'use client'
-
-import { Avatar, Chip } from '@nextui-org/react'
+import { Avatar, Badge, Card, Text } from '@mantine/core'
 import { UserWithProfile } from '@types'
 
 export const UserProfile = ({ user }: { user: UserWithProfile }) => {
 	return (
-		<div className='rounded-2xl border'>
-			<div className='flex flex-col items-center p-5'>
+		<Card
+			withBorder
+			padding='lg'
+		>
+			<div className='flex flex-col items-center'>
 				<Avatar
-					className='h-20 w-20'
+					size={120}
 					src={user?.image as string}
 				/>
-				<div className='mt-5 flex gap-2'>
+				<div className='mt-5 flex w-full flex-wrap justify-center gap-2'>
 					{user.tags.map(tag => (
-						<Chip
+						<Badge
 							key={tag.id}
-							variant={tag.variant}
 							color={tag.color}
 						>
 							{tag.label}
-						</Chip>
+						</Badge>
 					))}
 				</div>
 			</div>
-			<div className='flex flex-col gap-2 border-t p-5'>
+			<div className='mt-5 flex flex-col'>
 				<div className='grid grid-cols-4 gap-x-4'>
-					<div className='col-span-1'>Email</div>
-					<div className='font-semibold'>{user?.email}</div>
+					<div className='col-span-1'>
+						<Text c='dimmed'>Email</Text>
+					</div>
+					<Text fw={500}>{user?.email}</Text>
 				</div>
 				<div className='grid grid-cols-4 gap-x-4'>
-					<div className='col-span-1'>Name</div>
-					<div className='font-semibold'>{user?.name}</div>
+					<div className='col-span-1'>
+						<Text c='dimmed'>Name</Text>
+					</div>
+					<Text fw={500}>{user?.name}</Text>
 				</div>
 				<div className='grid grid-cols-4 gap-x-4'>
-					<div className='col-span-1'>Hosted</div>
-					<div className='font-semibold'>{user.workshopsHosted.length}</div>
+					<div className='col-span-1'>
+						<Text c='dimmed'>Hosted</Text>
+					</div>
+					<Text fw={500}>{user.workshopsHosted.length}</Text>
 				</div>
 			</div>
-		</div>
+		</Card>
 	)
 }

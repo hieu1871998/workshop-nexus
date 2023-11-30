@@ -86,24 +86,24 @@ model Workshop {
 model Category {
   id        String     @id @default(cuid())
   label     String     @unique
-  color     TagColor   @default(default)
-  variant   TagVariant @default(solid)
+  color     TagColor   @default(dark)
+  variant   TagVariant @default(default)
   workshops Workshop[]
 }
 
 model UserTag {
   id      Int        @id @default(autoincrement())
   label   String     @unique
-  variant TagVariant @default(solid)
-  color   TagColor   @default(default)
+  variant TagVariant @default(default)
+  color   TagColor   @default(dark)
   users   User[]     @relation("UserToUserTag")
 }
 
 model WorkshopTag {
   id        Int        @id @default(autoincrement())
   label     String     @unique
-  variant   TagVariant @default(solid)
-  color     TagColor   @default(default)
+  variant   TagVariant @default(default)
+  color     TagColor   @default(dark)
   workshops Workshop[] @relation("WorkshopToWorkshopTag")
 }
 
@@ -132,22 +132,30 @@ enum WorkshopStatus {
 }
 
 enum TagVariant {
-  bordered
-  dot
-  faded
-  flat
+  filled
   light
-  shadow
-  solid
+  outline
+  dot
+  transparent
+  default
+  white
 }
 
 enum TagColor {
-  default
-  primary
-  secondary
-  success
-  warning
-  danger
+  dark
+  gray
+  red
+  pink
+  grape
+  violet
+  indigo
+  blue
+  cyan
+  teal
+  green
+  lime
+  yellow
+  orange
 }
 
 model WorkshopThumbnail {
