@@ -1727,7 +1727,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formatjs/intl-localematcher@npm:0.5.2":
+"@formatjs/intl-localematcher@npm:0.5.2, @formatjs/intl-localematcher@npm:^0.5.2":
   version: 0.5.2
   resolution: "@formatjs/intl-localematcher@npm:0.5.2"
   dependencies:
@@ -14411,6 +14411,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "workshop-nexus@workspace:."
   dependencies:
+    "@formatjs/intl-localematcher": "npm:^0.5.2"
     "@heroicons/react": "npm:^2.0.18"
     "@internationalized/date": "npm:^3.5.0"
     "@mantine/colors-generator": "npm:^7.2.2"

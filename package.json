@@ -15,6 +15,7 @@
 		"db:pull": "prisma db pull"
 	},
 	"dependencies": {
+		"@formatjs/intl-localematcher": "^0.5.2",
 		"@heroicons/react": "^2.0.18",
 		"@internationalized/date": "^3.5.0",
 		"@mantine/colors-generator": "^7.2.2",

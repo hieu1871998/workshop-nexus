@@ -1,5 +1,6 @@
 import { Logo } from '@components/icons/Logo'
 import { authOptions } from '@lib/auth'
+import { calSans } from '@theme/fonts/calsans'
 import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 
@@ -10,10 +11,11 @@ export const Header = async () => {
 
 	return (
 		<header className='sticky top-0 z-50 border-b bg-white'>
-			<div className='container mx-auto flex gap-4 px-4'>
+			<div className='container mx-auto flex items-center gap-4 px-4'>
 				<Link href='/'>
-					<div className='-mx-2 p-2 text-gray-900 transition-all hover:bg-gray-900 hover:text-white'>
+					<div className='-mx-2 flex items-center gap-2 p-2 text-gray-900 transition-all hover:bg-gray-900 hover:text-white'>
 						<Logo className='h-12 w-12' />
+						<div className={`${calSans.className} text-xl`}>Zenith</div>
 					</div>
 				</Link>
 				<NavigationBar session={session} />

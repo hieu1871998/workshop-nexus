@@ -21,7 +21,6 @@ export const UserSection = ({ session }: { session: Session | null }) => {
 				<Link href='/apply'>
 					<Button
 						classNames={{ root: 'px-10' }}
-						color='blue'
 						leftSection={<ArrowRightIcon className='h-4 w-4 text-white' />}
 					>
 						{t('heroApplyButtonLabel')}
@@ -31,7 +30,6 @@ export const UserSection = ({ session }: { session: Session | null }) => {
 				<Link href='/signin'>
 					<Button
 						classNames={{ root: 'px-10' }}
-						color='blue'
 						leftSection={<UserIcon className='h-4 w-4 text-white' />}
 					>
 						{t('heroSignInButtonLabel')}

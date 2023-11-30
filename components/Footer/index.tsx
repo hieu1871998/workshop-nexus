@@ -1,6 +1,5 @@
 'use client'
 
-import { DarkModeSwitch } from '@components/DarkModeSwitch'
 import NextLogo from '@public/nextjs/icon/light-background/nextjs-icon-light-background.svg?url'
 import Turborepo from '@public/turborepo/icon/light-background/turborepo-icon-light-background.svg?url'
 import VercelLogo from '@public/vercel/icon/dark/vercel-icon-dark.svg?url'
@@ -12,9 +11,6 @@ export const Footer = () => {
 	return (
 		<footer className='border-t bg-white'>
 			<div className='container mx-auto px-5 py-10'>
-				<div className='mb-4'>
-					<DarkModeSwitch />
-				</div>
 				<div className='flex w-full items-center justify-between'>
 					<div className='flex gap-6'>
 						<a
