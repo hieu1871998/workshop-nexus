@@ -68,7 +68,7 @@ export const SignUpForm = () => {
 	}
 
 	return (
-		<div className='bg-black-haze max-w-xl rounded-2xl pb-4 pt-8 sm:shadow-2xl'>
+		<div className='max-w-xl rounded-2xl bg-black-haze pb-4 pt-8 sm:shadow-2xl'>
 			<div className='flex flex-col items-center gap-4 px-4 pb-4'>
 				<Link href='/'>
 					<Image

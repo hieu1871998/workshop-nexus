@@ -1,4 +1,5 @@
 export interface BaseListPayload {
+	query?: string
 	page?: number
 	pageSize?: number
 	cursor?: string

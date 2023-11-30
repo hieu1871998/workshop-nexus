@@ -1,6 +1,7 @@
 {
 	"typescript.tsdk": "node_modules/typescript/lib",
-	"prettier.prettierPath": "./node_modules/prettier",
+	"editor.formatOnSave": true,
+	// "prettier.prettierPath": "./node_modules/prettier",
 	"editor.codeActionsOnSave": {
 		"source.fixAll": "always"
 	}
