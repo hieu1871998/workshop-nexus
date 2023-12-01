@@ -1,6 +1,7 @@
 import { ApiRoute } from '@constants'
 import { fetcher } from '@network/utils/fetcher'
 import {
+	AdminUsers,
 	AdminUsersResponse,
 	GetAdminUsersPayload,
 	GetUserWorkshopPayload,
@@ -32,6 +33,17 @@ export const getAdminUsers = async (payload: GetAdminUsersPayload) => {
 	const url = `/api/admin/users?${queryParams.toString()}`
 
 	return fetcher<AdminUsersResponse>(url, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+}
+
+export const getAdminUserById = async (id: string) => {
+	const url = `/api/admin/users/${id}`
+
+	return fetcher<AdminUsers>(url, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',

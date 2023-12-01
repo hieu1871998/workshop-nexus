@@ -1,5 +1,5 @@
 import { QueryKey } from '@constants'
-import { getAdminUsers, getUserProfile, getUserWorkshops } from '@network/fetchers'
+import { getAdminUserById, getAdminUsers, getUserProfile, getUserWorkshops } from '@network/fetchers'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { GetAdminUsersPayload, GetUserWorkshopPayload } from '@types'
 
@@ -27,6 +27,13 @@ export const useGetInfiniteAdminUsers = (payload: GetAdminUsersPayload) =>
 export const useGetAdminUsers = (payload: GetAdminUsersPayload) =>
 	useQuery({
 		queryFn: () => getAdminUsers(payload),
+		queryKey: [QueryKey.GET_USER_WORKSHOPS],
+		refetchOnWindowFocus: false,
+	})
+
+export const useGetAdminUserById = (id: string) =>
+	useQuery({
+		queryFn: () => getAdminUserById(id),
 		queryKey: [QueryKey.GET_USER_WORKSHOPS],
 		refetchOnWindowFocus: false,
 	})

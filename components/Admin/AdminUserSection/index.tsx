@@ -5,11 +5,11 @@ import LoadingPage from '@app/[locale]/(user)/loading'
 import {
 	ActionIcon,
 	Box,
-	Button,
 	Container,
 	Flex,
 	Grid,
 	GridCol,
+	NavLink,
 	Pagination,
 	Select,
 	Table,
@@ -19,20 +19,9 @@ import {
 import { useGetAdminUsers } from '@network/queries'
 import EditIcon from '@public/icons/EditIcon'
 import SearchIcon from '@public/icons/SearchIcon'
-// import { WorkshopStatus } from '@prisma/client'
 import { AdminUsers } from '@types'
 
 import { useChangeFilter } from './components/useChangeFilter'
-
-// const DEFAULT_STATUSES: WorkshopStatus[] = [
-// 	'APPROVED',
-// 	'CANCELED',
-// 	'COMPLETED',
-// 	'DRAFT',
-// 	'ONGOING',
-// 	'PENDING',
-// 	'REJECTED',
-// ]
 
 const HEAD = ['Name', 'Email', '']
 
@@ -41,6 +30,27 @@ export const AdminUserSection = () => {
 	const [search, setSearch] = useState('')
 
 	const { data, isLoading, isFetching, refetch } = useGetAdminUsers(payload)
+
+	const ButtonGroup = memo(({ user }: { user: AdminUsers }) => {
+		return (
+			<>
+				<NavLink href={`/admin/users/${user.id}/edit`}>
+					<ActionIcon
+						key={user.id}
+						color='yellow'
+						aria-label='Settings'
+					>
+						<EditIcon />
+					</ActionIcon>
+				</NavLink>
+				<NavLink
+					href={`/admin/users/${user.id}/edit`}
+					leftSection={<EditIcon />}
+				/>
+			</>
+		)
+	})
+	ButtonGroup.displayName = 'button'
 
 	const body = useMemo(
 		() =>
@@ -52,12 +62,8 @@ export const AdminUserSection = () => {
 					key={user.id}
 				/>,
 			]) ?? [],
-		[data?.users]
+		[ButtonGroup, data?.users]
 	)
-
-	// const hasMore = useMemo(() => data?.pages?.[data.pages.length - 1]?.hasNextPage, [data?.pages])
-
-	// const loadingState = useMemo(() => (isLoading ? 'loading' : 'idle'), [isLoading])
 
 	const tableData: TableData = {
 		head: HEAD,
@@ -131,19 +137,3 @@ export const AdminUserSection = () => {
 		</section>
 	)
 }
-
-const ButtonGroup = memo(({ user }: { user: AdminUsers }) => {
-	return (
-		<>
-			<ActionIcon
-				key={user.id}
-				color='yellow'
-				aria-label='Settings'
-				onClick={() => console.log(12)}
-			>
-				<EditIcon />
-			</ActionIcon>
-		</>
-	)
-})
-ButtonGroup.displayName = 'button'
