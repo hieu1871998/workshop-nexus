@@ -64,6 +64,7 @@ model Workshop {
   id                  String               @id @default(cuid())
   hostId              String
   topic               String
+  slug                String               @unique
   presentationDate    DateTime
   maxParticipants     Int
   description         String

@@ -1,7 +1,10 @@
+import { EnvelopeIcon, SignalIcon } from '@heroicons/react/24/outline'
 import { Avatar, Badge, Card, Text } from '@mantine/core'
 import { UserWithProfile } from '@types'
+import { useTranslations } from 'next-intl'
 
 export const UserProfile = ({ user }: { user: UserWithProfile }) => {
+	const t = useTranslations('userPage.miniProfile')
 	return (
 		<Card
 			withBorder
@@ -12,6 +15,13 @@ export const UserProfile = ({ user }: { user: UserWithProfile }) => {
 					size={120}
 					src={user?.image as string}
 				/>
+				<Text
+					fw={600}
+					ta='center'
+					size='xl'
+				>
+					{user?.name}
+				</Text>
 				<div className='mt-5 flex w-full flex-wrap justify-center gap-2'>
 					{user.tags.map(tag => (
 						<Badge
@@ -23,24 +33,24 @@ export const UserProfile = ({ user }: { user: UserWithProfile }) => {
 					))}
 				</div>
 			</div>
-			<div className='mt-5 flex flex-col'>
-				<div className='grid grid-cols-4 gap-x-4'>
-					<div className='col-span-1'>
-						<Text c='dimmed'>Email</Text>
-					</div>
-					<Text fw={500}>{user?.email}</Text>
+			<div className='mt-5 flex flex-col gap-2'>
+				<div className='flex items-center gap-2'>
+					<EnvelopeIcon className='h-6 w-6' />
+					<Text
+						fw={500}
+						c='dimmed'
+					>
+						{user?.email}
+					</Text>
 				</div>
-				<div className='grid grid-cols-4 gap-x-4'>
-					<div className='col-span-1'>
-						<Text c='dimmed'>Name</Text>
-					</div>
-					<Text fw={500}>{user?.name}</Text>
-				</div>
-				<div className='grid grid-cols-4 gap-x-4'>
-					<div className='col-span-1'>
-						<Text c='dimmed'>Hosted</Text>
-					</div>
-					<Text fw={500}>{user.workshopsHosted.length}</Text>
+				<div className='flex items-center gap-2'>
+					<SignalIcon className='h-6 w-6' />
+					<Text
+						fw={500}
+						c='dimmed'
+					>
+						{t('hostedValue', { count: user.workshopsHosted.length })}
+					</Text>
 				</div>
 			</div>
 		</Card>

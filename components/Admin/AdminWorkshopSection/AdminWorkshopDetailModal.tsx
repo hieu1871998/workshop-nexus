@@ -2,14 +2,14 @@ import { useApproveWorkshop, useGetWorkshop } from '@network/queries'
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Skeleton } from '@nextui-org/react'
 
 interface AdminWorkshopDetailModal {
-	id: string
+	slug: string
 	isOpen: boolean
 	onOpenChange: () => void
 	onClose: () => void
 }
 
-export const AdminWorkshopDetailModal = ({ id, isOpen, onOpenChange, onClose }: AdminWorkshopDetailModal) => {
-	const { data: workshopDetailResp, isFetched } = useGetWorkshop(id, isOpen)
+export const AdminWorkshopDetailModal = ({ slug, isOpen, onOpenChange, onClose }: AdminWorkshopDetailModal) => {
+	const { data: workshopDetailResp, isFetched } = useGetWorkshop(slug, isOpen)
 	const { mutateAsync: approve, isPending } = useApproveWorkshop({
 		onSuccess: resp => {
 			console.log('onSuccess: ', resp)
@@ -21,7 +21,7 @@ export const AdminWorkshopDetailModal = ({ id, isOpen, onOpenChange, onClose }: 
 	})
 
 	const onApprove = async () => {
-		await approve(id)
+		await approve(slug)
 	}
 
 	return (

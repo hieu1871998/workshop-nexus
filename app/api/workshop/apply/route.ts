@@ -1,5 +1,6 @@
 import prisma from '@lib/prisma'
 import { WorkshopApplyPayload } from '@types'
+import { convertToSlug } from '@utils'
 import { NextRequest, NextResponse } from 'next/server'
 
 export const POST = async (request: NextRequest) => {
@@ -16,6 +17,7 @@ export const POST = async (request: NextRequest) => {
 			const workshop = await prisma.workshop.create({
 				data: {
 					description: data.description,
+					slug: convertToSlug(data.topic),
 					maxParticipants: data.maxParticipants,
 					presentationDate: data.presentationDate,
 					topic: data.topic,

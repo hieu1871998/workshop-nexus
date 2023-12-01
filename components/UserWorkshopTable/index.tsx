@@ -1,10 +1,11 @@
 'use client'
 
-import { Key, useCallback } from 'react'
-import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
-import { Chip, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from '@nextui-org/react'
-import { WorkshopStatus } from '@prisma/client'
+import { ArrowRightIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
+import { ActionIcon, Badge, Group, Paper, Table, Text, Tooltip } from '@mantine/core'
 import { UserWithProfile, WorkshopWithCategoryAndTags } from '@types'
+import { getBadgeColor } from '@utils'
+import dayjs from 'dayjs'
+import Link from 'next/link'
 
 interface UserWorkshopTableProps {
 	workshops: WorkshopWithCategoryAndTags[]
@@ -12,119 +13,130 @@ interface UserWorkshopTableProps {
 }
 
 export const UserWorkshopTable = ({ workshops }: UserWorkshopTableProps) => {
-	const columns = [
-		{
-			key: 'topic',
-			label: 'Topic',
-		},
-		{
-			key: 'description',
-			label: 'Description',
-		},
-		// {
-		//   key: 'category',
-		//   label: 'Category'
-		// },
-		// {
-		//   key: 'tags',
-		//   label: 'Tags'
-		// },
-		// {
-		//   key: 'maxParticipants',
-		//   label: 'Participants'
-		// },
-		{
-			key: 'status',
-			label: 'Status',
-		},
-		{
-			key: 'action',
-			label: 'Action',
-		},
-	]
-
-	const renderCell = useCallback((workshop: WorkshopWithCategoryAndTags, key: Key) => {
-		const cellValue = workshop[key as keyof typeof workshop]
-
-		switch (key) {
-			case 'topic':
-			case 'description':
-				return <p className='text-base'>{cellValue as string}</p>
-			case 'maxParticipants':
-				return <p className='text-center text-base'>{workshop._count.participants}</p>
-			case 'category':
-				return (
-					<div className='flex justify-center'>
-						<Chip
-							variant={workshop.category.variant}
-							color={workshop.category.color}
+	const rows = workshops.map(workshop => (
+		<Table.Tr key={workshop.id}>
+			<Table.Td>
+				<Text c='blue'>
+					<Link
+						href={`/workshop/${workshop.slug}`}
+						className='flex items-center gap-1 hover:underline'
+					>
+						<Text
+							size='sm'
+							fw={500}
 						>
-							{workshop.category.label}
-						</Chip>
-					</div>
-				)
-			case 'tags':
-				return (
-					<div className='flex justify-center gap-2'>
-						{workshop.tags.map(tag => (
-							<Chip
-								key={tag.id}
-								variant={tag.variant}
-								color={tag.color}
-							>
-								{tag.label}
-							</Chip>
-						))}
-					</div>
-				)
-			case 'status':
-				return (
-					<div className='flex justify-center'>
-						<Chip variant='dot'>{cellValue as WorkshopStatus}</Chip>
-					</div>
-				)
-			case 'action':
-				return (
-					<div className='flex justify-center gap-2'>
-						<Tooltip
-							content='Update'
-							color='primary'
+							{workshop.topic}
+						</Text>
+						<ArrowRightIcon className='h-4 w-4' />
+					</Link>
+				</Text>
+			</Table.Td>
+			<Table.Td maw={360}>
+				<Text size='sm'>{workshop.description}</Text>
+			</Table.Td>
+			<Table.Td>
+				<div className='flex items-center justify-center'>
+					<Badge
+						variant='dot'
+						color={getBadgeColor(workshop.status)}
+					>
+						{workshop.status}
+					</Badge>
+				</div>
+			</Table.Td>
+			<Table.Td>
+				<Text
+					size='sm'
+					ta='center'
+				>
+					{dayjs(workshop.presentationDate).format('HH:mm')}
+				</Text>
+				<Text
+					size='sm'
+					ta='center'
+				>
+					{dayjs(workshop.presentationDate).format('YYYY, DD MMM')}
+				</Text>
+			</Table.Td>
+			<Table.Td>
+				<Group
+					gap={8}
+					justify='center'
+				>
+					<Tooltip label='Update'>
+						<ActionIcon variant='subtle'>
+							<PencilSquareIcon className='h-4 w-4' />
+						</ActionIcon>
+					</Tooltip>
+					<Tooltip label='Cancel'>
+						<ActionIcon
+							variant='subtle'
+							color='red'
 						>
-							<div className='p-1'>
-								<PencilSquareIcon className='h-5 w-5 cursor-pointer' />
-							</div>
-						</Tooltip>
-						<Tooltip
-							content='Cancel'
-							color='danger'
-						>
-							<div className='p-1'>
-								<TrashIcon className='h-5 w-5 cursor-pointer text-red-500' />
-							</div>
-						</Tooltip>
-					</div>
-				)
-			default:
-				return cellValue as string
-		}
-	}, [])
+							<TrashIcon className='h-4 w-4' />
+						</ActionIcon>
+					</Tooltip>
+				</Group>
+			</Table.Td>
+		</Table.Tr>
+	))
 
 	return (
-		<Table
-			classNames={{
-				wrapper: 'border shadow-none rounded-2xl',
-				th: 'text-center text-base text-white bg-black',
-			}}
-			aria-label='Users hosted workshops'
-			isVirtualized
-			isHeaderSticky
+		<Paper
+			withBorder
+			p={20}
 		>
-			<TableHeader columns={columns}>
-				{column => <TableColumn key={column.key}>{column.label}</TableColumn>}
-			</TableHeader>
-			<TableBody items={workshops}>
-				{item => <TableRow key={item.id}>{key => <TableCell>{renderCell(item, key)}</TableCell>}</TableRow>}
-			</TableBody>
-		</Table>
+			<Table
+				stickyHeader
+				highlightOnHover
+				captionSide='top'
+			>
+				<Table.Thead>
+					<Table.Tr>
+						<Table.Th>
+							<Text
+								ta='center'
+								fw={600}
+							>
+								Topic
+							</Text>
+						</Table.Th>
+						<Table.Th>
+							<Text
+								ta='center'
+								fw={600}
+							>
+								Description
+							</Text>
+						</Table.Th>
+						<Table.Th>
+							<Text
+								ta='center'
+								fw={600}
+							>
+								Status
+							</Text>
+						</Table.Th>
+						<Table.Th>
+							<Text
+								ta='center'
+								fw={600}
+							>
+								Start
+							</Text>
+						</Table.Th>
+						<Table.Th>
+							<Text
+								ta='center'
+								fw={600}
+							>
+								Action
+							</Text>
+						</Table.Th>
+					</Table.Tr>
+				</Table.Thead>
+				<Table.Tbody>{rows}</Table.Tbody>
+			</Table>
+		</Paper>
 	)
 }

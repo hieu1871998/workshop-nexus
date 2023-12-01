@@ -2,9 +2,9 @@ import prisma from '@lib/prisma'
 import { Prisma } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 
-const getWorkshopDetail = async (id: string) => {
+const getWorkshopDetail = async (slug: string) => {
 	const data = await prisma.workshop.findUnique({
-		where: { id },
+		where: { slug },
 		include: {
 			category: true,
 			host: true,
@@ -19,12 +19,12 @@ const getWorkshopDetail = async (id: string) => {
 	return data
 }
 
-export const GET = async (_: NextRequest, context: { params: { id: string } }) => {
-	const { id } = context.params
+export const GET = async (_: NextRequest, context: { params: { slug: string } }) => {
+	const { slug } = context.params
 
 	try {
 		const data = await prisma.workshop.findUnique({
-			where: { id },
+			where: { slug },
 			include: {
 				category: true,
 				host: true,

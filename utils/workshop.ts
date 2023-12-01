@@ -1,21 +1,21 @@
+import { DefaultMantineColor } from '@mantine/core'
 import { Workshop } from '@prisma/client'
-import { Color } from '@tremor/react'
 
-export const getBadgeColor = (status: Workshop['status']): Color => {
+export const getBadgeColor = (status: Workshop['status']): DefaultMantineColor => {
 	switch (status) {
 		case 'APPROVED':
 			return 'green'
 		case 'CANCELED':
 			return 'red'
 		case 'COMPLETED':
-			return 'blue'
+			return 'teal'
 		case 'ONGOING':
-			return 'orange'
+			return 'blue'
 		case 'PENDING':
 			return 'yellow'
 		case 'REJECTED':
 			return 'red'
 		case 'DRAFT':
-			return 'neutral'
+			return 'dark'
 	}
 }

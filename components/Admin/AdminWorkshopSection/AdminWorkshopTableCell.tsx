@@ -94,7 +94,7 @@ export const AdminWorkshopTableCell = ({ workshop, columnKey }: AdminWorkshopTab
 	return (
 		<>
 			<AdminWorkshopDetailModal
-				id={workshop.id}
+				slug={workshop.slug}
 				isOpen={isOpen}
 				onOpenChange={onOpenChange}
 				onClose={onClose}

@@ -21,7 +21,7 @@ import {
 	TextInput,
 	Tooltip,
 } from '@mantine/core'
-import { DatePickerInput } from '@mantine/dates'
+import { DateTimePicker } from '@mantine/dates'
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone'
 import { useForm as useMantineForm } from '@mantine/form'
 import { uploadWorkshopThumbnail } from '@network/fetchers'
@@ -216,7 +216,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 						/>
 					</div>
 					<div className='col-span-1'>
-						<DatePickerInput
+						<DateTimePicker
 							{...form.getInputProps('presentationDate')}
 							label='Presentation date'
 							description='When can you hold your workshop?'
@@ -224,6 +224,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 							withAsterisk
 							minDate={dayjs().add(7, 'day').toDate()}
 							defaultValue={dayjs().add(7, 'day').toDate()}
+							valueFormat='YYYY, DD MMM - HH:mm'
 						/>
 					</div>
 				</div>

@@ -21,10 +21,10 @@ export const useGetWorkshops = () =>
 		queryFn: () => fetchWorkshops(),
 	})
 
-export const useGetWorkshop = (id: string, enabled: boolean) =>
+export const useGetWorkshop = (slug: string, enabled: boolean) =>
 	useQuery({
-		queryKey: ['WORKSHOP_DETAIL', id],
-		queryFn: () => getWorkshopDetail(id),
+		queryKey: ['WORKSHOP_DETAIL', slug],
+		queryFn: () => getWorkshopDetail(slug),
 		enabled: enabled,
 	})
 

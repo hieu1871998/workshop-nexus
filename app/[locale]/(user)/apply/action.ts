@@ -2,6 +2,7 @@
 
 import prisma from '@lib/prisma'
 import { WorkshopApplyPayload } from '@types'
+import { convertToSlug } from '@utils'
 
 export const applyWorkshop = async (data: WorkshopApplyPayload) => {
 	const user = await prisma.user.findUnique({
@@ -14,6 +15,7 @@ export const applyWorkshop = async (data: WorkshopApplyPayload) => {
 		const workshop = await prisma.workshop.create({
 			data: {
 				description: data.description,
+				slug: convertToSlug(data.topic),
 				maxParticipants: data.maxParticipants,
 				presentationDate: data.presentationDate,
 				topic: data.topic,
