@@ -23,7 +23,6 @@ export const UserDropdown = ({ session }: UserDropdownProps) => {
 			<Menu.Target>
 				<UnstyledButton
 					style={{
-						padding: 'var(--mantine-spacing-md)',
 						color: 'var(--mantine-color-text)',
 						borderRadius: 'var(--mantine-radius-sm)',
 					}}

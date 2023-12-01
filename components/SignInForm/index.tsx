@@ -2,7 +2,7 @@
 
 import GoogleIcon from '@components/icons/Google/google-icon.svg'
 import { Logo } from '@components/icons/Logo'
-import { Button } from '@mantine/core'
+import { Button, Paper } from '@mantine/core'
 import { calSans } from '@theme/fonts/calsans'
 import Link from 'next/link'
 import { signIn } from 'next-auth/react'
@@ -63,7 +63,10 @@ export const SignInForm = () => {
 	// }
 
 	return (
-		<div className='max-w-xl rounded-2xl bg-black-haze pb-4 pt-8 sm:shadow-2xl'>
+		<Paper
+			withBorder
+			className='max-w-xl pb-4 pt-8'
+		>
 			<div className='flex flex-col items-center gap-4 px-4 pb-4'>
 				<Link href='/'>
 					<Logo className='h-12 w-12' />
@@ -145,6 +148,6 @@ export const SignInForm = () => {
 					),
 				})}
 			</p> */}
-		</div>
+		</Paper>
 	)
 }
