@@ -16,6 +16,10 @@ import {
 	Select,
 	Table,
 	TableData,
+	TableTd,
+	TableTh,
+	TableThead,
+	TableTr,
 	Text,
 	TextInput,
 } from '@mantine/core'
@@ -26,7 +30,7 @@ import { AdminUsers, getRoleColor } from '@types'
 
 import { useChangeFilter } from './components/useChangeFilter'
 
-const HEAD = ['Name', 'Email', 'Workshops Hosted', 'Workshops Participated', 'Role', 'Tag', '']
+const HEAD = ['Name', 'Email', 'Role', 'Workshops Hosted', 'Workshops Participated', 'Tag', '']
 
 export const AdminUserSection = () => {
 	const [payload, setPayload] = useChangeFilter()
@@ -37,10 +41,9 @@ export const AdminUserSection = () => {
 	const ButtonGroup = memo(({ user }: { user: AdminUsers }) => {
 		return (
 			<>
-				<NavLink
-					href={`/admin/users/${user.id}/edit`}
-					leftSection={<EditIcon />}
-				/>
+				<a href={`/admin/users/${user.id}/edit`}>
+					<EditIcon />
+				</a>
 			</>
 		)
 	})
@@ -61,8 +64,6 @@ export const AdminUserSection = () => {
 					<Text>{user.name}</Text>
 				</Flex>,
 				user.email,
-				user?.workshopsHosted?.length,
-				user?.workshopsParticipated?.length,
 				<Badge
 					key={user.id}
 					color={getRoleColor(user.role)}
@@ -70,8 +71,9 @@ export const AdminUserSection = () => {
 				>
 					{user.role}
 				</Badge>,
-				<Group
-					gap='xs'
+				user?.workshopsHosted?.length,
+				user?.workshopsParticipated?.length,
+				<Box
 					key={user.id}
 					style={{ maxWidth: 300 }}
 				>
@@ -83,7 +85,7 @@ export const AdminUserSection = () => {
 							{tag.label}
 						</Badge>
 					))}
-				</Group>,
+				</Box>,
 				<ButtonGroup
 					user={user}
 					key={user.id}
@@ -132,6 +134,68 @@ export const AdminUserSection = () => {
 								highlightOnHover
 								data={tableData}
 							/>
+							{/* <Table>
+								<TableThead>
+									<TableTr>
+										{HEAD.map((head, idx) => (
+											<TableTh key={idx}>{head}</TableTh>
+										))}
+									</TableTr>
+								</TableThead>
+								<Table.Tbody>
+									{data?.users.map(user => {
+										return (
+											<TableTr key={user.id}>
+												<TableTd>
+													<Flex
+														align='center'
+														gap='sm'
+													>
+														<Avatar
+															src={user.image || null}
+															size='sm'
+														/>
+														<Text>{user.name}</Text>
+													</Flex>
+												</TableTd>
+												<Table.Td>{user.email}</Table.Td>
+												<Table.Td>
+													<Badge
+														key={user.id}
+														color={getRoleColor(user.role)}
+														style={{ minWidth: 70 }}
+													>
+														{user.role}
+													</Badge>
+												</Table.Td>
+												<Table.Td>{user?.workshopsHosted?.length}</Table.Td>
+												<Table.Td>{user?.workshopsParticipated?.length}</Table.Td>
+												<Table.Td>
+													<Box
+														key={user.id}
+														style={{ maxWidth: 300 }}
+													>
+														{user.tags.map(tag => (
+															<Badge
+																key={tag.id}
+																color={tag.color}
+															>
+																{tag.label}
+															</Badge>
+														))}
+													</Box>
+												</Table.Td>
+												<Table.Td>
+													<ButtonGroup
+														user={user}
+														key={user.id}
+													/>
+												</Table.Td>
+											</TableTr>
+										)
+									})}
+								</Table.Tbody>
+							</Table> */}
 						</Box>
 					</GridCol>
 
@@ -141,6 +205,12 @@ export const AdminUserSection = () => {
 								align='center'
 								gap='sm'
 							>
+								{!!data.total && (
+									<Text size='sm'>
+										{((payload.page || 1) - 1) * (payload.pageSize || 10) + 1} -{' '}
+										{Math.min((payload.page || 0) * (payload?.pageSize || 10), data.total)} in {data.total}
+									</Text>
+								)}
 								<Select
 									style={{ width: '95px' }}
 									data={['10 / page', '25 / page', '50 / page']}
