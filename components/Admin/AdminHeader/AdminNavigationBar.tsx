@@ -46,6 +46,9 @@ export const AdminNavigationBar = ({ session }: AdminNavigationBarProps) => {
 					<NavbarItem isActive={pathname === '/admin/workshop'}>
 						<Link href='/admin/workshop'>Workshops</Link>
 					</NavbarItem>
+					<NavbarItem isActive={pathname === '/admin/users'}>
+						<Link href='/admin/users'>Users</Link>
+					</NavbarItem>
 				</NavbarContent>
 				<NavbarContent
 					as='div'
