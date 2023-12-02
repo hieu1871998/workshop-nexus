@@ -1,6 +1,7 @@
 import { Providers } from '@app/providers'
 import { ColorSchemeScript, MantineProvider } from '@mantine/core'
 import { DatesProvider } from '@mantine/dates'
+import { ModalsProvider } from '@mantine/modals'
 import { theme } from '@theme/mantine'
 import { Urbanist } from 'next/font/google'
 import { notFound } from 'next/navigation'
@@ -45,9 +46,11 @@ const RootLayout = async ({ children, params }: { children: React.ReactNode; par
 					locale={locale}
 					messages={messages as IntlMessages}
 				>
-					<DatesProvider settings={{ locale }}>
-						<MantineProvider theme={theme}>{children}</MantineProvider>
-					</DatesProvider>
+					<MantineProvider theme={theme}>
+						<DatesProvider settings={{ locale }}>
+							<ModalsProvider>{children}</ModalsProvider>
+						</DatesProvider>
+					</MantineProvider>
 				</Providers>
 			</body>
 		</html>

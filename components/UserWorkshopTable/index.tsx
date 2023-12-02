@@ -1,7 +1,7 @@
 'use client'
 
-import { ArrowRightIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
-import { ActionIcon, Badge, Group, Paper, Table, Text, Tooltip } from '@mantine/core'
+import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
+import { ActionIcon, Anchor, Badge, Group, Paper, Table, Text, Tooltip } from '@mantine/core'
 import { UserWithProfile, WorkshopWithCategoryAndTags } from '@types'
 import { getBadgeColor } from '@utils'
 import dayjs from 'dayjs'
@@ -21,18 +21,16 @@ export const UserWorkshopTable = ({ workshops, user, session }: UserWorkshopTabl
 		<Table.Tr key={workshop.id}>
 			<Table.Td>
 				<Text c='blue'>
-					<Link
+					<Anchor
 						href={`/workshop/${workshop.slug}`}
-						className='flex items-center gap-1 hover:underline'
+						className='flex items-center gap-1'
+						component={Link}
+						c='blue'
+						fw={600}
+						size='sm'
 					>
-						<Text
-							size='sm'
-							fw={500}
-						>
-							{workshop.topic}
-						</Text>
-						<ArrowRightIcon className='h-4 w-4' />
-					</Link>
+						{workshop.topic}
+					</Anchor>
 				</Text>
 			</Table.Td>
 			<Table.Td maw={360}>

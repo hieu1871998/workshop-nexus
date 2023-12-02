@@ -2029,6 +2029,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mantine/modals@npm:^7.2.2":
+  version: 7.2.2
+  resolution: "@mantine/modals@npm:7.2.2"
+  peerDependencies:
+    "@mantine/core": 7.2.2
+    "@mantine/hooks": 7.2.2
+    react: ^18.2.0
+    react-dom: ^18.2.0
+  checksum: 1dd4286feb4198f42435395ab24072a901b00067e7e3497f0257946e3b96f3dbb2b36bcb30e4dd165c4238144a922d96c846602816ec344958577e0630a37096
+  languageName: node
+  linkType: hard
+
 "@mantine/spotlight@npm:^7.2.2":
   version: 7.2.2
   resolution: "@mantine/spotlight@npm:7.2.2"
@@ -14439,6 +14451,7 @@ __metadata:
     "@mantine/dropzone": "npm:^7.2.2"
     "@mantine/form": "npm:^7.2.2"
     "@mantine/hooks": "npm:^7.2.2"
+    "@mantine/modals": "npm:^7.2.2"
     "@mantine/spotlight": "npm:^7.2.2"
     "@mantine/tiptap": "npm:^7.2.2"
     "@next-auth/prisma-adapter": "npm:^1.0.7"

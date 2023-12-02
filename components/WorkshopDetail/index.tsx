@@ -4,6 +4,7 @@ import { WorkshopDetail as WorkshopDetailType } from '@app/api/workshop/[slug]/r
 import { OtherWorkshopItem } from '@components/OtherWorkshopItem'
 import { ArrowLeftIcon, CalendarDaysIcon } from '@heroicons/react/24/outline'
 import { Avatar, Badge, Button, Card, Group, Paper, Stack, Text, Title } from '@mantine/core'
+import { modals } from '@mantine/modals'
 import { fetcher } from '@network/utils/fetcher'
 import { getBadgeColor } from '@utils'
 import dayjs from 'dayjs'
@@ -24,6 +25,7 @@ interface WorkshopDetailProps {
 
 export const WorkshopDetail = ({ session, workshop, otherWorkshops }: WorkshopDetailProps) => {
 	const t = useTranslations('workshopDetailpage')
+
 	const handleAttend = async () => {
 		try {
 			const attended = await fetcher('/api/workshop/attend', {
@@ -39,6 +41,14 @@ export const WorkshopDetail = ({ session, workshop, otherWorkshops }: WorkshopDe
 			console.error('error attending: ', error)
 		}
 	}
+
+	const openModal = () =>
+		modals.openConfirmModal({
+			title: t('attendModal.title'),
+			labels: { confirm: t('attendModal.confirm'), cancel: t('attendModal.cancel') },
+			onCancel: () => console.log('Cancel'),
+			onConfirm: () => void handleAttend(),
+		})
 
 	const isOwnWorkshop = session?.user.id === workshop?.hostId
 
@@ -67,7 +77,7 @@ export const WorkshopDetail = ({ session, workshop, otherWorkshops }: WorkshopDe
 						<Button
 							px={80}
 							size='lg'
-							onClick={() => void handleAttend()}
+							onClick={openModal}
 							disabled={isOwnWorkshop}
 						>
 							{t('attendButtonTitle')}
