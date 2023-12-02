@@ -10,6 +10,7 @@ import {
 	Flex,
 	Grid,
 	GridCol,
+	Group,
 	NavLink,
 	Pagination,
 	Select,
@@ -45,8 +46,6 @@ export const AdminUserSection = () => {
 	})
 	ButtonGroup.displayName = 'button'
 
-	console.log(data?.users)
-
 	const body = useMemo(
 		() =>
 			data?.users.map(user => [
@@ -71,7 +70,20 @@ export const AdminUserSection = () => {
 				>
 					{user.role}
 				</Badge>,
-				user?.tags?.join(','),
+				<Group
+					gap='xs'
+					key={user.id}
+					style={{ maxWidth: 300 }}
+				>
+					{user.tags.map(tag => (
+						<Badge
+							key={tag.id}
+							color={tag.color}
+						>
+							{tag.label}
+						</Badge>
+					))}
+				</Group>,
 				<ButtonGroup
 					user={user}
 					key={user.id}

@@ -2,21 +2,43 @@
 
 import toast from 'react-hot-toast'
 import { AdminUserResponse } from '@app/[locale]/(admin)/admin/users/[id]/edit/action'
-import { Button, Grid, GridCol, Group, Select, TagsInput, TextInput } from '@mantine/core'
+import {
+	Avatar,
+	Badge,
+	Box,
+	Button,
+	Flex,
+	Grid,
+	GridCol,
+	Group,
+	MultiSelect,
+	Select,
+	Text,
+	TextInput,
+} from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { updateAdminUsers } from '@network/fetchers'
-import { Role } from '@prisma/client'
+import { Role, UserTag } from '@prisma/client'
 import { AdminUsers } from '@types'
 
-const AdminUserDetail = ({ user }: { user: AdminUserResponse }) => {
-	const { getInputProps, isDirty, reset, onSubmit } = useForm<AdminUserResponse>({
-		initialValues: user,
+export interface UserForm {
+	id: string
+	tags: string[]
+	role: Role
+}
+
+const AdminUserDetail = ({ user, userTags }: { user: AdminUserResponse; userTags: UserTag[] }) => {
+	const { getInputProps, isDirty, reset, onSubmit } = useForm<UserForm>({
+		initialValues: {
+			id: user.id,
+			tags: user.tags.map(tag => tag.label),
+			role: user.role,
+		},
 		validate: {},
 	})
-
-	const handleSubmit = (value: AdminUserResponse) => {
+	const handleSubmit = (value: UserForm) => {
 		const request = {
-			tags: value.tags,
+			tags: userTags.filter(tag => value.tags.includes(tag.label)),
 			role: value.role,
 		} as AdminUsers
 		updateAdminUsers(value.id, request)
@@ -28,35 +50,58 @@ const AdminUserDetail = ({ user }: { user: AdminUserResponse }) => {
 
 	return (
 		<section>
-			<Group justify='flex-end'>
-				{isDirty() && (
+			<Flex
+				justify='space-between'
+				align='flex-start'
+			>
+				<Flex gap='sm'>
+					<Avatar
+						src={user.image || null}
+						size='lg'
+					/>
+					<Flex direction='column'>
+						<Text
+							fw='bold'
+							size='lg'
+						>
+							{user.name}
+						</Text>
+						<Text>{user.email}</Text>
+					</Flex>
+				</Flex>
+
+				<Group justify='flex-end'>
+					{isDirty() && (
+						<Button
+							color='red'
+							onClick={reset}
+							variant='outline'
+						>
+							Cancel
+						</Button>
+					)}
 					<Button
-						color='red'
-						onClick={reset}
-						variant='outline'
+						onClick={() => onSubmit(handleSubmit)()}
+						color='blue'
+						disabled={!isDirty()}
 					>
-						Cancel
+						Save
 					</Button>
-				)}
-				<Button onClick={() => onSubmit(handleSubmit)()}>Save</Button>
-			</Group>
+				</Group>
+			</Flex>
 
-			<Grid>
-				<GridCol span={6}>
-					<TextInput
-						label='Name'
-						disabled
-						value={user.name || ''}
-					/>
-				</GridCol>
-				<GridCol span={6}>
-					<TextInput
-						label='Email'
-						disabled
-						value={user.email || ''}
-					/>
-				</GridCol>
+			<Box style={{ maxWidth: 800 }}>
+				{user.tags.map(tag => (
+					<Badge
+						key={tag.id}
+						color={tag.color}
+					>
+						{tag.label}
+					</Badge>
+				))}
+			</Box>
 
+			<Grid mt='16px'>
 				<GridCol span={6}>
 					<TextInput
 						label='Workshops Hosted'
@@ -84,9 +129,12 @@ const AdminUserDetail = ({ user }: { user: AdminUserResponse }) => {
 				</GridCol>
 
 				<GridCol span={12}>
-					<TagsInput
+					<MultiSelect
 						label='Tags'
 						{...getInputProps('tags')}
+						data={userTags.map(tag => tag.label)}
+						hidePickedOptions
+						searchable
 					/>
 				</GridCol>
 			</Grid>

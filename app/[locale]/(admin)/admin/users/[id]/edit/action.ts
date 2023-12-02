@@ -14,6 +14,7 @@ export const getAdminUserById = async (id: string) => {
 	const user = await prisma.user.findUnique({
 		where: { id },
 		include: {
+			tags: true,
 			workshopsHosted: {
 				take: 10,
 			},
@@ -25,4 +26,8 @@ export const getAdminUserById = async (id: string) => {
 	})
 
 	return user as AdminUserResponse
+}
+
+export const getAdminUserTags = async () => {
+	return await prisma.userTag.findMany({})
 }

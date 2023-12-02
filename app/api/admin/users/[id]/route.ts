@@ -4,19 +4,22 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export const PUT = async (request: NextRequest, context: { params: { id: string } }) => {
 	const id = context.params.id
-	const body = await request.json()
-
-	console.log(body)
+	const body = (await request.json()) as AdminUsers
 
 	try {
-		const data = await prisma.user.update({
+		const response = await prisma.user.update({
 			where: {
 				id,
 			},
-			data: body,
+			data: {
+				role: body.role,
+				tags: {
+					set: body.tags,
+				},
+			},
 		})
 
-		return NextResponse.json({ data }, { status: 200 })
+		return NextResponse.json({ response }, { status: 200 })
 	} catch (error) {
 		return NextResponse.json({ error }, { status: 500 })
 	}
