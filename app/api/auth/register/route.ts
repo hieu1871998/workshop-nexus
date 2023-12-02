@@ -18,6 +18,8 @@ export async function POST(request: NextRequest) {
 		const user = await prisma.user.create({
 			data: {
 				email,
+				image: '',
+				name: email,
 			},
 		})
 

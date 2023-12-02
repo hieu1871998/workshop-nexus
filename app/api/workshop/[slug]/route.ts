@@ -13,6 +13,8 @@ const getWorkshopDetail = async (slug: string) => {
 			_count: {
 				select: { participants: true },
 			},
+			workshopThumbnail: true,
+			workshopAttachment: true,
 		},
 	})
 
@@ -31,6 +33,8 @@ export const GET = async (_: NextRequest, context: { params: { slug: string } })
 				participants: true,
 				tags: true,
 				_count: { select: { participants: true } },
+				workshopThumbnail: true,
+				workshopAttachment: true,
 			},
 		})
 

@@ -8,7 +8,8 @@
 		"notSignedIn": "You're not signed in",
 		"signedInAs": "Signed in as",
 		"loading": "Loading",
-		"profile": "Profile"
+		"profile": "Profile",
+		"apply": "Apply"
 	},
 	"home": {
 		"heroTitle": "Empowering growth and innovation",
@@ -39,5 +40,10 @@
 			"hostedValue": "Hosted {count, plural, =0 {no workshop hosted yet} =1 {one workshop} other {# workshops}}"
 		},
 		"tableCaption": "Workshops you hosted"
+	},
+	"workshopDetailpage": {
+		"dateTimeLabel": "Date and time",
+		"aboutLabel": "About this workshop",
+		"attendButtonTitle": "Attend"
 	}
 }

@@ -49,6 +49,15 @@ export const getWorkshopDetail = async (slug: string) => {
 	})
 }
 
+export const getOtherWorkshops = async (payload: { id: string }) => {
+	const params = new URLSearchParams(payload)
+
+	return fetcher<WorkshopDetail[]>(`/api/workshop/others?${params.toString()}`, {
+		method: 'GET',
+		headers: { 'Content-Type': 'application/json' },
+	})
+}
+
 export const getAdminWorkshops = async (payload: GetAdminWorkshopsPayload) => {
 	const queryParams = new URLSearchParams(payload as unknown as Record<string, string>)
 	const url = `/api/admin/workshop?${queryParams.toString()}`

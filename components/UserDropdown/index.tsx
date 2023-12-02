@@ -65,6 +65,13 @@ export const UserDropdown = ({ session }: UserDropdownProps) => {
 							{t('profile')}
 						</Menu.Item>
 						<Menu.Item
+							key='apply'
+							component={Link}
+							href={`/apply`}
+						>
+							{t('apply')}
+						</Menu.Item>
+						<Menu.Item
 							key='signout'
 							color='red'
 							onClick={() => void signOut({ redirect: true, callbackUrl: '/' })}
