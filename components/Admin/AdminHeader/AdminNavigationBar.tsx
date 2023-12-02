@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
 import { UserDropdown } from '@components'
 import { Logo } from '@components/icons/Logo'
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle } from '@nextui-org/react'
+import { Burger, Group, Menu } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Session } from 'next-auth'
@@ -12,48 +12,50 @@ interface AdminNavigationBarProps {
 	session: Session | null
 }
 
+const links = [
+	{ path: '/admin', name: 'Dashboard' },
+	{ path: '/admin/workshop', name: 'Workshops' },
+	{ path: '/admin/users', name: 'Users' },
+]
+
 export const AdminNavigationBar = ({ session }: AdminNavigationBarProps) => {
-	const [isMenuOpen, setIsMenuOpen] = useState(false)
 	const pathname = usePathname()
+	const [opened, { toggle }] = useDisclosure(false)
 
 	return (
-		<div className='w-full'>
-			<Navbar
-				maxWidth='2xl'
-				classNames={{
-					wrapper: 'px-0',
-				}}
-				onMenuOpenChange={setIsMenuOpen}
+		<div className='flex w-full items-center justify-between'>
+			<div className='-mx-2 p-2 text-gray-900 transition-all hover:bg-gray-900 hover:text-white'>
+				<Logo className='h-12 w-12' />
+			</div>
+			<Group
+				gap={20}
+				visibleFrom='sm'
 			>
-				<NavbarMenuToggle
-					aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-					className='sm:hidden'
-				/>
-				<NavbarBrand>
-					<Link href='/admin'>
-						<div className='-mx-2 p-2 text-gray-900 transition-all hover:bg-gray-900 hover:text-white'>
-							<Logo className='h-12 w-12' />
-						</div>
-					</Link>
-				</NavbarBrand>
-				<NavbarContent
-					className='hidden gap-5 sm:flex'
-					justify='center'
-				>
-					<NavbarItem isActive={pathname === '/admin'}>
-						<Link href='/admin'>Dashboard</Link>
-					</NavbarItem>
-					<NavbarItem isActive={pathname === '/admin/workshop'}>
-						<Link href='/admin/workshop'>Workshops</Link>
-					</NavbarItem>
-				</NavbarContent>
-				<NavbarContent
-					as='div'
-					justify='end'
-				>
-					<UserDropdown session={session} />
-				</NavbarContent>
-			</Navbar>
+				{links.map(link => (
+					<Menu
+						key={link.path}
+						trigger='hover'
+						transitionProps={{ exitDuration: 0 }}
+						withinPortal
+					>
+						<Menu.Target>
+							<Link
+								href={link.path}
+								className={`${link.path === pathname ? 'font-bold' : 'rounded p-2 hover:bg-gray-200 '}`}
+							>
+								{link.name}
+							</Link>
+						</Menu.Target>
+					</Menu>
+				))}
+			</Group>
+			<UserDropdown session={session} />
+			<Burger
+				opened={opened}
+				onClick={toggle}
+				size='sm'
+				hiddenFrom='sm'
+			/>
 		</div>
 	)
 }

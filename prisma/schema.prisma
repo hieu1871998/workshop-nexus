@@ -64,7 +64,6 @@ model Workshop {
   id                  String               @id @default(cuid())
   hostId              String
   topic               String
-  slug                String               @unique
   presentationDate    DateTime
   maxParticipants     Int
   description         String
@@ -75,13 +74,14 @@ model Workshop {
   createdAt           DateTime             @default(now())
   startDate           DateTime?
   submissionDate      DateTime?
+  workshopThumbnailId String               @unique
+  slug                String               @unique
   category            Category             @relation(fields: [categoryId], references: [id])
   host                User                 @relation("WorkshopHost", fields: [hostId], references: [id])
+  workshopThumbnail   WorkshopThumbnail    @relation(fields: [workshopThumbnailId], references: [id])
+  workshopAttachment  WorkshopAttachment[]
   participants        User[]               @relation("WorkshopParticipant")
   tags                WorkshopTag[]        @relation("WorkshopToWorkshopTag")
-  workshopThumbnail   WorkshopThumbnail    @relation(fields: [workshopThumbnailId], references: [id])
-  workshopThumbnailId String               @unique
-  workshopAttachment  WorkshopAttachment[]
 }
 
 model Category {
@@ -115,6 +115,25 @@ model Contact {
   subject  String
   message  String
   sentDate DateTime @default(now())
+}
+
+model WorkshopThumbnail {
+  id                 String    @id @default(cuid())
+  pathname           String
+  contentType        String
+  contentDisposition String
+  url                String
+  workshop           Workshop?
+}
+
+model WorkshopAttachment {
+  id                 String    @id @default(cuid())
+  pathname           String
+  contentType        String
+  contentDisposition String
+  url                String
+  workshopId         String?
+  workshop           Workshop? @relation(fields: [workshopId], references: [id])
 }
 
 enum Role {
@@ -157,23 +176,4 @@ enum TagColor {
   lime
   yellow
   orange
-}
-
-model WorkshopThumbnail {
-  id                 String    @id @default(cuid())
-  pathname           String
-  contentType        String
-  contentDisposition String
-  url                String
-  workshop           Workshop?
-}
-
-model WorkshopAttachment {
-  id                 String    @id @default(cuid())
-  pathname           String
-  contentType        String
-  contentDisposition String
-  url                String
-  workshop           Workshop? @relation(fields: [workshopId], references: [id])
-  workshopId         String?
 }
