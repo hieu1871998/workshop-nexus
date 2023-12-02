@@ -12,7 +12,9 @@
 		"format": "prettier -w -u",
 		"db:generate": "prisma generate",
 		"db:push": "prisma db push --skip-generate",
-		"db:pull": "prisma db pull"
+		"db:pull": "prisma db pull",
+		"minh:pull": "npx dotenv -e .env.development.local -- prisma db pull",
+		"minh": "npx dotenv -e .env.development.local -- prisma studio & next dev"
 	},
 	"dependencies": {
 		"@heroicons/react": "^2.0.18",

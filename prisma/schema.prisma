@@ -61,48 +61,50 @@ model VerificationToken {
 }
 
 model Workshop {
-  id                  String            @id @default(cuid())
+  id                  String               @id @default(cuid())
   hostId              String
   topic               String
   presentationDate    DateTime
   maxParticipants     Int
   description         String
   categoryId          String
-  status              WorkshopStatus    @default(DRAFT)
+  status              WorkshopStatus       @default(DRAFT)
   approvalDate        DateTime?
   completionDate      DateTime?
-  createdAt           DateTime          @default(now())
+  createdAt           DateTime             @default(now())
   startDate           DateTime?
   submissionDate      DateTime?
-  category            Category          @relation(fields: [categoryId], references: [id])
-  host                User              @relation("WorkshopHost", fields: [hostId], references: [id])
-  participants        User[]            @relation("WorkshopParticipant")
-  tags                WorkshopTag[]     @relation("WorkshopToWorkshopTag")
-  WorkshopThumbnail   WorkshopThumbnail @relation(fields: [workshopThumbnailId], references: [id])
-  workshopThumbnailId String            @unique
+  workshopThumbnailId String               @unique
+  slug                String               @unique
+  category            Category             @relation(fields: [categoryId], references: [id])
+  host                User                 @relation("WorkshopHost", fields: [hostId], references: [id])
+  WorkshopThumbnail   WorkshopThumbnail    @relation(fields: [workshopThumbnailId], references: [id])
+  WorkshopAttachment  WorkshopAttachment[]
+  participants        User[]               @relation("WorkshopParticipant")
+  tags                WorkshopTag[]        @relation("WorkshopToWorkshopTag")
 }
 
 model Category {
   id        String     @id @default(cuid())
   label     String     @unique
-  color     TagColor   @default(default)
-  variant   TagVariant @default(solid)
+  color     TagColor   @default(dark)
+  variant   TagVariant @default(default)
   workshops Workshop[]
 }
 
 model UserTag {
   id      Int        @id @default(autoincrement())
   label   String     @unique
-  variant TagVariant @default(solid)
-  color   TagColor   @default(default)
+  variant TagVariant @default(default)
+  color   TagColor   @default(dark)
   users   User[]     @relation("UserToUserTag")
 }
 
 model WorkshopTag {
   id        Int        @id @default(autoincrement())
   label     String     @unique
-  variant   TagVariant @default(solid)
-  color     TagColor   @default(default)
+  variant   TagVariant @default(default)
+  color     TagColor   @default(dark)
   workshops Workshop[] @relation("WorkshopToWorkshopTag")
 }
 
@@ -113,6 +115,25 @@ model Contact {
   subject  String
   message  String
   sentDate DateTime @default(now())
+}
+
+model WorkshopThumbnail {
+  id                 String    @id @default(cuid())
+  pathname           String
+  contentType        String
+  contentDisposition String
+  url                String
+  workshop           Workshop?
+}
+
+model WorkshopAttachment {
+  id                 String    @id
+  pathname           String
+  contentType        String
+  contentDisposition String
+  url                String
+  workshopId         String?
+  Workshop           Workshop? @relation(fields: [workshopId], references: [id])
 }
 
 enum Role {
@@ -131,29 +152,28 @@ enum WorkshopStatus {
 }
 
 enum TagVariant {
-  bordered
-  dot
-  faded
-  flat
+  filled
   light
-  shadow
-  solid
+  outline
+  dot
+  transparent
+  default
+  white
 }
 
 enum TagColor {
-  default
-  primary
-  secondary
-  success
-  warning
-  danger
-}
-
-model WorkshopThumbnail {
-  id                 String    @id @default(cuid())
-  pathname           String
-  contentType        String
-  contentDisposition String
-  url                String
-  workshop           Workshop?
+  dark
+  gray
+  red
+  pink
+  grape
+  violet
+  indigo
+  blue
+  cyan
+  teal
+  green
+  lime
+  yellow
+  orange
 }
