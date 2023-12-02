@@ -153,6 +153,14 @@ export const WorkshopDetail = ({ session, workshop, otherWorkshops }: WorkshopDe
 								</span>
 							</div>
 							<Text mt={20}>{workshop?.description}</Text>
+							<Text
+								size='lg'
+								fw={500}
+								mt={20}
+							>
+								Prerequisites
+							</Text>
+							<Text mt={20}>{workshop?.description}</Text>
 							<Group
 								gap={4}
 								mt={12}

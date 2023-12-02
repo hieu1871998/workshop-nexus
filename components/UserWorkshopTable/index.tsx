@@ -6,13 +6,17 @@ import { UserWithProfile, WorkshopWithCategoryAndTags } from '@types'
 import { getBadgeColor } from '@utils'
 import dayjs from 'dayjs'
 import Link from 'next/link'
+import { Session } from 'next-auth'
 
 interface UserWorkshopTableProps {
 	workshops: WorkshopWithCategoryAndTags[]
 	user: UserWithProfile
+	session: Session | null
 }
 
-export const UserWorkshopTable = ({ workshops }: UserWorkshopTableProps) => {
+export const UserWorkshopTable = ({ workshops, user, session }: UserWorkshopTableProps) => {
+	const isOwnProfile = user.id === session?.user.id
+
 	const rows = workshops.map(workshop => (
 		<Table.Tr key={workshop.id}>
 			<Table.Td>
@@ -34,16 +38,18 @@ export const UserWorkshopTable = ({ workshops }: UserWorkshopTableProps) => {
 			<Table.Td maw={360}>
 				<Text size='sm'>{workshop.description}</Text>
 			</Table.Td>
-			<Table.Td>
-				<div className='flex items-center justify-center'>
-					<Badge
-						variant='dot'
-						color={getBadgeColor(workshop.status)}
-					>
-						{workshop.status}
-					</Badge>
-				</div>
-			</Table.Td>
+			{isOwnProfile && (
+				<Table.Td>
+					<div className='flex items-center justify-center'>
+						<Badge
+							variant='dot'
+							color={getBadgeColor(workshop.status)}
+						>
+							{workshop.status}
+						</Badge>
+					</div>
+				</Table.Td>
+			)}
 			<Table.Td>
 				<Text
 					size='sm'
@@ -109,14 +115,16 @@ export const UserWorkshopTable = ({ workshops }: UserWorkshopTableProps) => {
 								Description
 							</Text>
 						</Table.Th>
-						<Table.Th>
-							<Text
-								ta='center'
-								fw={600}
-							>
-								Status
-							</Text>
-						</Table.Th>
+						{isOwnProfile && (
+							<Table.Th>
+								<Text
+									ta='center'
+									fw={600}
+								>
+									Status
+								</Text>
+							</Table.Th>
+						)}
 						<Table.Th>
 							<Text
 								ta='center'

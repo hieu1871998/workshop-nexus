@@ -2,6 +2,7 @@
 
 import { Avatar, Badge, Group, Menu, Text, UnstyledButton } from '@mantine/core'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { Session } from 'next-auth'
 import { signOut } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
@@ -12,12 +13,14 @@ interface UserDropdownProps {
 
 export const UserDropdown = ({ session }: UserDropdownProps) => {
 	const t = useTranslations('common')
+	const pathname = usePathname()
 
 	const isAdmin = session?.user.role === 'ADMIN'
 
 	return (
 		<Menu
 			position='bottom-end'
+			trigger='hover'
 			offset={-8}
 		>
 			<Menu.Target>
@@ -61,6 +64,7 @@ export const UserDropdown = ({ session }: UserDropdownProps) => {
 							key='profile'
 							component={Link}
 							href={`/user/${session.user.id}`}
+							disabled={pathname.includes(`user/${session.user.id}`)}
 						>
 							{t('profile')}
 						</Menu.Item>
@@ -68,6 +72,7 @@ export const UserDropdown = ({ session }: UserDropdownProps) => {
 							key='apply'
 							component={Link}
 							href={`/apply`}
+							disabled={pathname.includes(`apply`)}
 						>
 							{t('apply')}
 						</Menu.Item>

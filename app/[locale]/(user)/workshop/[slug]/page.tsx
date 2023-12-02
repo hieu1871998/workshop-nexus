@@ -1,7 +1,18 @@
 import { WorkshopDetail } from '@components'
 import { authOptions } from '@lib/auth'
 import { getOtherWorkshops, getWorkshopDetail } from '@network/fetchers'
+import { Metadata } from 'next'
 import { getServerSession } from 'next-auth'
+
+export const generateMetadata = async ({ params }: { params: { slug: string } }) => {
+	const workshop = await getWorkshopDetail(params.slug)
+
+	const metadata: Metadata = {
+		title: `${workshop?.topic} | Zenith`,
+	}
+
+	return metadata
+}
 
 const WorkshopDetailPage = async ({ params: { slug } }: { params: { slug: string } }) => {
 	const session = await getServerSession(authOptions)
