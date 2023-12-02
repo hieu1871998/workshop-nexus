@@ -124,20 +124,32 @@ model Contact {
 model WorkshopThumbnail {
   id                 String    @id @default(cuid())
   pathname           String
+  <<<<<<< HEAD
   contentType        String?
+  =======
+  contentType        String
+  >>>>>>> e5799a2 (update db)
   contentDisposition String
   url                String
   workshop           Workshop?
 }
 
 model WorkshopAttachment {
+  <<<<<<< HEAD
   id                 String    @id @default(cuid())
+  =======
+  id                 String    @id
+  >>>>>>> e5799a2 (update db)
   pathname           String
   contentType        String
   contentDisposition String
   url                String
   workshopId         String?
+  <<<<<<< HEAD
   workshop           Workshop? @relation(fields: [workshopId], references: [id])
+  =======
+  Workshop           Workshop? @relation(fields: [workshopId], references: [id])
+  >>>>>>> e5799a2 (update db)
 }
 
 enum Role {

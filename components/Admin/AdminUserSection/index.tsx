@@ -45,6 +45,8 @@ export const AdminUserSection = () => {
 	})
 	ButtonGroup.displayName = 'button'
 
+	console.log(data?.users)
+
 	const body = useMemo(
 		() =>
 			data?.users.map(user => [

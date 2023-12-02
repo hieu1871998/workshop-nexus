@@ -18,45 +18,50 @@ const getAdminUsers = async (payload: GetAdminUsersRequest) => {
 		pageSize = DEFAULT_PAGE_SIZE,
 	} = payload
 
-	const users = await prisma.user.findMany({
-		where: {
-			OR: [
-				{
-					name: {
-						contains: query || '',
-						mode: 'insensitive',
+	try {
+		const users = await prisma.user.findMany({
+			where: {
+				OR: [
+					{
+						name: {
+							contains: query || '',
+							mode: 'insensitive',
+						},
 					},
-				},
-				{
-					email: {
-						contains: query || '',
-						mode: 'insensitive',
+					{
+						email: {
+							contains: query || '',
+							mode: 'insensitive',
+						},
 					},
-				},
-			],
-		},
-		include: {
-			accounts: true,
-			workshopsHosted: true,
-			workshopsParticipated: true,
-		},
-		skip: (pageSize || DEFAULT_PAGE_SIZE) * (page ? page - 1 : DEFAULT_PAGE),
-		take: pageSize || DEFAULT_PAGE_SIZE,
-		orderBy: {
-			[orderBy]: orderDirection,
-		},
-	})
+				],
+			},
+			include: {
+				tags: true,
+				accounts: true,
+				workshopsHosted: true,
+				workshopsParticipated: true,
+			},
+			skip: (pageSize || DEFAULT_PAGE_SIZE) * (page ? page - 1 : DEFAULT_PAGE),
+			take: pageSize || DEFAULT_PAGE_SIZE,
+			orderBy: {
+				[orderBy]: orderDirection,
+			},
+		})
 
-	const total = await prisma.user.count()
+		const total = await prisma.user.count()
 
-	const hasNextPage = users.length >= pageSize
-	const nextPage = hasNextPage ? page + 1 : undefined
+		const hasNextPage = users.length >= pageSize
+		const nextPage = hasNextPage ? page + 1 : undefined
 
-	return {
-		users,
-		total,
-		hasNextPage,
-		nextPage,
+		return {
+			users,
+			total,
+			hasNextPage,
+			nextPage,
+		}
+	} catch (e) {
+		console.log(e)
 	}
 }
 
