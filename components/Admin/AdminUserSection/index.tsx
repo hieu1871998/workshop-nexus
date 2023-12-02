@@ -3,7 +3,8 @@
 import { KeyboardEvent, memo, useEffect, useMemo, useState } from 'react'
 import LoadingPage from '@app/[locale]/(user)/loading'
 import {
-	ActionIcon,
+	Avatar,
+	Badge,
 	Box,
 	Container,
 	Flex,
@@ -14,16 +15,17 @@ import {
 	Select,
 	Table,
 	TableData,
+	Text,
 	TextInput,
 } from '@mantine/core'
 import { useGetAdminUsers } from '@network/queries'
 import EditIcon from '@public/icons/EditIcon'
 import SearchIcon from '@public/icons/SearchIcon'
-import { AdminUsers } from '@types'
+import { AdminUsers, getRoleColor } from '@types'
 
 import { useChangeFilter } from './components/useChangeFilter'
 
-const HEAD = ['Name', 'Email', '']
+const HEAD = ['Name', 'Email', 'Workshops Hosted', 'Workshops Participated', 'Role', 'Tag', '']
 
 export const AdminUserSection = () => {
 	const [payload, setPayload] = useChangeFilter()
@@ -34,15 +36,6 @@ export const AdminUserSection = () => {
 	const ButtonGroup = memo(({ user }: { user: AdminUsers }) => {
 		return (
 			<>
-				<NavLink href={`/admin/users/${user.id}/edit`}>
-					<ActionIcon
-						key={user.id}
-						color='yellow'
-						aria-label='Settings'
-					>
-						<EditIcon />
-					</ActionIcon>
-				</NavLink>
 				<NavLink
 					href={`/admin/users/${user.id}/edit`}
 					leftSection={<EditIcon />}
@@ -55,8 +48,28 @@ export const AdminUserSection = () => {
 	const body = useMemo(
 		() =>
 			data?.users.map(user => [
-				user.name,
+				<Flex
+					key={user.id}
+					align='center'
+					gap='sm'
+				>
+					<Avatar
+						src={user.image || null}
+						size='sm'
+					/>
+					<Text>{user.name}</Text>
+				</Flex>,
 				user.email,
+				user?.workshopsHosted?.length,
+				user?.workshopsParticipated?.length,
+				<Badge
+					key={user.id}
+					color={getRoleColor(user.role)}
+					style={{ minWidth: 70 }}
+				>
+					{user.role}
+				</Badge>,
+				user?.tags?.join(','),
 				<ButtonGroup
 					user={user}
 					key={user.id}

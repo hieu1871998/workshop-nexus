@@ -37,6 +37,8 @@ const getAdminUsers = async (payload: GetAdminUsersRequest) => {
 		},
 		include: {
 			accounts: true,
+			workshopsHosted: true,
+			workshopsParticipated: true,
 		},
 		skip: (pageSize || DEFAULT_PAGE_SIZE) * (page ? page - 1 : DEFAULT_PAGE),
 		take: pageSize || DEFAULT_PAGE_SIZE,

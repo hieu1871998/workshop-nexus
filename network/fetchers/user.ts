@@ -40,11 +40,12 @@ export const getAdminUsers = async (payload: GetAdminUsersPayload) => {
 	})
 }
 
-export const getAdminUserById = async (id: string) => {
+export const updateAdminUsers = async (id: string, payload: AdminUsers) => {
 	const url = `/api/admin/users/${id}`
 
-	return fetcher<AdminUsers>(url, {
-		method: 'GET',
+	return fetcher<AdminUsersResponse>(url, {
+		method: 'PUT',
+		body: JSON.stringify(payload),
 		headers: {
 			'Content-Type': 'application/json',
 		},
