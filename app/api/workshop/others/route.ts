@@ -8,7 +8,7 @@ export const GET = async (request: NextRequest) => {
 		const data = await prisma?.workshop.findMany({
 			where: {
 				id: { not: id },
-				presentationDate: { gte: new Date() },
+				presentationDate: { gt: new Date() },
 			},
 			include: {
 				category: true,

@@ -1,4 +1,5 @@
 import { WorkshopDetail } from '@app/api/workshop/[slug]/route'
+import { UpcomingWorkshopDetail } from '@app/api/workshop/upcoming/route'
 import { fetcher } from '@network/utils/fetcher'
 import { Category, Workshop } from '@prisma/client'
 import { AdminWorkshopsResponse, GetAdminWorkshopsPayload, WorkshopApplyPayload, WorkshopUpdatePayload } from '@types'
@@ -63,6 +64,15 @@ export const getAdminWorkshops = async (payload: GetAdminWorkshopsPayload) => {
 	const url = `/api/admin/workshop?${queryParams.toString()}`
 
 	return fetcher<AdminWorkshopsResponse>(url, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+}
+
+export const getUpcomingWorkshops = async () => {
+	return fetcher<UpcomingWorkshopDetail[]>('/api/workshop/upcoming', {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',

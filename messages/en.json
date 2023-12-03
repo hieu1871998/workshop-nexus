@@ -15,7 +15,13 @@
 		"heroTitle": "Empowering growth and innovation",
 		"heroSubtitle": "Where curiosity meets expertise: Dive into engaging workshops and collaborative learning",
 		"heroSignInButtonLabel": "Sign in and start exploring",
-		"heroApplyButtonLabel": "Start sharing your knowlegde"
+		"heroApplyButtonLabel": "Start sharing your knowlegde",
+		"upcomingSection": {
+			"sectionTitle": "Upcoming",
+			"upcomingItem": {
+				"participating": "{count, plural, =0 {No participants yet} =1 {One participating} other {# participating}}"
+			}
+		}
 	},
 	"signin": {
 		"subtitle": "Sign in now into <bold>Zenith</bold> and start sharing your knowledge",

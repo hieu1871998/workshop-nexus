@@ -1,42 +1,44 @@
-import { Avatar, Group, HoverCard, Stack, Text } from '@mantine/core'
+import { Avatar, Group, HoverCard, HoverCardProps, Stack, Text } from '@mantine/core'
 import { User } from '@prisma/client'
 import Link from 'next/link'
 
-interface ParticipantItem {
-	participant: User
+interface UserHoverCard extends HoverCardProps {
+	user: User
 }
 
-export const ParticipantItem = ({ participant }: ParticipantItem) => {
+export const UserHoverCard = (props: UserHoverCard) => {
+	const { user, position = 'top-start' } = props
+
 	return (
 		<HoverCard
-			key={participant.id}
-			position='top-start'
-			withArrow
+			key={user.id}
+			position={position}
+			{...props}
 		>
 			<HoverCard.Target>
 				<Avatar
-					key={participant.id}
-					src={participant.image}
+					key={user.id}
+					src={user.image}
 				/>
 			</HoverCard.Target>
 			<HoverCard.Dropdown>
-				<Link href={`/user/${participant.id}`}>
+				<Link href={`/user/${user.id}`}>
 					<Group>
-						<Avatar src={participant.image} />
+						<Avatar src={user.image} />
 						<Stack gap={5}>
 							<Text
 								size='sm'
 								fw={700}
 								style={{ lineHeight: 1 }}
 							>
-								{participant.name}
+								{user.name}
 							</Text>
 							<Text
 								c='dimmed'
 								size='xs'
 								style={{ lineHeight: 1 }}
 							>
-								{participant.email}
+								{user.email}
 							</Text>
 						</Stack>
 					</Group>

@@ -7,7 +7,13 @@ const getWorkshopDetail = async (slug: string) => {
 		where: { slug },
 		include: {
 			category: true,
-			host: true,
+			host: {
+				include: {
+					tags: true,
+					workshopsHosted: true,
+					workshopsParticipated: true,
+				},
+			},
 			participants: true,
 			tags: true,
 			_count: {
@@ -29,7 +35,13 @@ export const GET = async (_: NextRequest, context: { params: { slug: string } })
 			where: { slug },
 			include: {
 				category: true,
-				host: true,
+				host: {
+					include: {
+						tags: true,
+						workshopsHosted: true,
+						workshopsParticipated: true,
+					},
+				},
 				participants: true,
 				tags: true,
 				_count: { select: { participants: true } },

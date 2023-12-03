@@ -1,7 +1,7 @@
 'use client'
 
 import { generateColors } from '@mantine/colors-generator'
-import { createTheme } from '@mantine/core'
+import { createTheme, rem } from '@mantine/core'
 
 import { ButtonTheme, InputTheme } from './components'
 
@@ -26,5 +26,19 @@ export const theme = createTheme({
 	components: {
 		Button: ButtonTheme,
 		Input: InputTheme,
+	},
+	fontSizes: {
+		xs: rem(12),
+		sm: rem(14),
+		md: rem(16),
+		lg: rem(18),
+		xl: rem(20),
+		'2xl': rem(24),
+		'3xl': rem(30),
+		'4xl': rem(36),
+		'5xl': rem(48),
+		'6xl': rem(60),
+		'7xl': rem(72),
+		'8xl': rem(96),
 	},
 })

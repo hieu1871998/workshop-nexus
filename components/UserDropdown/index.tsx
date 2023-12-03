@@ -1,6 +1,6 @@
 'use client'
 
-import { Avatar, Badge, Group, Menu, Text, UnstyledButton } from '@mantine/core'
+import { Avatar, Badge, Group, Menu, UnstyledButton } from '@mantine/core'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Session } from 'next-auth'
@@ -21,7 +21,7 @@ export const UserDropdown = ({ session }: UserDropdownProps) => {
 		<Menu
 			position='bottom-end'
 			trigger='hover'
-			offset={-8}
+			radius='lg'
 		>
 			<Menu.Target>
 				<UnstyledButton
@@ -31,17 +31,10 @@ export const UserDropdown = ({ session }: UserDropdownProps) => {
 					}}
 				>
 					<Group>
-						<div className='text-right'>
-							<Text
-								size='sm'
-								fw={500}
-							>
-								{session?.user?.name}
-							</Text>
-							{isAdmin && <Badge variant='outline'>Admin</Badge>}
-						</div>
+						{isAdmin && <Badge variant='outline'>Admin</Badge>}
 						<Avatar
 							className='transition-transform'
+							size='md'
 							src={session?.user?.image ?? ''}
 						/>
 					</Group>
@@ -76,6 +69,7 @@ export const UserDropdown = ({ session }: UserDropdownProps) => {
 						>
 							{t('apply')}
 						</Menu.Item>
+						<Menu.Divider />
 						<Menu.Item
 							key='signout'
 							color='red'

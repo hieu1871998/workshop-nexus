@@ -1,11 +1,16 @@
 import { WorkshopApplyForm } from '@components'
 import { authOptions } from '@lib/auth'
+import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 
 import { ApplyPageTitleSection } from './ApplyPageTitleSection'
 
 const BookingPage = async () => {
 	const session = await getServerSession(authOptions)
+
+	if (!session) {
+		redirect('/signin')
+	}
 
 	return (
 		<main className='container relative mx-auto flex max-w-6xl flex-col gap-10 px-4 py-10 sm:flex-row'>

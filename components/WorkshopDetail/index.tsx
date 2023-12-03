@@ -2,6 +2,7 @@
 
 import { WorkshopDetail as WorkshopDetailType } from '@app/api/workshop/[slug]/route'
 import { OtherWorkshopItem } from '@components/OtherWorkshopItem'
+import { UserHoverCard } from '@components/UserHoverCard'
 import { ArrowLeftIcon, CalendarDaysIcon } from '@heroicons/react/24/outline'
 import { Avatar, Badge, Button, Card, Group, Paper, Stack, Text, Title } from '@mantine/core'
 import { modals } from '@mantine/modals'
@@ -14,8 +15,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Session } from 'next-auth'
 import { useTranslations } from 'next-intl'
-
-import { ParticipantItem } from './ParticipantItem'
 
 interface WorkshopDetailProps {
 	session: Session | null
@@ -119,9 +118,9 @@ export const WorkshopDetail = ({ session, workshop, otherWorkshops }: WorkshopDe
 								<Text>No participants yet</Text>
 							) : (
 								workshop?.participants.map(participant => (
-									<ParticipantItem
+									<UserHoverCard
 										key={participant.id}
-										participant={participant}
+										user={participant}
 									/>
 								))
 							)}
