@@ -1,8 +1,8 @@
 'use client'
 
+import { FiCalendar } from 'react-icons/fi'
 import { UpcomingWorkshopDetail } from '@app/api/workshop/upcoming/route'
 import { UserHoverCard } from '@components/UserHoverCard'
-import { CalendarDaysIcon } from '@heroicons/react/24/outline'
 import { Badge, Card, Divider, Group, Text, Title, Tooltip } from '@mantine/core'
 import { User } from '@prisma/client'
 import dayjs from 'dayjs'
@@ -48,8 +48,8 @@ export const UpcomingSpotlightItem = ({ workshop }: { workshop: UpcomingWorkshop
 							{workshop?.topic}
 						</Title>
 						<Group>
-							<Group>
-								<CalendarDaysIcon className='h-5 w-5' />
+							<Group gap={8}>
+								<FiCalendar className='mb-1 text-lg' />
 								<Text>{dayjs(workshop?.presentationDate).format('ddd, DD MMM YYYY - HH:mm')}</Text>
 							</Group>
 							<Divider

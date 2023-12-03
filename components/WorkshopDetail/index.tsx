@@ -1,8 +1,8 @@
 'use client'
 
 import { WorkshopDetail as WorkshopDetailType } from '@app/api/workshop/[slug]/route'
-import { OtherWorkshopItem } from '@components/OtherWorkshopItem'
 import { UserHoverCard } from '@components/UserHoverCard'
+import { WorkshopItem } from '@components/WorkshopItem'
 import { ArrowLeftIcon, CalendarDaysIcon } from '@heroicons/react/24/outline'
 import { Avatar, Badge, Button, Card, Group, Paper, Stack, Text, Title } from '@mantine/core'
 import { modals } from '@mantine/modals'
@@ -162,17 +162,13 @@ export const WorkshopDetail = ({ session, workshop, otherWorkshops }: WorkshopDe
 								</span>
 							</div>
 							<Text mt={20}>{workshop?.description}</Text>
-							<Text
-								size='lg'
-								fw={500}
-								mt={20}
-							>
-								Prerequisites
-							</Text>
-							<Text mt={20}>{workshop?.description}</Text>
+							<Text className='mt-5 text-xl font-medium'>Requirements</Text>
+							<Text>{workshop?.requirement ? workshop.requirement : 'No requirements'}</Text>
+							<Text className='mt-5 text-xl font-medium'>Expected outcomes</Text>
+							<Text>{workshop?.requirement ? workshop.requirement : 'No expected outcomes'}</Text>
 							<Group
 								gap={4}
-								mt={12}
+								mt={20}
 							>
 								{workshop?.tags.map(tag => (
 									<Badge
@@ -189,7 +185,7 @@ export const WorkshopDetail = ({ session, workshop, otherWorkshops }: WorkshopDe
 				<div className='col-span-3'>
 					<Stack gap={20}>
 						{otherWorkshops?.map(workshop => (
-							<OtherWorkshopItem
+							<WorkshopItem
 								key={workshop?.id}
 								workshop={workshop}
 							/>

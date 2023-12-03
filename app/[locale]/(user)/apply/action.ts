@@ -14,14 +14,10 @@ export const applyWorkshop = async (data: WorkshopApplyPayload) => {
 	if (user) {
 		const workshop = await prisma.workshop.create({
 			data: {
-				description: data.description,
-				slug: convertToSlug(data.topic),
-				maxParticipants: data.maxParticipants,
-				presentationDate: data.presentationDate,
-				topic: data.topic,
-				categoryId: data.categoryId,
 				hostId: user.id,
+				slug: convertToSlug(data.topic),
 				workshopThumbnailId: data.thumbnailId,
+				...data,
 			},
 		})
 

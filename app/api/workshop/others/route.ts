@@ -12,8 +12,20 @@ export const GET = async (request: NextRequest) => {
 			},
 			include: {
 				category: true,
-				host: true,
+				host: {
+					include: {
+						tags: true,
+						workshopsHosted: true,
+						workshopsParticipated: true,
+					},
+				},
+				tags: true,
 				workshopThumbnail: true,
+				_count: {
+					select: {
+						participants: true,
+					},
+				},
 			},
 			orderBy: {
 				presentationDate: 'desc',

@@ -13,6 +13,7 @@ import '../globals.css'
 import '@mantine/core/styles.css'
 import '@mantine/dates/styles.css'
 import '@mantine/dropzone/styles.css'
+import '@mantine/tiptap/styles.css'
 
 const urbanist = Urbanist({
 	subsets: ['latin'],
@@ -41,7 +42,10 @@ const RootLayout = async ({ children, params }: { children: React.ReactNode; par
 			<head>
 				<ColorSchemeScript />
 			</head>
-			<body className={urbanist.className}>
+			<body
+				id='app'
+				className={urbanist.className}
+			>
 				<Providers
 					locale={locale}
 					messages={messages as IntlMessages}

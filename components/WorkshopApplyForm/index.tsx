@@ -5,7 +5,7 @@ import { SubmitHandler } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 import { applyWorkshop } from '@app/[locale]/(user)/apply/action'
 import { Logo } from '@components/icons/Logo'
-import { ArrowUpIcon, BackspaceIcon, CameraIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { ArrowUpIcon, BackspaceIcon, CameraIcon, ClockIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import {
 	ActionIcon,
 	Button,
@@ -16,6 +16,7 @@ import {
 	NumberInput,
 	rem,
 	Select,
+	SimpleGrid,
 	Text,
 	Textarea,
 	TextInput,
@@ -23,7 +24,7 @@ import {
 } from '@mantine/core'
 import { DateTimePicker } from '@mantine/dates'
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone'
-import { useForm as useMantineForm } from '@mantine/form'
+import { useForm } from '@mantine/form'
 import { uploadWorkshopThumbnail } from '@network/fetchers'
 import { useGetWorkshopCategories } from '@network/queries'
 import { WorkshopApplyPayload } from '@types'
@@ -36,8 +37,6 @@ import Link from 'next/link'
 import { Session } from 'next-auth'
 import { useTranslations } from 'next-intl'
 
-const MotionTextarea = m(Textarea)
-
 interface WorkshopApplyFormProps {
 	session: Session | null
 }
@@ -45,7 +44,7 @@ interface WorkshopApplyFormProps {
 export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 	const t = useTranslations('apply')
 
-	const form = useMantineForm<WorkshopApplyPayload>({
+	const form = useForm<WorkshopApplyPayload>({
 		name: 'workshop-apply',
 		initialValues: {
 			email: session?.user.email ?? '',
@@ -55,6 +54,9 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 			maxParticipants: 1,
 			presentationDate: dayjs().add(7, 'day').toDate(),
 			thumbnailId: '',
+			requirement: '',
+			expectedOutcome: '',
+			duration: 30,
 		},
 		validate: {
 			topic: value => (isEmpty(value) ? 'Looks like the topic field is empty—please fill it in.' : null),
@@ -64,6 +66,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 			maxParticipants: value => (value < 1 ? 'Maximum participants must be a valid number greater than zero.' : null),
 			presentationDate: value => (!value ? 'Please choose a valid date for the presentation.' : null),
 			thumbnailId: value => (isEmpty(value) ? 'Please upload a thumbnail.' : null),
+			duration: value => (value > 0 ? 'Please provide a valid duration' : null),
 		},
 	})
 
@@ -169,7 +172,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 				<TextInput
 					label='Email'
 					{...form.getInputProps('email')}
-					description='Your email, primed and ready'
+					description='Your email, primed and ready.'
 					value={session?.user?.email ?? ''}
 					disabled
 				/>
@@ -180,54 +183,83 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 					description='What is your workshop about?'
 					placeholder='Input workshop topic'
 				/>
-				<MotionTextarea
+				<Textarea
 					{...form.getInputProps('description')}
 					label='Description'
-					description='A little summary about your workshop'
+					description='A little summary about your workshop.'
 					placeholder='Input workshop summary'
 					withAsterisk
 					autosize
 					minRows={4}
 					maxRows={8}
-					layout
 				/>
-				<Select
-					{...form.getInputProps('categoryId')}
-					data={categoryItems}
-					label='Category'
-					description="Choose your workshop's flavor!"
-					placeholder='Select a category'
-					searchable
+				<Textarea
+					{...form.getInputProps('requirement')}
+					label='Requirements'
+					description='What should your participants bring?'
+					placeholder='Input workshop requirements'
 					withAsterisk
-					onFocus={() => void refetch()}
-					checkIconPosition='right'
+					autosize
+					minRows={4}
+					maxRows={8}
 				/>
-				<div className='grid grid-cols-2 gap-5'>
-					<div className='col-span-1'>
-						<NumberInput
-							{...form.getInputProps('maxParticipants')}
-							label='Max participants'
-							defaultValue={1}
-							min={1}
-							description='Estimated max participants'
-							placeholder='Input max participants'
-							withAsterisk
-							isAllowed={value => !isEmpty(value)}
-						/>
-					</div>
-					<div className='col-span-1'>
-						<DateTimePicker
-							{...form.getInputProps('presentationDate')}
-							label='Presentation date'
-							description='When can you hold your workshop?'
-							placeholder='Input presentation date'
-							withAsterisk
-							minDate={dayjs().add(7, 'day').toDate()}
-							defaultValue={dayjs().add(7, 'day').toDate()}
-							valueFormat='YYYY, DD MMM - HH:mm'
-						/>
-					</div>
-				</div>
+				<Textarea
+					{...form.getInputProps('expectedOutcome')}
+					label='Expected outcomes'
+					description='Tell your participants what they will gain.'
+					placeholder='Input expected outcomes'
+					withAsterisk
+					autosize
+					minRows={4}
+					maxRows={8}
+				/>
+				<SimpleGrid cols={2}>
+					<Select
+						{...form.getInputProps('categoryId')}
+						data={categoryItems}
+						label='Category'
+						description="Choose your workshop's flavor!"
+						placeholder='Select a category'
+						searchable
+						withAsterisk
+						onFocus={() => void refetch()}
+						checkIconPosition='right'
+					/>
+					<NumberInput
+						{...form.getInputProps('maxParticipants')}
+						label='Max participants'
+						defaultValue={1}
+						min={1}
+						description='Estimated max participants'
+						placeholder='Input max participants'
+						withAsterisk
+						isAllowed={value => !isEmpty(value)}
+					/>
+				</SimpleGrid>
+				<SimpleGrid cols={2}>
+					<DateTimePicker
+						{...form.getInputProps('presentationDate')}
+						label='Presentation date'
+						description='When can you hold your workshop?'
+						placeholder='Input presentation date'
+						withAsterisk
+						minDate={dayjs().add(7, 'day').toDate()}
+						defaultValue={dayjs().add(7, 'day').toDate()}
+						valueFormat='YYYY, DD MMM - HH:mm'
+					/>
+					<NumberInput
+						{...form.getInputProps('duration')}
+						label='Duration'
+						defaultValue={30}
+						min={30}
+						description='Estimated duration'
+						placeholder='Input duration'
+						withAsterisk
+						isAllowed={value => !isEmpty(value)}
+						leftSection={<ClockIcon className='h-4 w-4' />}
+						suffix=' minutes'
+					/>
+				</SimpleGrid>
 				<Input.Wrapper
 					label='Thumbnail'
 					description='Sprinkle charm onto your content with a captivating thumbnail upload!'

@@ -13,9 +13,9 @@ export const Header = async () => {
 		<header className='sticky top-0 z-50 border-b bg-white'>
 			<div className='container mx-auto flex items-center gap-4 px-4'>
 				<Link href='/'>
-					<div className='-mx-2 flex items-center gap-2 p-2 text-gray-900 transition-all hover:bg-gray-900 hover:text-white'>
+					<div className='-mx-2 flex items-center gap-2 p-2'>
 						<Logo className='h-12 w-12' />
-						<div className={`${calSans.className} text-xl`}>Zenith</div>
+						<span className={`${calSans.className} text-2xl`}>Zenith</span>
 					</div>
 				</Link>
 				<NavigationBar session={session} />

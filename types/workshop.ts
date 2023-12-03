@@ -16,10 +16,13 @@ export interface WorkshopApplyPayload {
 	email: string
 	topic: string
 	description: string
+	requirement?: string
+	expectedOutcome?: string
 	categoryId: string
 	maxParticipants: number
 	presentationDate: Date
 	thumbnailId: string
+	duration: number
 }
 
 export interface WorkshopUpdatePayload extends WorkshopApplyPayload {

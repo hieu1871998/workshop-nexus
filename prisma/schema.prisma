@@ -66,9 +66,11 @@ model Workshop {
   hostId              String
   topic               String
   presentationDate    DateTime
+  duration            Int                  @default(0)
   maxParticipants     Int
   description         String
-  prerequisites       String?
+  requirement         String?
+  expectedOutcome     String?
   categoryId          String
   status              WorkshopStatus       @default(DRAFT)
   approvalDate        DateTime?

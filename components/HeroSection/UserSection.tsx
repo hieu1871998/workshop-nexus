@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowRightIcon, UserIcon } from '@heroicons/react/24/outline'
+import { FiArrowRight, FiUser } from 'react-icons/fi'
 import { Button } from '@mantine/core'
 import { fadeInDownMotion } from '@utils'
 import { m } from 'framer-motion'
@@ -21,7 +21,7 @@ export const UserSection = ({ session }: { session: Session | null }) => {
 				<Link href='/apply'>
 					<Button
 						classNames={{ root: 'px-10' }}
-						leftSection={<ArrowRightIcon className='h-4 w-4 text-white' />}
+						leftSection={<FiArrowRight className='text-base' />}
 					>
 						{t('heroApplyButtonLabel')}
 					</Button>
@@ -30,7 +30,7 @@ export const UserSection = ({ session }: { session: Session | null }) => {
 				<Link href='/signin'>
 					<Button
 						classNames={{ root: 'px-10' }}
-						leftSection={<UserIcon className='h-4 w-4 text-white' />}
+						leftSection={<FiUser className='text-base' />}
 					>
 						{t('heroSignInButtonLabel')}
 					</Button>

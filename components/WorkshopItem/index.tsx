@@ -1,7 +1,7 @@
 'use client'
 
+import { FiCalendar } from 'react-icons/fi'
 import { UpcomingWorkshopDetail } from '@app/api/workshop/upcoming/route'
-import { CalendarDaysIcon } from '@heroicons/react/24/outline'
 import { Avatar, Badge, Card, Group, Indicator, Text, Title, Tooltip } from '@mantine/core'
 import dayjs from 'dayjs'
 import Image from 'next/image'
@@ -22,7 +22,7 @@ export const WorkshopItem = ({ workshop }: WorkshopItem) => {
 			href={`/workshop/${workshop?.slug}`}
 		>
 			<Card.Section>
-				<div className='relative aspect-21/9 w-full'>
+				<div className='relative aspect-16/9 w-full'>
 					<Image
 						className='object-cover object-center'
 						src={workshop?.workshopThumbnail.url ?? ''}
@@ -58,7 +58,7 @@ export const WorkshopItem = ({ workshop }: WorkshopItem) => {
 				</Text>
 				<Group
 					ml={4}
-					h={28}
+					h={24}
 				>
 					{workshop?.tags.map(tag => (
 						<Tooltip
@@ -77,15 +77,13 @@ export const WorkshopItem = ({ workshop }: WorkshopItem) => {
 						</Tooltip>
 					))}
 				</Group>
-				<Group justify='space-between'>
+				<Group
+					justify='space-between'
+					mt={8}
+				>
 					<Group gap={4}>
-						<CalendarDaysIcon className='h-4 w-4' />
-						<Text
-							size='xs'
-							c='dark.4'
-						>
-							{dayjs(workshop?.presentationDate).format('ddd, DD MMM YYYY')}
-						</Text>
+						<FiCalendar className='text-xs' />
+						<span className='text-xs'>{dayjs(workshop?.presentationDate).format('ddd, DD MMM YYYY')}</span>
 					</Group>
 					<Group gap={4}>
 						<Text
@@ -105,7 +103,6 @@ export const WorkshopItem = ({ workshop }: WorkshopItem) => {
 						>
 							{workshop?.host.name}
 						</Text>
-						G
 					</Group>
 				</Group>
 			</div>
