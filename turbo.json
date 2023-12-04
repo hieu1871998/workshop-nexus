@@ -8,7 +8,10 @@
 		},
 		"build": {
 			"outputs": [".next/**", "!.next/cache/**"],
-			"dependsOn": ["db:generate", "db:push", "format", "lint:fix"]
+			"dependsOn": ["format", "lint:fix", "db:generate", "db:push"]
+		},
+		"start": {
+			"dependsOn": ["build"]
 		},
 		"lint": {
 			"cache": false
