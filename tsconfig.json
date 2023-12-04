@@ -39,5 +39,6 @@
 		"next.config.js",
 		"public/**.*"
 	],
+	"files": ["global.d.ts", "./types/next-auth.d.ts", "./types/modals.d.ts"],
 	"exclude": ["next-env.d.ts", "node_modules"]
 }

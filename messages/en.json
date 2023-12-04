@@ -55,6 +55,11 @@
 			"title": "Are you sure you want to attend this workshop?",
 			"confirm": "I'm sure",
 			"cancel": "No"
+		},
+		"updateModal": {
+			"title": "Update workshop",
+			"submitLabel": "Update",
+			"resetLabel": "Reset"
 		}
 	}
 }

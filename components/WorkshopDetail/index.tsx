@@ -24,6 +24,9 @@ interface WorkshopDetailProps {
 
 export const WorkshopDetail = ({ session, workshop, otherWorkshops }: WorkshopDetailProps) => {
 	const t = useTranslations('workshopDetailpage')
+	const router = useRouter()
+
+	const isOwnWorkshop = session?.user.id === workshop?.hostId
 
 	const handleAttend = async () => {
 		try {
@@ -41,7 +44,7 @@ export const WorkshopDetail = ({ session, workshop, otherWorkshops }: WorkshopDe
 		}
 	}
 
-	const openModal = () =>
+	const openAttendModal = () =>
 		modals.openConfirmModal({
 			title: t('attendModal.title'),
 			labels: { confirm: t('attendModal.confirm'), cancel: t('attendModal.cancel') },
@@ -49,9 +52,16 @@ export const WorkshopDetail = ({ session, workshop, otherWorkshops }: WorkshopDe
 			onConfirm: () => void handleAttend(),
 		})
 
-	const isOwnWorkshop = session?.user.id === workshop?.hostId
-
-	const router = useRouter()
+	const openEditModal = () =>
+		modals.openContextModal({
+			modal: 'workshopUpdate',
+			title: <Text fw={600}>{t('updateModal.title')}</Text>,
+			size: 'xl',
+			innerProps: {
+				workshop,
+				user: session?.user,
+			},
+		})
 
 	return (
 		<div>
@@ -65,7 +75,12 @@ export const WorkshopDetail = ({ session, workshop, otherWorkshops }: WorkshopDe
 				</Button>
 				{isOwnWorkshop && (
 					<Group>
-						<Button variant='default'>Edit</Button>
+						<Button
+							variant='default'
+							onClick={openEditModal}
+						>
+							Edit
+						</Button>
 						<Button>Publish</Button>
 					</Group>
 				)}
@@ -76,7 +91,7 @@ export const WorkshopDetail = ({ session, workshop, otherWorkshops }: WorkshopDe
 						<Button
 							px={80}
 							size='lg'
-							onClick={openModal}
+							onClick={openAttendModal}
 							disabled={isOwnWorkshop}
 						>
 							{t('attendButtonTitle')}

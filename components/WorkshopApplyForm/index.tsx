@@ -244,7 +244,6 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 						placeholder='Input presentation date'
 						withAsterisk
 						minDate={dayjs().add(7, 'day').toDate()}
-						defaultValue={dayjs().add(7, 'day').toDate()}
 						valueFormat='YYYY, DD MMM - HH:mm'
 					/>
 					<NumberInput
