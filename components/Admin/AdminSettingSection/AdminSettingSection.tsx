@@ -34,7 +34,7 @@ export const AdminSettingSection = () => {
 									value='categories'
 									onClick={() => setTab('categories')}
 								>
-									Category Tags
+									Categories
 								</TabsTab>
 							</TabsList>
 						</Tabs>

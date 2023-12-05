@@ -1,5 +1,6 @@
 import { fetcher } from '@network/utils/fetcher'
 import {
+	AdminCategory,
 	AdminCategoryResponse,
 	AdminUserTagsResponse,
 	AdminWorkshopTagsResponse,
@@ -38,6 +39,18 @@ export const getAdminCategories = async (payload: GetAdminCategoriesPayload) => 
 
 	return fetcher<AdminCategoryResponse>(url, {
 		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+}
+
+export const updateAdminCategory = async (payload: AdminCategory) => {
+	const url = `/api/admin/settings/category/${payload.id}`
+
+	return fetcher<AdminCategory>(url, {
+		method: 'PUT',
+		body: JSON.stringify(payload),
 		headers: {
 			'Content-Type': 'application/json',
 		},
