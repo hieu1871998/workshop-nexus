@@ -1,4 +1,4 @@
-import { AdminSettingSection } from '@components/Admin/AdminSettingSection'
+import { AdminSettingSection } from '@components/Admin/AdminSettingSection/AdminSettingSection'
 
 const AdminSettingPage = () => {
 	return (
