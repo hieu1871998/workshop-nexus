@@ -10,13 +10,7 @@ const DEFAULT_ORDER_DIRECTION = 'desc'
 interface GetAdminUsersRequest extends BaseListPayload {}
 
 const getUserTags = async (payload: GetAdminUsersRequest) => {
-	const {
-		query,
-		orderBy = DEFAULT_ORDER_BY,
-		orderDirection = DEFAULT_ORDER_DIRECTION,
-		page = DEFAULT_PAGE,
-		pageSize = DEFAULT_PAGE_SIZE,
-	} = payload
+	const { query, page = DEFAULT_PAGE, pageSize = DEFAULT_PAGE_SIZE } = payload
 
 	const tags = await prisma.userTag.findMany({
 		where: {
@@ -31,9 +25,6 @@ const getUserTags = async (payload: GetAdminUsersRequest) => {
 		},
 		skip: (pageSize || DEFAULT_PAGE_SIZE) * (page ? page - 1 : DEFAULT_PAGE),
 		take: pageSize || DEFAULT_PAGE_SIZE,
-		orderBy: {
-			[orderBy]: orderDirection,
-		},
 	})
 
 	const total = await prisma.userTag.count()
@@ -50,13 +41,7 @@ const getUserTags = async (payload: GetAdminUsersRequest) => {
 }
 
 const getWorkshopTags = async (payload: GetAdminUsersRequest) => {
-	const {
-		query,
-		orderBy = DEFAULT_ORDER_BY,
-		orderDirection = DEFAULT_ORDER_DIRECTION,
-		page = DEFAULT_PAGE,
-		pageSize = DEFAULT_PAGE_SIZE,
-	} = payload
+	const { query, page = DEFAULT_PAGE, pageSize = DEFAULT_PAGE_SIZE } = payload
 
 	const tags = await prisma.workshopTag.findMany({
 		where: {
@@ -71,9 +56,6 @@ const getWorkshopTags = async (payload: GetAdminUsersRequest) => {
 		},
 		skip: (pageSize || DEFAULT_PAGE_SIZE) * (page ? page - 1 : DEFAULT_PAGE),
 		take: pageSize || DEFAULT_PAGE_SIZE,
-		// orderBy: {
-		// 	[orderBy]: orderDirection,
-		// },
 	})
 
 	const total = await prisma.workshopTag.count()
@@ -90,7 +72,7 @@ const getWorkshopTags = async (payload: GetAdminUsersRequest) => {
 }
 
 const getCategories = async (payload: GetAdminUsersRequest) => {
-	const { query, orderBy = DEFAULT_ORDER_BY, orderDirection = DEFAULT_ORDER_DIRECTION, page = DEFAULT_PAGE } = payload
+	const { query, page = DEFAULT_PAGE } = payload
 
 	const pageSize = payload.pageSize || DEFAULT_PAGE_SIZE
 	const skip = (pageSize || DEFAULT_PAGE_SIZE) * (page ? page - 1 : DEFAULT_PAGE)
@@ -108,15 +90,11 @@ const getCategories = async (payload: GetAdminUsersRequest) => {
 		},
 		skip: skip,
 		take: pageSize,
-		// orderBy: {
-		// 	[orderBy]: orderDirection,
-		// },
 	})
 
 	const total = await prisma.category.count()
 
 	const hasNextPage = categories.length >= pageSize
-	console.log(categories.length, pageSize)
 
 	const nextPage = hasNextPage ? page + 1 : undefined
 

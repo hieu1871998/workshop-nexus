@@ -1,10 +1,11 @@
 import { KeyboardEvent, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import {
-	ActionIcon,
 	Badge,
 	Button,
+	Center,
 	Flex,
+	Loader,
 	Select,
 	Table,
 	TableTbody,
@@ -18,7 +19,7 @@ import { updateAdminCategory } from '@network/fetchers/setting'
 import { useGetAdminCategories } from '@network/queries'
 import { TagColor, TagVariant } from '@prisma/client'
 import SearchIcon from '@public/icons/SearchIcon'
-import { AdminCategory, AdminCategoryResponse, GetAdminCategoriesPayload } from '@types'
+import { AdminCategory, GetAdminCategoriesPayload } from '@types'
 
 const COLOR = Object.values(TagColor)
 const VARIANT = Object.values(TagVariant)
@@ -30,7 +31,7 @@ export const AdminCategorySettings = () => {
 		page: 1,
 	} as GetAdminCategoriesPayload)
 
-	const { data, hasNextPage, isLoading, isFetching, fetchNextPage, refetch } = useGetAdminCategories(payload)
+	const { data, isLoading, isFetching, fetchNextPage, refetch } = useGetAdminCategories(payload)
 
 	const categories = useMemo(
 		() =>
@@ -65,6 +66,7 @@ export const AdminCategorySettings = () => {
 
 	const onSearchChange = (e: KeyboardEvent<HTMLInputElement>) => {
 		if (e.code === 'Enter') setPayload({ ...payload, query: search })
+		setSelected(undefined)
 	}
 
 	const handleSave = async () => {
@@ -77,12 +79,23 @@ export const AdminCategorySettings = () => {
 						page: 1,
 					})
 					toast.success('Update success')
+					setSelected(undefined)
 				}
 			}
 		} catch (e) {
 			toast.error('An error occurred!')
 		}
 	}
+
+	if (isLoading)
+		return (
+			<Center
+				maw='100%'
+				h='100%'
+			>
+				<Loader />
+			</Center>
+		)
 
 	return (
 		<div>
@@ -97,31 +110,40 @@ export const AdminCategorySettings = () => {
 			/>
 
 			{selected && (
-				<Flex>
-					<Badge
-						color={selected?.color}
-						variant={selected?.variant}
-						style={{ flexShrink: 0 }}
-					>
-						{selected?.label}
-					</Badge>
-					<TextInput
-						className='w-full'
-						placeholder='Search for label'
-						value={selected?.label}
-						onChange={e => setSelected({ ...selected, label: e.target.value })}
-					/>
-					<Select
-						value={selected?.color}
-						data={COLOR}
-						onChange={e => setSelected({ ...selected, color: e as TagColor })}
-					/>
-					<Select
-						value={selected?.variant}
-						data={VARIANT}
-						onChange={e => setSelected({ ...selected, variant: e as TagVariant })}
-					/>
-					<Button onClick={() => void handleSave()}>Save</Button>
+				<Flex
+					gap='xs'
+					mt='xs'
+					mb='xs'
+					direction='column'
+				>
+					<Flex>
+						<Badge
+							color={selected?.color}
+							variant={selected?.variant}
+							style={{ flexShrink: 0 }}
+						>
+							{selected?.label}
+						</Badge>
+					</Flex>
+					<Flex gap='xs'>
+						<TextInput
+							className='w-full'
+							placeholder='Search for label'
+							value={selected?.label}
+							onChange={e => setSelected({ ...selected, label: e.target.value })}
+						/>
+						<Select
+							value={selected?.color}
+							data={COLOR}
+							onChange={e => setSelected({ ...selected, color: e as TagColor })}
+						/>
+						<Select
+							value={selected?.variant}
+							data={VARIANT}
+							onChange={e => setSelected({ ...selected, variant: e as TagVariant })}
+						/>
+						<Button onClick={() => void handleSave()}>Save</Button>
+					</Flex>
 				</Flex>
 			)}
 
@@ -140,14 +162,17 @@ export const AdminCategorySettings = () => {
 				<TableTbody>{rows}</TableTbody>
 			</Table>
 
-			{hasMore && (
-				<Button
-					onClick={() => {
-						void fetchNextPage()
-					}}
-				>
-					Show more
-				</Button>
+			{hasMore && !!categories.length && (
+				<Flex justify='center'>
+					<Button
+						onClick={() => {
+							void fetchNextPage()
+						}}
+						loading={isFetching}
+					>
+						Show more
+					</Button>
+				</Flex>
 			)}
 		</div>
 	)

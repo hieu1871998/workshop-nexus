@@ -5,20 +5,20 @@ import { GetAdminCategoriesPayload, GetAdminUserTagsPayload, GetAdminWorkshopTag
 export const useGetAdminUserTags = (payload: GetAdminUserTagsPayload) => {
 	return useInfiniteQuery({
 		queryKey: ['GET_ADMIN_USER_TAGS', payload],
-		queryFn: ({ pageParam = 0 }) => getAdminUserTags({ ...payload, page: pageParam }),
+		queryFn: ({ pageParam = 1 }) => getAdminUserTags({ ...payload, page: pageParam }),
 		refetchOnWindowFocus: false,
 		getNextPageParam: lastPage => lastPage?.nextPage,
-		initialPageParam: 0,
+		initialPageParam: 1,
 	})
 }
 
 export const useGetAdminWorkshopTags = (payload: GetAdminWorkshopTagsPayload) => {
 	return useInfiniteQuery({
 		queryKey: ['GET_ADMIN_WORKSHOP_TAGS', payload],
-		queryFn: ({ pageParam = 0 }) => getAdminWorkshopTags({ ...payload, page: pageParam }),
+		queryFn: ({ pageParam = 1 }) => getAdminWorkshopTags({ ...payload, page: pageParam }),
 		refetchOnWindowFocus: false,
 		getNextPageParam: lastPage => lastPage?.nextPage,
-		initialPageParam: 0,
+		initialPageParam: 1,
 	})
 }
 
