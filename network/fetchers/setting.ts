@@ -1,8 +1,11 @@
+import { SettingForm } from '@components/Admin/AdminSettingSection/AdminTagModal'
 import { fetcher } from '@network/utils/fetcher'
 import {
 	AdminCategory,
 	AdminCategoryResponse,
+	AdminUserTag,
 	AdminUserTagsResponse,
+	AdminWorkshopTag,
 	AdminWorkshopTagsResponse,
 	GetAdminCategoriesPayload,
 	GetAdminUserTagsPayload,
@@ -45,12 +48,105 @@ export const getAdminCategories = async (payload: GetAdminCategoriesPayload) => 
 	})
 }
 
+export const updateAdminUserTag = async (payload: AdminUserTag) => {
+	const url = `/api/admin/settings/user_tags/${payload.id}`
+
+	return fetcher<AdminUserTag>(url, {
+		method: 'PUT',
+		body: JSON.stringify(payload),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+}
+
+export const updateAdminWorkshopTag = async (payload: AdminWorkshopTag) => {
+	const url = `/api/admin/settings/workshop_tags/${payload.id}`
+
+	return fetcher<AdminWorkshopTag>(url, {
+		method: 'PUT',
+		body: JSON.stringify(payload),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+}
+
 export const updateAdminCategory = async (payload: AdminCategory) => {
-	const url = `/api/admin/settings/category/${payload.id}`
+	const url = `/api/admin/settings/categories/${payload.id}`
 
 	return fetcher<AdminCategory>(url, {
 		method: 'PUT',
 		body: JSON.stringify(payload),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+}
+
+export const createAdminUserTag = async (payload: SettingForm) => {
+	const url = `/api/admin/settings/user_tags`
+
+	return fetcher<AdminUserTag>(url, {
+		method: 'POST',
+		body: JSON.stringify(payload),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+}
+
+export const createAdminWorkshopTag = async (payload: SettingForm) => {
+	const url = `/api/admin/settings/workshop_tags`
+
+	return fetcher<AdminWorkshopTag>(url, {
+		method: 'POST',
+		body: JSON.stringify(payload),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+}
+
+export const createAdminCategory = async (payload: SettingForm) => {
+	const url = `/api/admin/settings/categories`
+
+	return fetcher<AdminUserTag>(url, {
+		method: 'POST',
+		body: JSON.stringify(payload),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+}
+
+export const deleteAdminUserTag = async (id: number) => {
+	const url = `/api/admin/settings/user_tags/${id}`
+
+	return fetcher<void>(url, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+}
+
+export const deleteAdminWorkshopTag = async (id: number) => {
+	const url = `/api/admin/settings/workshop_tags/${id}`
+
+	return fetcher<void>(url, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+}
+
+export const deleteAdminCategory = async (id: number) => {
+	const url = `/api/admin/settings/categories/${id}`
+
+	return fetcher<void>(url, {
+		method: 'DELETE',
 		headers: {
 			'Content-Type': 'application/json',
 		},

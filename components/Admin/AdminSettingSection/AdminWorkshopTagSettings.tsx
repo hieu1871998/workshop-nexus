@@ -1,12 +1,13 @@
 import { KeyboardEvent, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
+import { PlusCircleIcon } from '@heroicons/react/24/outline'
 import {
 	Badge,
 	Button,
 	Center,
+	CloseButton,
 	Flex,
 	Loader,
-	Select,
 	Table,
 	TableTbody,
 	TableTd,
@@ -15,17 +16,21 @@ import {
 	TableTr,
 	TextInput,
 } from '@mantine/core'
-import { updateAdminCategory } from '@network/fetchers/setting'
+import { useDisclosure } from '@mantine/hooks'
+import { modals } from '@mantine/modals'
+import { deleteAdminWorkshopTag, updateAdminWorkshopTag } from '@network/fetchers/setting'
 import { useGetAdminWorkshopTags } from '@network/queries'
-import { TagColor, TagVariant } from '@prisma/client'
 import SearchIcon from '@public/icons/SearchIcon'
 import { AdminWorkshopTag, GetAdminWorkshopTagsPayload } from '@types'
+import { useTranslations } from 'next-intl'
 
-const COLOR = Object.values(TagColor)
-const VARIANT = Object.values(TagVariant)
+import { AdminTagModal, SettingForm } from './AdminTagModal'
 
 export const AdminWorkshopTagSettings = () => {
+	const t = useTranslations('workshopDetailpage')
 	const [search, setSearch] = useState('')
+	const [isEdit, setEdit] = useState(false)
+	const [opened, { open, close }] = useDisclosure(false)
 	const [selected, setSelected] = useState<AdminWorkshopTag>()
 	const [payload, setPayload] = useState({
 		page: 1,
@@ -44,23 +49,38 @@ export const AdminWorkshopTagSettings = () => {
 
 	const rows = useMemo(
 		() =>
-			tags.map(category => (
+			tags.map(tag => (
 				<TableTr
-					key={category.id}
-					onClick={() => setSelected(category)}
+					key={tag.id}
+					onClick={() => {
+						open()
+						setEdit(true)
+						setSelected(tag)
+					}}
 				>
 					<TableTd>
 						<Badge
-							color={category.color}
-							variant={category.variant}
+							color={tag.color}
+							variant={tag.variant}
 						>
-							{category.label}
+							{tag.label}
 						</Badge>
 					</TableTd>
-					<TableTd>{category.color}</TableTd>
-					<TableTd>{category.variant}</TableTd>
+					<TableTd>{tag.color}</TableTd>
+					<TableTd>{tag.variant}</TableTd>
+					<TableTd>
+						<CloseButton
+							onClick={() => {
+								setTimeout(() => {
+									close()
+									openDeleteModal(tag)
+								})
+							}}
+						/>
+					</TableTd>
 				</TableTr>
 			)),
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[tags]
 	)
 
@@ -69,18 +89,43 @@ export const AdminWorkshopTagSettings = () => {
 		setSelected(undefined)
 	}
 
-	const handleSave = async () => {
-		try {
-			if (selected) {
-				const res = await updateAdminCategory(selected)
-				if (res?.id) {
-					await refetch()
+	const openDeleteModal = (category: AdminWorkshopTag) =>
+		modals.openConfirmModal({
+			title: `Are you sure you want to delete '${category.label}'?`,
+			labels: { confirm: t('attendModal.confirm'), cancel: t('attendModal.cancel') },
+			onCancel: () => setSelected(undefined),
+			onConfirm: () => {
+				setSelected(undefined)
+				void handleDelete(category.id)
+			},
+		})
+
+	const handleDelete = (id: number) => {
+		deleteAdminWorkshopTag(id)
+			.then(v => {
+				if (v) {
+					toast.success('Delete success')
 					setPayload({
 						page: 1,
 					})
-					toast.success('Update success')
-					setSelected(undefined)
+					void refetch()
 				}
+			})
+			.catch(e => {
+				toast.error('An error occurred!' + e)
+			})
+	}
+
+	const handleSave = async (value: SettingForm) => {
+		try {
+			const res = await updateAdminWorkshopTag(value as AdminWorkshopTag)
+			if (res?.id) {
+				await refetch()
+				setPayload({
+					page: 1,
+				})
+				toast.success('Update success')
+				setSelected(undefined)
 			}
 		} catch (e) {
 			toast.error('An error occurred!')
@@ -99,6 +144,25 @@ export const AdminWorkshopTagSettings = () => {
 
 	return (
 		<div>
+			<Flex justify='end'>
+				<Button
+					leftSection={<PlusCircleIcon />}
+					onClick={() => {
+						open()
+						setEdit(false)
+						setSelected({
+							id: 0,
+							label: '',
+							color: 'blue',
+							variant: 'default',
+						})
+					}}
+					mb='12px'
+				>
+					Add Tag
+				</Button>
+			</Flex>
+
 			<TextInput
 				className='w-full'
 				placeholder='Search for label'
@@ -108,44 +172,6 @@ export const AdminWorkshopTagSettings = () => {
 				leftSection={<SearchIcon />}
 				onBlur={() => setPayload({ ...payload, query: search })}
 			/>
-
-			{selected && (
-				<Flex
-					gap='xs'
-					mt='xs'
-					mb='xs'
-					direction='column'
-				>
-					<Flex>
-						<Badge
-							color={selected?.color}
-							variant={selected?.variant}
-							style={{ flexShrink: 0 }}
-						>
-							{selected?.label}
-						</Badge>
-					</Flex>
-					<Flex gap='xs'>
-						<TextInput
-							className='w-full'
-							placeholder='Search for label'
-							value={selected?.label}
-							onChange={e => setSelected({ ...selected, label: e.target.value })}
-						/>
-						<Select
-							value={selected?.color}
-							data={COLOR}
-							onChange={e => setSelected({ ...selected, color: e as TagColor })}
-						/>
-						<Select
-							value={selected?.variant}
-							data={VARIANT}
-							onChange={e => setSelected({ ...selected, variant: e as TagVariant })}
-						/>
-						<Button onClick={() => void handleSave()}>Save</Button>
-					</Flex>
-				</Flex>
-			)}
 
 			<Table
 				highlightOnHover
@@ -157,6 +183,7 @@ export const AdminWorkshopTagSettings = () => {
 						<TableTh>Label</TableTh>
 						<TableTh>Color</TableTh>
 						<TableTh>Variant</TableTh>
+						<TableTh></TableTh>
 					</TableTr>
 				</TableThead>
 				<TableTbody>{rows}</TableTbody>
@@ -173,6 +200,26 @@ export const AdminWorkshopTagSettings = () => {
 						Show more
 					</Button>
 				</Flex>
+			)}
+
+			{selected && (
+				<AdminTagModal
+					opened={opened}
+					onClose={(refresh?: boolean) => {
+						close()
+						if (refresh) {
+							setPayload({
+								page: 1,
+							})
+							void refetch()
+						}
+						setSelected(undefined)
+					}}
+					tab='workshopTags'
+					isEdit={isEdit}
+					onSave={e => void handleSave(e)}
+					selected={selected as SettingForm}
+				/>
 			)}
 		</div>
 	)

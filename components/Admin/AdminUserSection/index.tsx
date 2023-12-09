@@ -1,6 +1,6 @@
 'use client'
 
-import { KeyboardEvent, memo, useEffect, useMemo, useState } from 'react'
+import { KeyboardEvent, memo, useEffect, useState } from 'react'
 import LoadingPage from '@app/[locale]/(user)/loading'
 import {
 	Avatar,
@@ -10,12 +10,10 @@ import {
 	Flex,
 	Grid,
 	GridCol,
-	Group,
-	NavLink,
 	Pagination,
 	Select,
 	Table,
-	TableData,
+	TableTbody,
 	TableTd,
 	TableTh,
 	TableThead,
@@ -27,12 +25,21 @@ import { useGetAdminUsers } from '@network/queries'
 import EditIcon from '@public/icons/EditIcon'
 import SearchIcon from '@public/icons/SearchIcon'
 import { AdminUsers, getRoleColor } from '@types'
+import { Session } from 'next-auth'
 
 import { useChangeFilter } from './components/useChangeFilter'
 
-const HEAD = ['Name', 'Email', 'Role', 'Workshops Hosted', 'Workshops Participated', 'Tag', '']
-
-export const AdminUserSection = () => {
+export const AdminUserSection = ({ session }: { session: Session | null }) => {
+	const userRole = session?.user.role
+	const HEAD = [
+		'Name',
+		'Email',
+		'Role',
+		'Workshops Hosted',
+		'Workshops Participated',
+		'Tag',
+		userRole === 'ADMIN' ? '' : [].flat(),
+	]
 	const [payload, setPayload] = useChangeFilter()
 	const [search, setSearch] = useState('')
 
@@ -48,57 +55,6 @@ export const AdminUserSection = () => {
 		)
 	})
 	ButtonGroup.displayName = 'button'
-
-	const body = useMemo(
-		() =>
-			data?.users.map(user => [
-				<Flex
-					key={user.id}
-					align='center'
-					gap='sm'
-				>
-					<Avatar
-						src={user.image || null}
-						size='sm'
-					/>
-					<Text>{user.name}</Text>
-				</Flex>,
-				user.email,
-				<Badge
-					key={user.id}
-					color={getRoleColor(user.role)}
-					style={{ minWidth: 70 }}
-				>
-					{user.role}
-				</Badge>,
-				user?.workshopsHosted?.length,
-				user?.workshopsParticipated?.length,
-				<Box
-					key={user.id}
-					style={{ maxWidth: 300 }}
-				>
-					{user.tags.map(tag => (
-						<Badge
-							key={tag.id}
-							color={tag.color}
-						>
-							{tag.label}
-						</Badge>
-					))}
-				</Box>,
-				<ButtonGroup
-					user={user}
-					key={user.id}
-				/>,
-			]) ?? [],
-		[ButtonGroup, data?.users]
-	)
-
-	const tableData: TableData = {
-		head: HEAD,
-		caption: body.length ? undefined : 'Nothing to show',
-		body,
-	}
 
 	const onSearchChange = (e: KeyboardEvent<HTMLInputElement>) => {
 		if (e.code === 'Enter') setPayload({ ...payload, query: search })
@@ -130,11 +86,7 @@ export const AdminUserSection = () => {
 
 					<GridCol span={12}>
 						<Box className='rounded-lg border border-solid'>
-							<Table
-								highlightOnHover
-								data={tableData}
-							/>
-							{/* <Table>
+							<Table>
 								<TableThead>
 									<TableTr>
 										{HEAD.map((head, idx) => (
@@ -142,7 +94,7 @@ export const AdminUserSection = () => {
 										))}
 									</TableTr>
 								</TableThead>
-								<Table.Tbody>
+								<TableTbody>
 									{data?.users.map(user => {
 										return (
 											<TableTr key={user.id}>
@@ -158,8 +110,8 @@ export const AdminUserSection = () => {
 														<Text>{user.name}</Text>
 													</Flex>
 												</TableTd>
-												<Table.Td>{user.email}</Table.Td>
-												<Table.Td>
+												<TableTd>{user.email}</TableTd>
+												<TableTd>
 													<Badge
 														key={user.id}
 														color={getRoleColor(user.role)}
@@ -167,10 +119,10 @@ export const AdminUserSection = () => {
 													>
 														{user.role}
 													</Badge>
-												</Table.Td>
-												<Table.Td>{user?.workshopsHosted?.length}</Table.Td>
-												<Table.Td>{user?.workshopsParticipated?.length}</Table.Td>
-												<Table.Td>
+												</TableTd>
+												<TableTd>{user?.workshopsHosted?.length}</TableTd>
+												<TableTd>{user?.workshopsParticipated?.length}</TableTd>
+												<TableTd>
 													<Box
 														key={user.id}
 														style={{ maxWidth: 300 }}
@@ -184,18 +136,20 @@ export const AdminUserSection = () => {
 															</Badge>
 														))}
 													</Box>
-												</Table.Td>
-												<Table.Td>
-													<ButtonGroup
-														user={user}
-														key={user.id}
-													/>
-												</Table.Td>
+												</TableTd>
+												{userRole === 'ADMIN' && (
+													<TableTd>
+														<ButtonGroup
+															user={user}
+															key={user.id}
+														/>
+													</TableTd>
+												)}
 											</TableTr>
 										)
 									})}
-								</Table.Tbody>
-							</Table> */}
+								</TableTbody>
+							</Table>
 						</Box>
 					</GridCol>
 

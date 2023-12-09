@@ -20,6 +20,7 @@ import { useForm } from '@mantine/form'
 import { updateAdminUsers } from '@network/fetchers'
 import { Role, UserTag } from '@prisma/client'
 import { AdminUsers } from '@types'
+import { Session } from 'next-auth'
 
 export interface UserForm {
 	id: string
@@ -27,7 +28,16 @@ export interface UserForm {
 	role: Role
 }
 
-const AdminUserDetail = ({ user, userTags }: { user: AdminUserResponse; userTags: UserTag[] }) => {
+const AdminUserDetail = ({
+	user,
+	userTags,
+	session,
+}: {
+	user: AdminUserResponse
+	userTags: UserTag[]
+	session: Session | null
+}) => {
+	const isAdmin = session?.user.role === 'ADMIN'
 	const { getInputProps, isDirty, reset, onSubmit } = useForm<UserForm>({
 		initialValues: {
 			id: user.id,
@@ -70,24 +80,26 @@ const AdminUserDetail = ({ user, userTags }: { user: AdminUserResponse; userTags
 					</Flex>
 				</Flex>
 
-				<Group justify='flex-end'>
-					{isDirty() && (
+				{isAdmin && (
+					<Group justify='flex-end'>
+						{isDirty() && (
+							<Button
+								color='red'
+								onClick={reset}
+								variant='outline'
+							>
+								Cancel
+							</Button>
+						)}
 						<Button
-							color='red'
-							onClick={reset}
-							variant='outline'
+							onClick={() => onSubmit(handleSubmit)()}
+							color='blue'
+							disabled={!isDirty()}
 						>
-							Cancel
+							Save
 						</Button>
-					)}
-					<Button
-						onClick={() => onSubmit(handleSubmit)()}
-						color='blue'
-						disabled={!isDirty()}
-					>
-						Save
-					</Button>
-				</Group>
+					</Group>
+				)}
 			</Flex>
 
 			<Box style={{ maxWidth: 800 }}>
@@ -122,10 +134,14 @@ const AdminUserDetail = ({ user, userTags }: { user: AdminUserResponse; userTags
 						label='Role'
 						data={Object.values(Role)}
 						{...getInputProps('role')}
+						disabled={!isAdmin}
 					/>
 				</GridCol>
 				<GridCol span={6}>
-					<TextInput label='Permission' />
+					<TextInput
+						label='Permission'
+						disabled={!isAdmin}
+					/>
 				</GridCol>
 
 				<GridCol span={12}>
@@ -135,6 +151,7 @@ const AdminUserDetail = ({ user, userTags }: { user: AdminUserResponse; userTags
 						data={userTags.map(tag => tag.label)}
 						hidePickedOptions
 						searchable
+						disabled={!isAdmin}
 					/>
 				</GridCol>
 			</Grid>
