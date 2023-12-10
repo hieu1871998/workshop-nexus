@@ -1,8 +1,7 @@
 'use client'
 
 import { WorkshopDetail as WorkshopDetailType } from '@app/api/workshop/[slug]/route'
-import { UserHoverCard } from '@components/UserHoverCard'
-import { WorkshopItem } from '@components/WorkshopItem'
+import { Banner, UserHoverCard, WorkshopItem } from '@components'
 import { ArrowLeftIcon, CalendarDaysIcon } from '@heroicons/react/24/outline'
 import { Avatar, Badge, Button, Card, Group, Paper, Stack, Text, Title } from '@mantine/core'
 import { modals } from '@mantine/modals'
@@ -208,6 +207,7 @@ export const WorkshopDetail = ({ session, workshop, otherWorkshops }: WorkshopDe
 					</Stack>
 				</div>
 			</div>
+			<Banner />
 		</div>
 	)
 }

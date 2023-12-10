@@ -22,6 +22,11 @@
 	}
 }
 
+html,
+body {
+	scroll-behavior: smooth;
+}
+
 body {
 	height: auto;
 	background-color: var(--background);

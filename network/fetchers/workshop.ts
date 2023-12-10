@@ -71,8 +71,10 @@ export const getAdminWorkshops = async (payload: GetAdminWorkshopsPayload) => {
 	})
 }
 
-export const getUpcomingWorkshops = async () => {
-	return fetcher<UpcomingWorkshopDetail[]>('/api/workshop/upcoming', {
+export const getUpcomingWorkshops = async (params?: { pageSize?: number; pageIndex?: number }) => {
+	const searchParams = new URLSearchParams(params as Record<string, string>)
+
+	return fetcher<UpcomingWorkshopDetail[]>(`/api/workshop/upcoming?${searchParams.toString()}`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',

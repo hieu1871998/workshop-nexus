@@ -1,12 +1,14 @@
 'use client'
 
-import { FiArrowRight, FiUser } from 'react-icons/fi'
+import { FiArrowDown, FiArrowRight, FiUser } from 'react-icons/fi'
 import { Button } from '@mantine/core'
 import { fadeInDownMotion } from '@utils'
 import { m } from 'framer-motion'
 import Link from 'next/link'
 import { Session } from 'next-auth'
 import { useTranslations } from 'next-intl'
+
+import styles from './styles.module.scss'
 
 export const UserSection = ({ session }: { session: Session | null }) => {
 	const user = session?.user
@@ -36,6 +38,20 @@ export const UserSection = ({ session }: { session: Session | null }) => {
 					</Button>
 				</Link>
 			)}
+			<m.div
+				className={`${styles.explore} mt-20 flex flex-col items-center`}
+				{...fadeInDownMotion}
+				transition={{ delay: 1.2, duration: 1 }}
+			>
+				<Button
+					variant='transparent'
+					component={Link}
+					href='#upcoming'
+				>
+					Explore
+				</Button>
+				<FiArrowDown className={styles.arrow} />
+			</m.div>
 		</m.div>
 	)
 }

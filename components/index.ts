@@ -1,4 +1,5 @@
 export * from './Admin'
+export * from './Banner'
 export * from './DarkModeSwitch'
 export * from './Footer'
 export * from './Header'
