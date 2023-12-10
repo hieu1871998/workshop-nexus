@@ -49,7 +49,7 @@ export const AdminWorkshopTableCell = ({ workshop, columnKey }: AdminWorkshopTab
 				return (
 					<User
 						avatarProps={{
-							src: workshop.host.image as string,
+							src: workshop.host.image,
 						}}
 						name={workshop.host.name}
 						description={workshop.host.email}

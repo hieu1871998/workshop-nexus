@@ -52,8 +52,8 @@
 		"aboutLabel": "About this workshop",
 		"attendButtonTitle": "Attend",
 		"attendModal": {
-			"title": "Are you sure you want to attend this workshop?",
-			"confirm": "I'm sure",
+			"title": "Are you sure you want to attend <bold>{topic}</bold> workshop?",
+			"confirm": "Yes",
 			"cancel": "No"
 		},
 		"updateModal": {

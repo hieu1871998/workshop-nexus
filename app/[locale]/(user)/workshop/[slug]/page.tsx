@@ -1,4 +1,5 @@
-import { WorkshopDetail } from '@components'
+import { WorkshopDetail } from '@app/api/workshop/[slug]/route'
+import { WorkshopDetailSection } from '@components'
 import { authOptions } from '@lib/auth'
 import { getOtherWorkshops, getWorkshopDetail } from '@network/fetchers'
 import { Metadata } from 'next'
@@ -21,9 +22,9 @@ const WorkshopDetailPage = async ({ params: { slug } }: { params: { slug: string
 
 	return (
 		<main className='container mx-auto my-10 min-h-screen'>
-			<WorkshopDetail
+			<WorkshopDetailSection
 				session={session}
-				workshop={workshop}
+				workshop={workshop as WorkshopDetail}
 				otherWorkshops={otherWorkshops}
 			/>
 		</main>

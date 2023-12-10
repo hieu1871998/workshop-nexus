@@ -13,7 +13,7 @@ export const UserProfile = ({ user }: { user: UserWithProfile }) => {
 			<div className='flex flex-col items-center'>
 				<Avatar
 					size={120}
-					src={user?.image as string}
+					src={user?.image}
 				/>
 				<Text
 					fw={600}

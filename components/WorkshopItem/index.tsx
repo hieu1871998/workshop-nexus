@@ -2,7 +2,7 @@
 
 import { FiCalendar } from 'react-icons/fi'
 import { UpcomingWorkshopDetail } from '@app/api/workshop/upcoming/route'
-import { Avatar, Badge, Card, Group, Indicator, Text, Title, Tooltip } from '@mantine/core'
+import { Avatar, Badge, Card, Group, Text, Title, Tooltip } from '@mantine/core'
 import dayjs from 'dayjs'
 import { m } from 'framer-motion'
 import Image from 'next/image'
@@ -69,27 +69,6 @@ export const WorkshopItem = ({ workshop }: WorkshopItem) => {
 					>
 						{workshop?.description}
 					</Text>
-					<Group
-						ml={4}
-						h={24}
-					>
-						{workshop?.tags.map(tag => (
-							<Tooltip
-								key={tag.id}
-								label={tag.label}
-								color={tag.color}
-							>
-								<Indicator
-									key={tag.id}
-									offset={0}
-									color={tag.color}
-									position='middle-end'
-								>
-									.
-								</Indicator>
-							</Tooltip>
-						))}
-					</Group>
 					<Group
 						justify='space-between'
 						mt={8}

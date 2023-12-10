@@ -24,7 +24,6 @@ import {
 import { DateTimePicker } from '@mantine/dates'
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone'
 import { useForm } from '@mantine/form'
-import { ContextModalProps } from '@mantine/modals'
 import { updateWorkshop, uploadWorkshopThumbnail } from '@network/fetchers'
 import { useGetWorkshopCategories } from '@network/queries'
 import { User } from '@prisma/client'
@@ -40,8 +39,8 @@ interface WorkshopUpdateModal {
 	user: User
 }
 
-export const WorkshopUpdateModal = ({ innerProps }: ContextModalProps<WorkshopUpdateModal>) => {
-	const { workshop, user } = innerProps
+export const WorkshopUpdateModal = (props: WorkshopUpdateModal) => {
+	const { workshop, user } = props
 	const t = useTranslations('workshopDetailpage.updateModal')
 
 	const form = useForm<WorkshopUpdatePayload>({

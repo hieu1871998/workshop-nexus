@@ -1,11 +1,15 @@
 'use client'
 
 import { WorkshopDetail as WorkshopDetailType } from '@app/api/workshop/[slug]/route'
-import { Banner, UserHoverCard, WorkshopItem } from '@components'
+import { Banner, UserHoverCard, WorkshopItem, WorkshopUpdateModal } from '@components'
 import { ArrowLeftIcon, CalendarDaysIcon } from '@heroicons/react/24/outline'
 import { Avatar, Badge, Button, Card, Group, Paper, Stack, Text, Title } from '@mantine/core'
 import { modals } from '@mantine/modals'
+import { notifications } from '@mantine/notifications'
 import { fetcher } from '@network/utils/fetcher'
+import { user } from '@nextui-org/react'
+import { User } from '@prisma/client'
+import { IconCheck } from '@tabler/icons-react'
 import { getBadgeColor } from '@utils'
 import dayjs from 'dayjs'
 import { isEmpty } from 'lodash'
@@ -17,11 +21,11 @@ import { useTranslations } from 'next-intl'
 
 interface WorkshopDetailProps {
 	session: Session | null
-	workshop?: WorkshopDetailType
+	workshop: WorkshopDetailType
 	otherWorkshops?: WorkshopDetailType[]
 }
 
-export const WorkshopDetail = ({ session, workshop, otherWorkshops }: WorkshopDetailProps) => {
+export const WorkshopDetailSection = ({ session, workshop, otherWorkshops }: WorkshopDetailProps) => {
 	const t = useTranslations('workshopDetailpage')
 	const router = useRouter()
 
@@ -29,7 +33,15 @@ export const WorkshopDetail = ({ session, workshop, otherWorkshops }: WorkshopDe
 
 	const handleAttend = async () => {
 		try {
-			const attended = await fetcher('/api/workshop/attend', {
+			notifications.show({
+				id: 'attend-notification',
+				title: 'Please wait a moment',
+				message: `Communicating with server...`,
+				loading: true,
+				autoClose: false,
+			})
+
+			await fetcher('/api/workshop/attend', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -37,29 +49,46 @@ export const WorkshopDetail = ({ session, workshop, otherWorkshops }: WorkshopDe
 				body: JSON.stringify({ id: workshop?.id }),
 			})
 
-			console.log('attended: ', attended)
+			notifications.update({
+				id: 'attend-notification',
+				title: 'Attend successfully!',
+				message: `You have attended ${workshop?.topic} workshop`,
+				color: 'green',
+				icon: <IconCheck className='h-5 w-5' />,
+				loading: false,
+				autoClose: 3000,
+			})
 		} catch (error) {
+			notifications.clean()
 			console.error('error attending: ', error)
 		}
 	}
 
 	const openAttendModal = () =>
 		modals.openConfirmModal({
-			title: t('attendModal.title'),
+			title: (
+				<span className='leading-relaxed'>
+					{' '}
+					{t.rich('attendModal.title', {
+						bold: chunks => <span className='font-bold'>{chunks}</span>,
+						topic: workshop?.topic,
+					})}
+				</span>
+			),
 			labels: { confirm: t('attendModal.confirm'), cancel: t('attendModal.cancel') },
-			onCancel: () => console.log('Cancel'),
 			onConfirm: () => void handleAttend(),
 		})
 
 	const openEditModal = () =>
-		modals.openContextModal({
-			modal: 'workshopUpdate',
+		modals.open({
 			title: <Text fw={600}>{t('updateModal.title')}</Text>,
 			size: 'xl',
-			innerProps: {
-				workshop,
-				user: session?.user,
-			},
+			children: (
+				<WorkshopUpdateModal
+					workshop={workshop}
+					user={user as unknown as User}
+				/>
+			),
 		})
 
 	return (

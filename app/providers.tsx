@@ -1,7 +1,6 @@
 'use client'
 
 import { Toaster } from 'react-hot-toast'
-import { WorkshopUpdateModal } from '@components'
 import { ModalsProvider } from '@mantine/modals'
 import { NextUIProvider } from '@nextui-org/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -26,7 +25,7 @@ export const Providers = ({ children, locale, messages }: ProvidersProps) => {
 		>
 			<QueryClientProvider client={queryClient}>
 				<LazyMotion features={domAnimation}>
-					<ModalsProvider modals={{ workshopUpdate: WorkshopUpdateModal }}>
+					<ModalsProvider>
 						<NextThemeProvider>
 							<NextUIProvider>
 								<Toaster />
