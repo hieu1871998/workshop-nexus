@@ -241,7 +241,6 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 						{...form.getInputProps('presentationDate')}
 						label='Presentation date'
 						description='When can you hold your workshop?'
-						placeholder='Input presentation date'
 						withAsterisk
 						minDate={dayjs().add(7, 'day').toDate()}
 						valueFormat='YYYY, DD MMM - HH:mm'
