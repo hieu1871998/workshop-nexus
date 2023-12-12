@@ -55,3 +55,12 @@ export type AdminWorkshop = Prisma.WorkshopGetPayload<typeof adminWorkshop>
 export interface GetAdminWorkshopsPayload extends BaseListPayload {
 	status: WorkshopStatus[]
 }
+
+export interface GetWorkshopParams {
+	categoryId?: string[]
+	tagIds?: number[]
+	hostId?: string
+	search?: string
+	fromDate?: number
+	toDate?: number
+}

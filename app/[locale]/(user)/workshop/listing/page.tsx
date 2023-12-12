@@ -1,13 +1,14 @@
 import { WorkshopItem } from '@components'
 import { SimpleGrid } from '@mantine/core'
-import { getUpcomingWorkshops } from '@network/fetchers'
+import { fetchWorkshops } from '@network/fetchers'
+import { GetWorkshopParams } from '@types'
 
 export const metadata = {
 	title: 'Listing | Zenith',
 }
 
-const WorkshopPage = async () => {
-	const workshops = await getUpcomingWorkshops({ pageIndex: 0, pageSize: 10 })
+const WorkshopPage = async ({ searchParams }: { searchParams: GetWorkshopParams }) => {
+	const workshops = await fetchWorkshops(searchParams)
 
 	return (
 		<div>

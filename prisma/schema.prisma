@@ -97,7 +97,7 @@ model Category {
 }
 
 model UserTag {
-  id      Int        @id @default(autoincrement())
+  id      String     @id @default(cuid())
   label   String     @unique
   variant TagVariant @default(default)
   color   TagColor   @default(dark)
@@ -105,7 +105,7 @@ model UserTag {
 }
 
 model WorkshopTag {
-  id        Int        @id @default(autoincrement())
+  id        String     @id @default(cuid())
   label     String     @unique
   variant   TagVariant @default(default)
   color     TagColor   @default(dark)

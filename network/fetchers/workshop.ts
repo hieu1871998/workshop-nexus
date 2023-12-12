@@ -1,15 +1,25 @@
 import { WorkshopDetail } from '@app/api/workshop/[slug]/route'
+import { WorkshopMetadata } from '@app/api/workshop/metadata/route'
+import { WorkshopWithAllFields } from '@app/api/workshop/route'
 import { UpcomingWorkshopDetail } from '@app/api/workshop/upcoming/route'
 import { fetcher } from '@network/utils/fetcher'
 import { Category, Workshop } from '@prisma/client'
-import { AdminWorkshopsResponse, GetAdminWorkshopsPayload, WorkshopApplyPayload, WorkshopUpdatePayload } from '@types'
+import {
+	AdminWorkshopsResponse,
+	GetAdminWorkshopsPayload,
+	GetWorkshopParams,
+	WorkshopApplyPayload,
+	WorkshopUpdatePayload,
+} from '@types'
 
 export const fetchWorkshopCategories = async () => {
 	return fetcher<Category[]>('/api/workshop/category')
 }
 
-export const fetchWorkshops = async () => {
-	return fetcher<Workshop[]>('/api/workshop')
+export const fetchWorkshops = async (params?: GetWorkshopParams) => {
+	const queryParams = new URLSearchParams(params as Record<string, string>)
+
+	return fetcher<WorkshopWithAllFields[]>(`/api/workshop?${queryParams.toString()}`)
 }
 
 export const applyWorkshop = async (payload: WorkshopApplyPayload) => {
@@ -79,5 +89,12 @@ export const getUpcomingWorkshops = async (params?: { pageSize?: number; pageInd
 		headers: {
 			'Content-Type': 'application/json',
 		},
+	})
+}
+
+export const getWorkshopMetadata = async () => {
+	return fetcher<WorkshopMetadata>('/api/workshop/metadata', {
+		method: 'GET',
+		headers: { 'Content-Type': 'application/json' },
 	})
 }

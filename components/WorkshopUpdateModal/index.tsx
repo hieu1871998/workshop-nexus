@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 import { WorkshopDetail } from '@app/api/workshop/[slug]/route'
+import { WorkshopWithAllFields } from '@app/api/workshop/route'
 import { ArrowUpIcon, BackspaceIcon, CameraIcon, ClockIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import {
 	ActionIcon,
@@ -35,7 +36,7 @@ import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 
 interface WorkshopUpdateModal {
-	workshop: WorkshopDetail
+	workshop: WorkshopWithAllFields
 	user: User
 }
 

@@ -1,6 +1,11 @@
+import { Suspense } from 'react'
+import { ErrorBoundary, PulsingLoader, WorkshopFilters } from '@components'
 import { Text, Title } from '@mantine/core'
+import { getWorkshopMetadata } from '@network/fetchers'
 
-const ListingLayout = ({ children }: { children: React.ReactNode }) => {
+const ListingLayout = async ({ children }: { children: React.ReactNode }) => {
+	const metadata = await getWorkshopMetadata()
+
 	return (
 		<div className='container mx-auto min-h-screen py-20'>
 			<div className='mb-16'>
@@ -21,11 +26,28 @@ const ListingLayout = ({ children }: { children: React.ReactNode }) => {
 				</Text>
 			</div>
 			<div className='flex gap-10'>
-				<aside className='w-96 flex-shrink-0'>
-					<Title order={3}>Filter Workshops</Title>
+				<aside className='w-80 flex-shrink-0'>
+					<Title
+						order={4}
+						mb={8}
+					>
+						Filter Workshops
+					</Title>
+					<WorkshopFilters metadata={metadata} />
 				</aside>
-				<main>{children}</main>
-				TT
+				<main className='flex h-full w-full items-center justify-center'>
+					<ErrorBoundary>
+						<Suspense
+							fallback={
+								<div className='py-10'>
+									<PulsingLoader />
+								</div>
+							}
+						>
+							{children}
+						</Suspense>
+					</ErrorBoundary>
+				</main>
 			</div>
 		</div>
 	)

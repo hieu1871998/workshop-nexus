@@ -11,6 +11,11 @@
 		"profile": "Profile",
 		"apply": "Apply"
 	},
+	"errorBoundary": {
+		"title": "Something went wrong",
+		"retryLabel": "Retry",
+		"reloadLabel": "Reload"
+	},
 	"home": {
 		"heroTitle": "Empowering growth and innovation",
 		"heroSubtitle": "Where curiosity meets expertise: Dive into engaging workshops and collaborative learning",

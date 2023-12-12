@@ -1,18 +1,21 @@
 'use client'
 
 import { FiCalendar } from 'react-icons/fi'
-import { UpcomingWorkshopDetail } from '@app/api/workshop/upcoming/route'
+import { WorkshopWithAllFields } from '@app/api/workshop/route'
 import { Avatar, Badge, Card, Group, Text, Title, Tooltip } from '@mantine/core'
 import dayjs from 'dayjs'
 import { m } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 interface WorkshopItem {
-	workshop: UpcomingWorkshopDetail
+	workshop: WorkshopWithAllFields
 }
 
 export const WorkshopItem = ({ workshop }: WorkshopItem) => {
+	const t = useTranslations('home.upcomingSection.upcomingItem')
+
 	return (
 		<m.div
 			initial={{
@@ -57,46 +60,50 @@ export const WorkshopItem = ({ workshop }: WorkshopItem) => {
 							{workshop?.topic}
 						</Title>
 					</Tooltip>
-					<Badge
-						size='xs'
-						color={workshop?.category.color}
-					>
-						{workshop?.category.label}
-					</Badge>
+					<Group gap={4}>
+						<Text
+							size='xs'
+							c='dark.4'
+						>
+							By
+						</Text>
+						<Avatar
+							size='xs'
+							variant='outline'
+							src={workshop?.host.image}
+						/>
+						<Text
+							size='xs'
+							c='dark.4'
+						>
+							{workshop?.host.name}
+						</Text>
+					</Group>
 					<Text
 						className='line-clamp-2'
 						mt={8}
 					>
 						{workshop?.description}
 					</Text>
-					<Group
-						justify='space-between'
-						mt={8}
+					<Badge
+						size='sm'
+						color={workshop?.category.color}
 					>
-						<Group gap={4}>
-							<FiCalendar className='text-xs' />
-							<span className='text-xs'>{dayjs(workshop?.presentationDate).format('ddd, DD MMM YYYY')}</span>
+						{workshop?.category.label}
+					</Badge>
+					<Card.Section>
+						<Group
+							className='border-t px-4 pt-4'
+							justify='space-between'
+							mt={8}
+						>
+							<Group gap={4}>
+								<FiCalendar className='text-xs' />
+								<Text size='xs'>{dayjs(workshop?.presentationDate).format('ddd, DD MMM YYYY')}</Text>
+							</Group>
+							<Text size='xs'>{t('participating', { count: workshop?._count.participants })}</Text>
 						</Group>
-						<Group gap={4}>
-							<Text
-								size='xs'
-								c='dark.4'
-							>
-								By
-							</Text>
-							<Avatar
-								size='xs'
-								variant='outline'
-								src={workshop?.host.image}
-							/>
-							<Text
-								size='xs'
-								c='dark.4'
-							>
-								{workshop?.host.name}
-							</Text>
-						</Group>
-					</Group>
+					</Card.Section>
 				</div>
 			</Card>
 		</m.div>

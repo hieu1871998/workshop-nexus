@@ -6,7 +6,7 @@ export const fetcher = async <D>(input: RequestInfo, config: RequestInit = {}): 
 	try {
 		const url = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : baseUrl
 		const inputWithBaseUrl = typeof input === 'string' ? url + input : input
-		const response = await fetch(inputWithBaseUrl, config)
+		const response = await fetch(inputWithBaseUrl, { ...config, cache: 'no-store' })
 
 		const json = (await response.json()) as Promise<ApiResponse<D>>
 

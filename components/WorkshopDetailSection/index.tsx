@@ -1,6 +1,7 @@
 'use client'
 
 import { WorkshopDetail as WorkshopDetailType } from '@app/api/workshop/[slug]/route'
+import { WorkshopWithAllFields } from '@app/api/workshop/route'
 import { Banner, UserHoverCard, WorkshopItem, WorkshopUpdateModal } from '@components'
 import { ArrowLeftIcon, CalendarDaysIcon } from '@heroicons/react/24/outline'
 import { Avatar, Badge, Button, Card, Group, Paper, Stack, Text, Title } from '@mantine/core'
@@ -21,8 +22,8 @@ import { useTranslations } from 'next-intl'
 
 interface WorkshopDetailProps {
 	session: Session | null
-	workshop: WorkshopDetailType
-	otherWorkshops?: WorkshopDetailType[]
+	workshop: WorkshopWithAllFields
+	otherWorkshops?: WorkshopWithAllFields[]
 }
 
 export const WorkshopDetailSection = ({ session, workshop, otherWorkshops }: WorkshopDetailProps) => {
