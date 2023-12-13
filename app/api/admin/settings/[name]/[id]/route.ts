@@ -6,7 +6,7 @@ const updateUserTag = async (id: string, data: AdminCategory) => {
 	const { color, label, variant } = data
 	return await prisma.userTag.update({
 		where: {
-			id: Number(id),
+			id,
 		},
 		data: {
 			color,
@@ -20,7 +20,7 @@ const updateWorkshopTag = async (id: string, data: AdminCategory) => {
 	const { color, label, variant } = data
 	return await prisma.workshopTag.update({
 		where: {
-			id: Number(id),
+			id,
 		},
 		data: {
 			color,
@@ -76,13 +76,13 @@ export const DELETE = async (_: NextRequest, context: { params: { id: string; na
 		if (name === 'user_tags') {
 			data = await prisma.userTag.delete({
 				where: {
-					id: Number(id),
+					id,
 				},
 			})
 		} else if (name === 'workshop_tags') {
 			data = await prisma.workshopTag.delete({
 				where: {
-					id: Number(id),
+					id,
 				},
 			})
 		} else if (name === 'categories') {

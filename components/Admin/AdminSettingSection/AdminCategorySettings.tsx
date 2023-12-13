@@ -100,7 +100,7 @@ export const AdminCategorySettings = () => {
 			},
 		})
 
-	const handleDelete = (id: number) => {
+	const handleDelete = (id: string) => {
 		deleteAdminCategory(id)
 			.then(v => {
 				if (v) {
@@ -151,7 +151,7 @@ export const AdminCategorySettings = () => {
 						open()
 						setEdit(false)
 						setSelected({
-							id: 0,
+							id: '',
 							label: '',
 							color: 'blue',
 							variant: 'default',

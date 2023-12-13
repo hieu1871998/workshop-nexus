@@ -1,13 +1,13 @@
 'use client'
 
-import { UpcomingWorkshopDetail } from '@app/api/workshop/upcoming/route'
+import { WorkshopWithAllFields } from '@app/api/workshop/route'
 import { Banner, UpcomingSpotlightItem, WorkshopItem } from '@components'
 import { SimpleGrid, Title } from '@mantine/core'
 import { m } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 
 interface UpcomingSection {
-	workshops: UpcomingWorkshopDetail[]
+	workshops: WorkshopWithAllFields[]
 }
 
 export const UpcomingSection = ({ workshops }: UpcomingSection) => {

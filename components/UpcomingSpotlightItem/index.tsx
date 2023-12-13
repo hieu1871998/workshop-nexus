@@ -1,7 +1,7 @@
 'use client'
 
 import { FiCalendar } from 'react-icons/fi'
-import { UpcomingWorkshopDetail } from '@app/api/workshop/upcoming/route'
+import { WorkshopWithAllFields } from '@app/api/workshop/route'
 import { UserHoverCard } from '@components/UserHoverCard'
 import { Badge, Card, Divider, Group, Text, Title, Tooltip } from '@mantine/core'
 import { User } from '@prisma/client'
@@ -11,7 +11,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 
-export const UpcomingSpotlightItem = ({ workshop }: { workshop: UpcomingWorkshopDetail }) => {
+export const UpcomingSpotlightItem = ({ workshop }: { workshop: WorkshopWithAllFields }) => {
 	const t = useTranslations('home.upcomingSection.upcomingItem')
 
 	return (

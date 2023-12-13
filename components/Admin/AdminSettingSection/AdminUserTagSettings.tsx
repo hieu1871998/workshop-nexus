@@ -99,7 +99,7 @@ export const AdminUserTagSettings = () => {
 			},
 		})
 
-	const handleDelete = (id: number) => {
+	const handleDelete = (id: string) => {
 		deleteAdminUserTag(id)
 			.then(v => {
 				if (v) {
@@ -150,7 +150,7 @@ export const AdminUserTagSettings = () => {
 						open()
 						setEdit(false)
 						setSelected({
-							id: 0,
+							id: '',
 							label: '',
 							color: 'blue',
 							variant: 'default',

@@ -1,7 +1,6 @@
 import { WorkshopDetail } from '@app/api/workshop/[slug]/route'
 import { WorkshopMetadata } from '@app/api/workshop/metadata/route'
 import { WorkshopWithAllFields } from '@app/api/workshop/route'
-import { UpcomingWorkshopDetail } from '@app/api/workshop/upcoming/route'
 import { fetcher } from '@network/utils/fetcher'
 import { Category, Workshop } from '@prisma/client'
 import {
@@ -84,7 +83,7 @@ export const getAdminWorkshops = async (payload: GetAdminWorkshopsPayload) => {
 export const getUpcomingWorkshops = async (params?: { pageSize?: number; pageIndex?: number }) => {
 	const searchParams = new URLSearchParams(params as Record<string, string>)
 
-	return fetcher<UpcomingWorkshopDetail[]>(`/api/workshop/upcoming?${searchParams.toString()}`, {
+	return fetcher<WorkshopWithAllFields[]>(`/api/workshop/upcoming?${searchParams.toString()}`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',

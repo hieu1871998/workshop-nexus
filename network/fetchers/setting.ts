@@ -120,7 +120,7 @@ export const createAdminCategory = async (payload: SettingForm) => {
 	})
 }
 
-export const deleteAdminUserTag = async (id: number) => {
+export const deleteAdminUserTag = async (id: string) => {
 	const url = `/api/admin/settings/user_tags/${id}`
 
 	return fetcher<void>(url, {
@@ -131,7 +131,7 @@ export const deleteAdminUserTag = async (id: number) => {
 	})
 }
 
-export const deleteAdminWorkshopTag = async (id: number) => {
+export const deleteAdminWorkshopTag = async (id: string) => {
 	const url = `/api/admin/settings/workshop_tags/${id}`
 
 	return fetcher<void>(url, {
@@ -142,7 +142,7 @@ export const deleteAdminWorkshopTag = async (id: number) => {
 	})
 }
 
-export const deleteAdminCategory = async (id: number) => {
+export const deleteAdminCategory = async (id: string) => {
 	const url = `/api/admin/settings/categories/${id}`
 
 	return fetcher<void>(url, {

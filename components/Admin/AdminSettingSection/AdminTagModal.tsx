@@ -18,7 +18,7 @@ interface AdminTagModalProps {
 }
 
 export interface SettingForm {
-	id?: number
+	id?: string
 	label: string
 	color: TagColor
 	variant: TagVariant
