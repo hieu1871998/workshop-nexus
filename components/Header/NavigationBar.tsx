@@ -1,8 +1,35 @@
 'use client'
 
+import { useMemo } from 'react'
 import { UserDropdown } from '@components'
+import { Group, NavLink, Tabs } from '@mantine/core'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { Session } from 'next-auth'
 
 export const NavigationBar = ({ session }: { session: Session | null }) => {
-	return <div className='flex w-full items-center justify-end'>{session && <UserDropdown session={session} />}</div>
+	const pathname = usePathname()
+
+	return (
+		<>
+			<Tabs
+				variant='pills'
+				radius='xl'
+				value={pathname}
+				classNames={{
+					tabLabel: 'font-semibold',
+				}}
+			>
+				<Tabs.List>
+					<Link href='/workshop/listing'>
+						<Tabs.Tab value='/workshop/listing'>Listing</Tabs.Tab>
+					</Link>
+					<Link href='/workshop/apply'>
+						<Tabs.Tab value='/workshop/apply'>Apply</Tabs.Tab>
+					</Link>
+				</Tabs.List>
+			</Tabs>
+			<UserDropdown session={session} />
+		</>
+	)
 }

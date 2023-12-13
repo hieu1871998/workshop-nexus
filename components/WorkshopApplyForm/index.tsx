@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
-import { applyWorkshop } from '@app/[locale]/(user)/apply/action'
+import { applyWorkshop } from '@app/[locale]/(user)/workshop/apply/action'
 import { Logo } from '@components/icons/Logo'
 import { ArrowUpIcon, BackspaceIcon, CameraIcon, ClockIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import {

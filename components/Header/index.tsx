@@ -11,7 +11,7 @@ export const Header = async () => {
 
 	return (
 		<header className='sticky top-0 z-50 border-b bg-white'>
-			<div className='container mx-auto flex items-center gap-4 px-4'>
+			<div className='container mx-auto flex items-center justify-between gap-4 px-4'>
 				<Link href='/'>
 					<div className='-mx-2 flex items-center gap-2 p-2'>
 						<Logo className='h-12 w-12' />

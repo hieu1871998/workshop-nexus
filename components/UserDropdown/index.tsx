@@ -64,7 +64,7 @@ export const UserDropdown = ({ session }: UserDropdownProps) => {
 						<Menu.Item
 							key='apply'
 							component={Link}
-							href={`/apply`}
+							href='/workshop/apply'
 							disabled={pathname.includes(`apply`)}
 						>
 							{t('apply')}

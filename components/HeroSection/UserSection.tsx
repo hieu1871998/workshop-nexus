@@ -20,7 +20,7 @@ export const UserSection = ({ session }: { session: Session | null }) => {
 			transition={{ duration: 1, delay: 1 }}
 		>
 			{user ? (
-				<Link href='/apply'>
+				<Link href='/workshop/apply'>
 					<Button
 						classNames={{ root: 'px-10' }}
 						leftSection={<FiArrowRight className='text-base' />}
