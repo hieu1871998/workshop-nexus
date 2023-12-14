@@ -19,9 +19,10 @@ export interface WorkshopApplyPayload {
 	requirement?: string
 	expectedOutcome?: string
 	categoryId: string
+	tagIds?: string[]
 	maxParticipants: number
 	presentationDate: Date
-	thumbnailId: string
+	workshopThumbnailId: string
 	duration: number
 }
 

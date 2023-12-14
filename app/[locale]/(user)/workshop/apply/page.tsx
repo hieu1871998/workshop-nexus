@@ -1,5 +1,6 @@
 import { WorkshopApplyForm } from '@components'
 import { authOptions } from '@lib/auth'
+import { getWorkshopMetadata } from '@network/fetchers'
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 
@@ -7,6 +8,7 @@ import { ApplyPageTitleSection } from './ApplyPageTitleSection'
 
 const BookingPage = async () => {
 	const session = await getServerSession(authOptions)
+	const metadata = await getWorkshopMetadata()
 
 	if (!session) {
 		redirect('/signin')
@@ -18,7 +20,10 @@ const BookingPage = async () => {
 				<ApplyPageTitleSection />
 			</section>
 			<section className='flex h-full w-full flex-col justify-center sm:w-1/2'>
-				<WorkshopApplyForm session={session} />
+				<WorkshopApplyForm
+					session={session}
+					metadata={metadata}
+				/>
 			</section>
 		</main>
 	)

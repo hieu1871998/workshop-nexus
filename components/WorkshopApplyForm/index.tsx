@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 import { applyWorkshop } from '@app/[locale]/(user)/workshop/apply/action'
+import { WorkshopMetadata } from '@app/api/workshop/metadata/route'
 import { Logo } from '@components/icons/Logo'
 import { ArrowUpIcon, BackspaceIcon, CameraIcon, ClockIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import {
@@ -13,6 +14,7 @@ import {
 	Group,
 	Image,
 	Input,
+	MultiSelect,
 	NumberInput,
 	rem,
 	Select,
@@ -26,7 +28,6 @@ import { DateTimePicker } from '@mantine/dates'
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone'
 import { useForm } from '@mantine/form'
 import { uploadWorkshopThumbnail } from '@network/fetchers'
-import { useGetWorkshopCategories } from '@network/queries'
 import { WorkshopApplyPayload } from '@types'
 import { fadeInDownMotion, fadeInMotion } from '@utils'
 import dayjs from 'dayjs'
@@ -39,9 +40,10 @@ import { useTranslations } from 'next-intl'
 
 interface WorkshopApplyFormProps {
 	session: Session | null
+	metadata?: WorkshopMetadata
 }
 
-export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
+export const WorkshopApplyForm = ({ session, metadata }: WorkshopApplyFormProps) => {
 	const t = useTranslations('apply')
 
 	const form = useForm<WorkshopApplyPayload>({
@@ -53,7 +55,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 			categoryId: '',
 			maxParticipants: 1,
 			presentationDate: dayjs().add(7, 'day').toDate(),
-			thumbnailId: '',
+			workshopThumbnailId: '',
 			requirement: '',
 			expectedOutcome: '',
 			duration: 30,
@@ -65,8 +67,8 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 			categoryId: value => (isEmpty(value) ? 'Please select a category from the list provided.' : null),
 			maxParticipants: value => (value < 1 ? 'Maximum participants must be a valid number greater than zero.' : null),
 			presentationDate: value => (!value ? 'Please choose a valid date for the presentation.' : null),
-			thumbnailId: value => (isEmpty(value) ? 'Please upload a thumbnail.' : null),
-			duration: value => (value > 0 ? 'Please provide a valid duration' : null),
+			workshopThumbnailId: value => (isEmpty(value) ? 'Please upload a thumbnail.' : null),
+			duration: value => (value < 1 ? 'Please provide a valid duration' : null),
 		},
 	})
 
@@ -111,13 +113,16 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 		}
 	}
 
-	const { data: categoriesResp, refetch } = useGetWorkshopCategories()
-
 	const categoryItems =
-		categoriesResp?.map(category => ({
+		metadata?.categories?.map(category => ({
 			value: category.id,
 			label: category.label,
 		})) ?? []
+
+	const tagItems = metadata?.tags?.map(tag => ({
+		value: tag.id,
+		label: tag.label,
+	}))
 
 	const previewUrl = useMemo(() => (isEmpty(files) ? undefined : URL.createObjectURL(files[0])), [files])
 
@@ -127,7 +132,8 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 			const response = await uploadWorkshopThumbnail(file)
 
 			if (response) {
-				form.setFieldValue('thumbnailId', response.id)
+				form.setFieldValue('workshopThumbnailId', response.id)
+				form.setFieldValue('thumbnailId', undefined)
 			}
 
 			setUploading(false)
@@ -171,7 +177,6 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 			>
 				<TextInput
 					label='Email'
-					{...form.getInputProps('email')}
 					description='Your email, primed and ready.'
 					value={session?.user?.email ?? ''}
 					disabled
@@ -222,7 +227,6 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 						placeholder='Select a category'
 						searchable
 						withAsterisk
-						onFocus={() => void refetch()}
 						checkIconPosition='right'
 					/>
 					<NumberInput
@@ -234,6 +238,18 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 						placeholder='Input max participants'
 						withAsterisk
 						isAllowed={value => !isEmpty(value)}
+					/>
+				</SimpleGrid>
+				<SimpleGrid cols={2}>
+					<MultiSelect
+						{...form.getInputProps('tagIds')}
+						data={tagItems}
+						label='Tag'
+						description="Choose your workshop's tag!"
+						placeholder='Select tags'
+						searchable
+						withAsterisk
+						checkIconPosition='right'
 					/>
 				</SimpleGrid>
 				<SimpleGrid cols={2}>
@@ -262,7 +278,7 @@ export const WorkshopApplyForm = ({ session }: WorkshopApplyFormProps) => {
 					label='Thumbnail'
 					description='Sprinkle charm onto your content with a captivating thumbnail upload!'
 					withAsterisk
-					{...form.getInputProps('thumbnailId')}
+					{...form.getInputProps('workshopThumbnailId')}
 				>
 					<Dropzone
 						classNames={{ root: 'p-0 my-1.5 border-red' }}

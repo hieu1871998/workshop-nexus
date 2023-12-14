@@ -18,7 +18,7 @@ export const PUT = async (request: NextRequest) => {
 				presentationDate: payload.presentationDate,
 				topic: payload.topic,
 				categoryId: payload.categoryId,
-				workshopThumbnailId: payload.thumbnailId,
+				workshopThumbnailId: payload.workshopThumbnailId,
 			},
 		})
 

@@ -1,8 +1,7 @@
 'use client'
 
-import { useMemo } from 'react'
 import { UserDropdown } from '@components'
-import { Group, NavLink, Tabs } from '@mantine/core'
+import { Tabs } from '@mantine/core'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Session } from 'next-auth'

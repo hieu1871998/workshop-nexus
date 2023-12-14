@@ -23,7 +23,7 @@ export const POST = async (request: NextRequest) => {
 					topic: data.topic,
 					categoryId: data.categoryId,
 					hostId: user.id,
-					workshopThumbnailId: data.thumbnailId,
+					workshopThumbnailId: data.workshopThumbnailId,
 				},
 			})
 

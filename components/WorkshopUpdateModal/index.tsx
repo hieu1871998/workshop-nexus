@@ -54,7 +54,7 @@ export const WorkshopUpdateModal = (props: WorkshopUpdateModal) => {
 			categoryId: workshop?.categoryId ?? '',
 			maxParticipants: workshop?.maxParticipants ?? 1,
 			presentationDate: dayjs(workshop?.presentationDate).toDate() ?? dayjs().add(7, 'day').toDate(),
-			thumbnailId: workshop?.workshopThumbnailId ?? '',
+			workshopThumbnailId: workshop?.workshopThumbnailId ?? '',
 			requirement: workshop?.requirement ?? '',
 			expectedOutcome: workshop?.expectedOutcome ?? '',
 			duration: workshop?.duration ?? 30,
@@ -66,7 +66,7 @@ export const WorkshopUpdateModal = (props: WorkshopUpdateModal) => {
 			categoryId: value => (isEmpty(value) ? 'Please select a category from the list provided.' : null),
 			maxParticipants: value => (value < 1 ? 'Maximum participants must be a valid number greater than zero.' : null),
 			presentationDate: value => (!value ? 'Please choose a valid date for the presentation.' : null),
-			thumbnailId: value => (isEmpty(value) ? 'Please upload a thumbnail.' : null),
+			workshopThumbnailId: value => (isEmpty(value) ? 'Please upload a thumbnail.' : null),
 			duration: value => (value > 0 ? 'Please provide a valid duration' : null),
 		},
 	})
