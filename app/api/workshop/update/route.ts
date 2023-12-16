@@ -7,6 +7,12 @@ export const PUT = async (request: NextRequest) => {
 	try {
 		const payload = (await request.json()) as WorkshopUpdatePayload
 
+		const workshop = await prisma.workshop.findUnique({
+			where: {
+				id: payload.id,
+			},
+		})
+
 		const data = await prisma.workshop.update({
 			where: {
 				id: payload.id,
@@ -19,6 +25,7 @@ export const PUT = async (request: NextRequest) => {
 				topic: payload.topic,
 				categoryId: payload.categoryId,
 				workshopThumbnailId: payload.workshopThumbnailId,
+				status: workshop?.status === 'APPROVED' ? 'PENDING' : 'DRAFT',
 			},
 		})
 

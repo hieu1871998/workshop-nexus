@@ -9,7 +9,7 @@
 		"start": "next start",
 		"lint": "next lint",
 		"lint:fix": "next lint --fix",
-		"format": "prettier -w -u",
+		"format": "prettier . -w -u",
 		"db:generate": "prisma generate",
 		"db:push": "prisma db push --skip-generate",
 		"db:pull": "prisma db pull",

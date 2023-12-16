@@ -97,3 +97,11 @@ export const getWorkshopMetadata = async () => {
 		headers: { 'Content-Type': 'application/json' },
 	})
 }
+
+export const publishWorkshop = async (payload: { id?: string }) => {
+	return fetcher<boolean>('/api/workshop/publish', {
+		method: 'POST',
+		body: JSON.stringify(payload),
+		headers: { 'Content-Type': 'application/json' },
+	})
+}

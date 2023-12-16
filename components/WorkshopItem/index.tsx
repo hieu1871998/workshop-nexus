@@ -85,12 +85,18 @@ export const WorkshopItem = ({ workshop }: WorkshopItem) => {
 					>
 						{workshop?.description}
 					</Text>
-					<Badge
-						size='sm'
-						color={workshop?.category.color}
+					<Group
+						justify='space-between'
+						mt={8}
 					>
-						{workshop?.category.label}
-					</Badge>
+						<Badge
+							size='sm'
+							color={workshop?.category.color}
+						>
+							{workshop?.category.label}
+						</Badge>
+						<Text size='xs'>{workshop?.duration} minutes</Text>
+					</Group>
 					<Card.Section>
 						<Group
 							className='border-t px-4 pt-4'

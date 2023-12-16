@@ -1,7 +1,7 @@
 'use server'
 
 import prisma from '@lib/prisma'
-import { UserWithProfile, WorkshopUpdatePayload, WorkshopWithCategoryAndTags } from '@types'
+import { UserWithProfile, WorkshopUpdatePayload } from '@types'
 
 export const getUser = async (id: string) => {
 	const user = await prisma.user.findUnique({
@@ -23,14 +23,22 @@ export const getWorkshops = async (hostId: string) => {
 		},
 		include: {
 			category: true,
+			host: true,
+			participants: true,
 			tags: true,
+			workshopAttachment: true,
+			workshopThumbnail: true,
 			_count: {
-				select: { participants: true },
+				select: {
+					participants: true,
+					tags: true,
+					workshopAttachment: true,
+				},
 			},
 		},
 	})
 
-	return workshops as WorkshopWithCategoryAndTags[]
+	return workshops
 }
 
 export const updateWorkshop = async (data: WorkshopUpdatePayload) => {

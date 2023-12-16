@@ -2,8 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { toast } from 'react-hot-toast'
-import { WorkshopDetail } from '@app/api/workshop/[slug]/route'
+import { revalidateAllPath } from '@app/action'
 import { WorkshopWithAllFields } from '@app/api/workshop/route'
 import { ArrowUpIcon, BackspaceIcon, CameraIcon, ClockIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import {
@@ -25,14 +24,16 @@ import {
 import { DateTimePicker } from '@mantine/dates'
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone'
 import { useForm } from '@mantine/form'
+import { modals } from '@mantine/modals'
+import { notifications } from '@mantine/notifications'
 import { updateWorkshop, uploadWorkshopThumbnail } from '@network/fetchers'
 import { useGetWorkshopCategories } from '@network/queries'
 import { User } from '@prisma/client'
+import { IconCheck } from '@tabler/icons-react'
 import { WorkshopUpdatePayload } from '@types'
 import dayjs from 'dayjs'
 import { isEmpty } from 'lodash'
 import NextImage from 'next/image'
-import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 
 interface WorkshopUpdateModal {
@@ -41,7 +42,7 @@ interface WorkshopUpdateModal {
 }
 
 export const WorkshopUpdateModal = (props: WorkshopUpdateModal) => {
-	const { workshop, user } = props
+	const { workshop } = props
 	const t = useTranslations('workshopDetailpage.updateModal')
 
 	const form = useForm<WorkshopUpdatePayload>({
@@ -80,29 +81,28 @@ export const WorkshopUpdateModal = (props: WorkshopUpdateModal) => {
 			setLoading(true)
 			event?.preventDefault()
 
-			const promise = updateWorkshop(data)
+			notifications.show({
+				id: 'update-notification',
+				title: 'Please wait a moment',
+				message: `Communicating with server...`,
+				loading: true,
+				autoClose: false,
+			})
 
-			await toast.promise(
-				promise,
-				{
-					loading: 'Updating your workshop...',
-					success: data => (
-						<div>
-							<p>
-								Your <span className='font-semibold'>{data?.topic}</span> workshop is updated!
-							</p>
-							<p className='text-sx underline'>
-								<Link href={`/user/${user.id}`}>View your workshops</Link>
-							</p>
-						</div>
-					),
-					error: 'Error',
-				},
-				{
-					style: { minWidth: '400px' },
-					success: { duration: 10000 },
-				}
-			)
+			await updateWorkshop(data)
+
+			revalidateAllPath()
+
+			modals.closeAll()
+
+			notifications.update({
+				id: 'update-notification',
+				title: 'Workshop updated successfully!',
+				message: `You have updated ${workshop?.topic} workshop`,
+				color: 'green',
+				loading: false,
+				autoClose: 3000,
+			})
 
 			setLoading(false)
 			form.reset()

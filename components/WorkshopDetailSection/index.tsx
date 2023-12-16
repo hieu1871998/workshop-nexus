@@ -1,16 +1,16 @@
 'use client'
 
-import { WorkshopDetail as WorkshopDetailType } from '@app/api/workshop/[slug]/route'
+import { revalidateAllPath } from '@app/action'
 import { WorkshopWithAllFields } from '@app/api/workshop/route'
 import { Banner, UserHoverCard, WorkshopItem, WorkshopUpdateModal } from '@components'
 import { ArrowLeftIcon, CalendarDaysIcon } from '@heroicons/react/24/outline'
 import { Avatar, Badge, Button, Card, Group, Paper, Stack, Text, Title } from '@mantine/core'
 import { modals } from '@mantine/modals'
 import { notifications } from '@mantine/notifications'
+import { publishWorkshop } from '@network/fetchers'
 import { fetcher } from '@network/utils/fetcher'
 import { user } from '@nextui-org/react'
 import { User } from '@prisma/client'
-import { IconCheck } from '@tabler/icons-react'
 import { getBadgeColor } from '@utils'
 import dayjs from 'dayjs'
 import { isEmpty } from 'lodash'
@@ -53,11 +53,14 @@ export const WorkshopDetailSection = ({ session, workshop, otherWorkshops }: Wor
 			notifications.update({
 				id: 'attend-notification',
 				title: 'Attend successfully!',
-				message: `You have attended ${workshop?.topic} workshop`,
+				message: (
+					<span>
+						You have attended <b>{workshop?.topic}</b> workshop
+					</span>
+				),
 				color: 'green',
-				icon: <IconCheck className='h-5 w-5' />,
 				loading: false,
-				autoClose: 3000,
+				autoClose: 5000,
 			})
 		} catch (error) {
 			notifications.clean()
@@ -92,6 +95,43 @@ export const WorkshopDetailSection = ({ session, workshop, otherWorkshops }: Wor
 			),
 		})
 
+	const handlePublish = async () => {
+		try {
+			notifications.show({
+				id: 'publish-notification',
+				title: 'Please wait a moment',
+				message: `Communicating with server...`,
+				loading: true,
+				autoClose: false,
+			})
+
+			await publishWorkshop({ id: workshop?.id })
+			revalidateAllPath()
+
+			notifications.update({
+				id: 'publish-notification',
+				title: 'Publish successfully!',
+				message: (
+					<span>
+						You have published <b>{workshop?.topic}</b> workshop and awaiting for admin approval
+					</span>
+				),
+				color: 'green',
+				loading: false,
+				autoClose: 5000,
+			})
+		} catch (error) {
+			notifications.update({
+				id: 'publish-notification',
+				title: 'Publish failed!',
+				message: `${workshop?.topic} workshop failed to publish`,
+				color: 'red',
+				loading: false,
+				autoClose: 3000,
+			})
+		}
+	}
+
 	return (
 		<div>
 			<div className='flex justify-between'>
@@ -110,7 +150,17 @@ export const WorkshopDetailSection = ({ session, workshop, otherWorkshops }: Wor
 						>
 							Edit
 						</Button>
-						<Button>Publish</Button>
+						<Button
+							onClick={() => {
+								modals.openConfirmModal({
+									title: 'Are you sure you want to publish this workshop?',
+									labels: { cancel: 'No', confirm: 'Yes' },
+									onConfirm: () => void handlePublish(),
+								})
+							}}
+						>
+							Publish
+						</Button>
 					</Group>
 				)}
 			</div>

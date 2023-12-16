@@ -20,11 +20,11 @@ export const NavigationBar = ({ session }: { session: Session | null }) => {
 				}}
 			>
 				<Tabs.List>
-					<Link href='/workshop/listing'>
-						<Tabs.Tab value='/workshop/listing'>Listing</Tabs.Tab>
-					</Link>
 					<Link href='/workshop/apply'>
 						<Tabs.Tab value='/workshop/apply'>Apply</Tabs.Tab>
+					</Link>
+					<Link href='/workshop/listing'>
+						<Tabs.Tab value='/workshop/listing'>Listing</Tabs.Tab>
 					</Link>
 				</Tabs.List>
 			</Tabs>
