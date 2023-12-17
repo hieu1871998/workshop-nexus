@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 import { applyWorkshop } from '@app/[locale]/(user)/workshop/apply/action'
+import { revalidateAllPath } from '@app/action'
 import { WorkshopMetadata } from '@app/api/workshop/metadata/route'
 import { Logo } from '@components/icons/Logo'
 import { ArrowUpIcon, BackspaceIcon, CameraIcon, ClockIcon, XMarkIcon } from '@heroicons/react/24/outline'
@@ -27,6 +28,7 @@ import {
 import { DateTimePicker } from '@mantine/dates'
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone'
 import { useForm } from '@mantine/form'
+import { notifications } from '@mantine/notifications'
 import { uploadWorkshopThumbnail } from '@network/fetchers'
 import { WorkshopApplyPayload } from '@types'
 import { fadeInDownMotion, fadeInMotion } from '@utils'
@@ -68,7 +70,7 @@ export const WorkshopApplyForm = ({ session, metadata }: WorkshopApplyFormProps)
 			maxParticipants: value => (value < 1 ? 'Maximum participants must be a valid number greater than zero.' : null),
 			presentationDate: value => (!value ? 'Please choose a valid date for the presentation.' : null),
 			workshopThumbnailId: value => (isEmpty(value) ? 'Please upload a thumbnail.' : null),
-			duration: value => (value < 1 ? 'Please provide a valid duration' : null),
+			duration: value => (value < 30 ? 'Duration must be at least 30 minutes' : null),
 		},
 	})
 
@@ -80,34 +82,41 @@ export const WorkshopApplyForm = ({ session, metadata }: WorkshopApplyFormProps)
 		try {
 			setLoading(true)
 			event?.preventDefault()
+			setLoading(true)
+			event?.preventDefault()
 
-			const promise = applyWorkshop(data)
+			notifications.show({
+				id: 'apply-notification',
+				title: 'Please wait a moment',
+				message: `Communicating with server...`,
+				loading: true,
+				autoClose: false,
+			})
 
-			await toast.promise(
-				promise,
-				{
-					loading: 'Sending your application...',
-					success: data => (
-						<div>
-							<p>
-								Your <span className='font-semibold'>{data?.topic}</span> workshop application is successful!
-							</p>
-							<p className='text-sx underline'>
-								<Link href={`/user/${session?.user.id}`}>View your workshops</Link>
-							</p>
-						</div>
-					),
-					error: 'Error',
-				},
-				{
-					style: { minWidth: '400px' },
-					success: { duration: 10000 },
-				}
-			)
+			await applyWorkshop(data)
+
+			revalidateAllPath()
+
+			notifications.update({
+				id: 'apply-notification',
+				title: 'Apply to hold workshop successfully!',
+				message: `You have applied to hold ${data?.topic} workshop`,
+				color: 'green',
+				loading: false,
+				autoClose: 3000,
+			})
 
 			setLoading(false)
 			form.reset()
 		} catch (error) {
+			notifications.update({
+				id: 'apply-notification',
+				title: 'Apply to hold your workshop failed',
+				message: 'Please try again',
+				color: 'red',
+				loading: false,
+				autoClose: 3000,
+			})
 			console.error('Error submitting: ', error)
 			setLoading(false)
 		}

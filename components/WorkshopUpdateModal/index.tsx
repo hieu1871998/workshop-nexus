@@ -68,7 +68,7 @@ export const WorkshopUpdateModal = (props: WorkshopUpdateModal) => {
 			maxParticipants: value => (value < 1 ? 'Maximum participants must be a valid number greater than zero.' : null),
 			presentationDate: value => (!value ? 'Please choose a valid date for the presentation.' : null),
 			workshopThumbnailId: value => (isEmpty(value) ? 'Please upload a thumbnail.' : null),
-			duration: value => (value > 0 ? 'Please provide a valid duration' : null),
+			duration: value => (value < 30 ? 'Duration must be at least 30 minutes' : null),
 		},
 	})
 

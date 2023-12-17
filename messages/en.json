@@ -9,7 +9,8 @@
 		"signedInAs": "Signed in as",
 		"loading": "Loading",
 		"profile": "Profile",
-		"apply": "Apply"
+		"apply": "Apply",
+		"adminDashboard": "Admin dashboard"
 	},
 	"errorBoundary": {
 		"title": "Something went wrong",
