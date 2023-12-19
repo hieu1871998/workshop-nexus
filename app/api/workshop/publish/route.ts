@@ -11,6 +11,7 @@ export const POST = async (request: NextRequest) => {
 			},
 			data: {
 				status: 'PENDING',
+				submissionDate: new Date(),
 			},
 		})
 

@@ -110,3 +110,21 @@ export const publishWorkshop = async (payload: { id?: string }) => {
 export const getAdminWorkshopStats = async () => {
 	return fetcher<WorkshopStats>('/api/admin/workshop/stats')
 }
+
+export const rejectWorkshop = async (id: string) => {
+	return fetcher(`/api/admin/workshop/${id}/reject`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+}
+
+export const startWorkshop = async (id: string) => {
+	return fetcher(`/api/admin/workshop/${id}/start`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+}

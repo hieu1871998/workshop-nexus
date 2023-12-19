@@ -1,12 +1,13 @@
 'use client'
 
+import { revalidateAllPath } from '@app/action'
 import { WorkshopWithAllFields } from '@app/api/workshop/route'
 import { WorkshopUpdateModal } from '@components/WorkshopUpdateModal'
 import { ActionIcon, Anchor, Avatar, Badge, Group, Paper, Table, Text, Tooltip } from '@mantine/core'
 import { modals } from '@mantine/modals'
-import { approveWorkshop } from '@network/fetchers'
+import { approveWorkshop, rejectWorkshop, startWorkshop } from '@network/fetchers'
 import { User } from '@prisma/client'
-import { IconBan, IconCircleCheck, IconCircleChevronRight, IconPencil } from '@tabler/icons-react'
+import { IconBan, IconCircleCheck, IconCircleChevronRight, IconCircleRectangle, IconPencil } from '@tabler/icons-react'
 import { getBadgeColor } from '@utils'
 import dayjs from 'dayjs'
 import Link from 'next/link'
@@ -31,6 +32,25 @@ export const AdminWorkshopSection = ({ workshops = [] }: AdminWorkshopSection) =
 	const handleApprove = async (workshop: WorkshopWithAllFields) => {
 		try {
 			await approveWorkshop(workshop?.id ?? '')
+			revalidateAllPath()
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	const handleReject = async (workshop: WorkshopWithAllFields) => {
+		try {
+			await rejectWorkshop(workshop?.id ?? '')
+			revalidateAllPath()
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	const handleStart = async (workshop: WorkshopWithAllFields) => {
+		try {
+			await startWorkshop(workshop?.id ?? '')
+			revalidateAllPath()
 		} catch (error) {
 			console.error(error)
 		}
@@ -142,15 +162,19 @@ export const AdminWorkshopSection = ({ workshops = [] }: AdminWorkshopSection) =
 							<IconCircleCheck className='h-4 w-4' />
 						</ActionIcon>
 					</Tooltip>
-					<Tooltip label='Start'>
+					<Tooltip label={workshop?.status === 'ONGOING' ? 'End' : 'Start'}>
 						<ActionIcon
 							variant='light'
 							radius='xl'
-							color='blue'
-							onClick={() => openEditModal(workshop)}
-							disabled={workshop?.status !== 'APPROVED'}
+							color={workshop?.status === 'ONGOING' ? 'orange' : 'blue'}
+							onClick={() => void handleStart(workshop)}
+							disabled={workshop?.status !== 'APPROVED' && workshop?.status !== 'ONGOING'}
 						>
-							<IconCircleChevronRight className='h-4 w-4' />
+							{workshop?.status === 'ONGOING' ? (
+								<IconCircleRectangle className='h-4 w-4' />
+							) : (
+								<IconCircleChevronRight className='h-4 w-4' />
+							)}
 						</ActionIcon>
 					</Tooltip>
 					<Tooltip label='Update'>
@@ -158,6 +182,7 @@ export const AdminWorkshopSection = ({ workshops = [] }: AdminWorkshopSection) =
 							variant='light'
 							radius='xl'
 							onClick={() => openEditModal(workshop)}
+							disabled={workshop?.status === 'CANCELED' || workshop?.status === 'REJECTED'}
 						>
 							<IconPencil className='h-4 w-4' />
 						</ActionIcon>
@@ -167,6 +192,8 @@ export const AdminWorkshopSection = ({ workshops = [] }: AdminWorkshopSection) =
 							variant='light'
 							radius='xl'
 							color='red'
+							onClick={() => void handleReject(workshop)}
+							disabled={workshop?.status !== 'PENDING'}
 						>
 							<IconBan className='h-4 w-4' />
 						</ActionIcon>

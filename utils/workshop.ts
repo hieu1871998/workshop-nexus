@@ -12,7 +12,7 @@ export const getBadgeColor = (status: Workshop['status']): DefaultMantineColor =
 		case 'ONGOING':
 			return 'blue'
 		case 'PENDING':
-			return 'yellow'
+			return 'indigo'
 		case 'REJECTED':
 			return 'red'
 		case 'DRAFT':
