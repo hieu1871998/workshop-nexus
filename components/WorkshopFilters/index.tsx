@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import { WorkshopMetadata } from '@app/api/workshop/metadata/route'
-import { Badge, Checkbox, Divider, Group, MultiSelect, Stack, Text, TextInput } from '@mantine/core'
+import { Badge, Checkbox, Group, MultiSelect, Stack, Text, TextInput } from '@mantine/core'
 import { DatePickerInput } from '@mantine/dates'
 import { useForm } from '@mantine/form'
 import { IconCategory, IconSearch, IconTag } from '@tabler/icons-react'
@@ -36,7 +36,7 @@ export const WorkshopFilters = ({ metadata, isAdmin }: WorkshopFilters) => {
 	}))
 
 	return (
-		<form onSubmit={form.onSubmit(values => console.log('values: ', values))}>
+		<form>
 			<Stack gap={12}>
 				<TextInput
 					{...form.getInputProps('search')}

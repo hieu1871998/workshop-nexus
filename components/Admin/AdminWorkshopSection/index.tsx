@@ -5,7 +5,7 @@ import { WorkshopUpdateModal } from '@components/WorkshopUpdateModal'
 import { ActionIcon, Anchor, Avatar, Badge, Group, Paper, Table, Text, Tooltip } from '@mantine/core'
 import { modals } from '@mantine/modals'
 import { approveWorkshop } from '@network/fetchers'
-import { User, WorkshopStatus } from '@prisma/client'
+import { User } from '@prisma/client'
 import { IconBan, IconCircleCheck, IconCircleChevronRight, IconPencil } from '@tabler/icons-react'
 import { getBadgeColor } from '@utils'
 import dayjs from 'dayjs'
@@ -179,7 +179,7 @@ export const AdminWorkshopSection = ({ workshops = [] }: AdminWorkshopSection) =
 	return (
 		<Paper
 			withBorder
-			className='mx-auto overflow-hidden'
+			className='container mx-auto h-min overflow-hidden'
 		>
 			<Table
 				stickyHeader

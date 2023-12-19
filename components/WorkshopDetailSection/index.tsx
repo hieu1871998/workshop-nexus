@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { revalidateAllPath } from '@app/action'
 import { WorkshopWithAllFields } from '@app/api/workshop/route'
 import { Banner, WorkshopItem, WorkshopUpdateModal } from '@components'
@@ -9,7 +8,6 @@ import { Badge, Button, Card, Group, Stack, Text, Title } from '@mantine/core'
 import { modals } from '@mantine/modals'
 import { notifications } from '@mantine/notifications'
 import { publishWorkshop } from '@network/fetchers'
-import { fetcher } from '@network/utils/fetcher'
 import { user } from '@nextui-org/react'
 import { User } from '@prisma/client'
 import { getBadgeColor } from '@utils'
@@ -31,60 +29,7 @@ export const WorkshopDetailSection = ({ session, workshop, otherWorkshops }: Wor
 	const t = useTranslations('workshopDetailpage')
 	const router = useRouter()
 
-	const [opened, setOpened] = useState(false)
-
 	const isOwnWorkshop = session?.user.id === workshop?.hostId
-
-	const handleAttend = async () => {
-		try {
-			notifications.show({
-				id: 'attend-notification',
-				title: 'Please wait a moment',
-				message: `Communicating with server...`,
-				loading: true,
-				autoClose: false,
-			})
-
-			await fetcher('/api/workshop/attend', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ id: workshop?.id }),
-			})
-
-			notifications.update({
-				id: 'attend-notification',
-				title: 'Attend successfully!',
-				message: (
-					<span>
-						You have attended <b>{workshop?.topic}</b> workshop
-					</span>
-				),
-				color: 'green',
-				loading: false,
-				autoClose: 5000,
-			})
-		} catch (error) {
-			notifications.clean()
-			console.error('error attending: ', error)
-		}
-	}
-
-	const openAttendModal = () =>
-		modals.openConfirmModal({
-			title: (
-				<span className='leading-relaxed'>
-					{' '}
-					{t.rich('attendModal.title', {
-						bold: chunks => <span className='font-bold'>{chunks}</span>,
-						topic: workshop?.topic,
-					})}
-				</span>
-			),
-			labels: { confirm: t('attendModal.confirm'), cancel: t('attendModal.cancel') },
-			onConfirm: () => void handleAttend(),
-		})
 
 	const openEditModal = () =>
 		modals.open({
