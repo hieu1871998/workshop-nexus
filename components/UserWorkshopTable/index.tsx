@@ -2,9 +2,9 @@
 
 import { WorkshopWithAllFields } from '@app/api/workshop/route'
 import { WorkshopUpdateModal } from '@components/WorkshopUpdateModal'
-import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { ActionIcon, Anchor, Badge, Group, Paper, Table, Text, Tooltip } from '@mantine/core'
 import { modals } from '@mantine/modals'
+import { IconBan, IconPencil, IconShare2 } from '@tabler/icons-react'
 import { UserWithProfile } from '@types'
 import { getBadgeColor } from '@utils'
 import dayjs from 'dayjs'
@@ -85,12 +85,21 @@ export const UserWorkshopTable = ({ workshops, user, session }: UserWorkshopTabl
 					gap={8}
 					justify='center'
 				>
+					<Tooltip label='Publish'>
+						<ActionIcon
+							variant='subtle'
+							color='blue'
+							onClick={() => openEditModal(workshop)}
+						>
+							<IconShare2 className='h-4 w-4' />
+						</ActionIcon>
+					</Tooltip>
 					<Tooltip label='Update'>
 						<ActionIcon
 							variant='subtle'
 							onClick={() => openEditModal(workshop)}
 						>
-							<PencilSquareIcon className='h-4 w-4' />
+							<IconPencil className='h-4 w-4' />
 						</ActionIcon>
 					</Tooltip>
 					<Tooltip label='Cancel'>
@@ -98,7 +107,7 @@ export const UserWorkshopTable = ({ workshops, user, session }: UserWorkshopTabl
 							variant='subtle'
 							color='red'
 						>
-							<TrashIcon className='h-4 w-4' />
+							<IconBan className='h-4 w-4' />
 						</ActionIcon>
 					</Tooltip>
 				</Group>

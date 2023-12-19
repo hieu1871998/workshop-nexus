@@ -36,7 +36,7 @@ export const UserDropdown = ({ session }: UserDropdownProps) => {
 						{isAdmin && <Badge variant='outline'>Admin</Badge>}
 						<Avatar
 							className='transition-transform'
-							size='md'
+							size='sm'
 							src={session?.user?.image ?? ''}
 						/>
 					</Group>

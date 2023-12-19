@@ -1,168 +1,253 @@
 'use client'
 
-import { useMemo, useState } from 'react'
-import { FiChevronDown } from 'react-icons/fi'
-import { useGetAdminWorkshops } from '@network/queries'
-import {
-	Button,
-	Dropdown,
-	DropdownItem,
-	DropdownMenu,
-	DropdownTrigger,
-	Selection,
-	Spinner,
-	Table,
-	TableBody,
-	TableCell,
-	TableColumn,
-	TableHeader,
-	TableRow,
-} from '@nextui-org/react'
-import { WorkshopStatus } from '@prisma/client'
-import { AdminWorkshop, GetAdminWorkshopsPayload } from '@types'
-import { capitalize } from 'lodash'
+import { WorkshopWithAllFields } from '@app/api/workshop/route'
+import { WorkshopUpdateModal } from '@components/WorkshopUpdateModal'
+import { ActionIcon, Anchor, Avatar, Badge, Group, Paper, Table, Text, Tooltip } from '@mantine/core'
+import { modals } from '@mantine/modals'
+import { approveWorkshop } from '@network/fetchers'
+import { User, WorkshopStatus } from '@prisma/client'
+import { IconBan, IconCircleCheck, IconCircleChevronRight, IconPencil } from '@tabler/icons-react'
+import { getBadgeColor } from '@utils'
+import dayjs from 'dayjs'
+import Link from 'next/link'
 
-import { AdminWorkshopTableCell } from './AdminWorkshopTableCell'
+interface AdminWorkshopSection {
+	workshops?: WorkshopWithAllFields[]
+}
 
-const DEFAULT_STATUSES: WorkshopStatus[] = [
-	'APPROVED',
-	'CANCELED',
-	'COMPLETED',
-	'DRAFT',
-	'ONGOING',
-	'PENDING',
-	'REJECTED',
-]
+export const AdminWorkshopSection = ({ workshops = [] }: AdminWorkshopSection) => {
+	const openEditModal = (workshop: WorkshopWithAllFields) =>
+		modals.open({
+			title: <Text fw={600}>Update workshop</Text>,
+			size: 'xl',
+			children: (
+				<WorkshopUpdateModal
+					workshop={workshop}
+					user={workshop?.host as User}
+				/>
+			),
+		})
 
-const columns = [
-	{
-		key: 'topic',
-		label: 'Topic',
-	},
-	{
-		key: 'description',
-		label: 'Description',
-	},
-	{
-		key: 'host',
-		label: 'Host',
-	},
-	{
-		key: 'presentationDate',
-		label: 'Presentation date',
-	},
-	{
-		key: 'status',
-		label: 'Status',
-	},
-	{
-		key: 'actions',
-		label: 'Actions',
-	},
-]
+	const handleApprove = async (workshop: WorkshopWithAllFields) => {
+		try {
+			await approveWorkshop(workshop?.id ?? '')
+		} catch (error) {
+			console.error(error)
+		}
+	}
 
-const PAGE_SIZE = 10
-
-export const AdminWorkshopSection = () => {
-	const [statusFilter, setStatusFilter] = useState<Selection>(new Set(DEFAULT_STATUSES))
-	const payload = useMemo<GetAdminWorkshopsPayload>(
-		() => ({
-			page: 0,
-			pageSize: PAGE_SIZE,
-			orderBy: 'createdAt',
-			status: Array.from(statusFilter) as WorkshopStatus[],
-		}),
-		[statusFilter]
-	)
-	const { data, isLoading, fetchNextPage } = useGetAdminWorkshops(payload)
-
-	const items = useMemo(
-		() =>
-			data?.pages.reduce((previous, current) => [...previous, ...(current?.workshops ?? [])], [] as AdminWorkshop[]) ??
-			[],
-		[data?.pages]
-	)
-
-	const hasMore = useMemo(() => data?.pages?.[data.pages.length - 1]?.hasNextPage, [data?.pages])
-
-	const loadingState = useMemo(() => (isLoading ? 'loading' : 'idle'), [isLoading])
+	const rows = workshops.map(workshop => (
+		<Table.Tr key={workshop?.id}>
+			<Table.Td>
+				<Group gap='sm'>
+					<Avatar
+						size={40}
+						src={workshop?.host.image}
+						radius={40}
+					/>
+					<div>
+						<Text
+							fz='sm'
+							fw={500}
+						>
+							{workshop?.host.name}
+						</Text>
+						<Text
+							fz='xs'
+							c='dimmed'
+						>
+							{workshop?.host.email}
+						</Text>
+					</div>
+				</Group>
+			</Table.Td>
+			<Table.Td maw={200}>
+				<Text c='blue'>
+					<Anchor
+						href={`/workshop/${workshop?.slug}`}
+						className='line-clamp-2 flex items-center gap-1'
+						component={Link}
+						c='blue'
+						fw={600}
+						size='sm'
+					>
+						{workshop?.topic}
+					</Anchor>
+				</Text>
+			</Table.Td>
+			{/* <Table.Td maw={360}>
+				<Text
+					className='line-clamp-2'
+					size='sm'
+				>
+					{workshop?.description}
+				</Text>
+			</Table.Td> */}
+			<Table.Td>
+				<div className='flex items-center justify-center'>
+					<Badge
+						variant='light'
+						color={getBadgeColor(workshop?.status ?? 'DRAFT')}
+					>
+						{workshop?.status}
+					</Badge>
+				</div>
+			</Table.Td>
+			<Table.Td>
+				<Text
+					size='sm'
+					ta='center'
+				>
+					{dayjs(workshop?.presentationDate).format('HH:mm')}
+				</Text>
+				<Text
+					size='sm'
+					ta='center'
+				>
+					{dayjs(workshop?.presentationDate).format('YYYY, DD MMM')}
+				</Text>
+			</Table.Td>
+			<Table.Td>
+				<Text
+					size='sm'
+					ta='center'
+				>
+					{dayjs(workshop?.createdAt).format('YYYY, DD MMM')}
+				</Text>
+			</Table.Td>
+			<Table.Td>
+				<Group
+					gap={8}
+					justify='center'
+				>
+					<Tooltip label='Approve'>
+						<ActionIcon
+							variant='light'
+							radius='xl'
+							color='green'
+							onClick={() => {
+								modals.openConfirmModal({
+									title: (
+										<span>
+											Are you sure you want to approve <b>{workshop?.topic}</b> workshop by <b>{workshop?.host.name}</b>
+											?
+										</span>
+									),
+									labels: { confirm: 'Yes', cancel: 'No' },
+									onConfirm: () => void handleApprove(workshop),
+								})
+							}}
+							disabled={workshop?.status !== 'PENDING'}
+						>
+							<IconCircleCheck className='h-4 w-4' />
+						</ActionIcon>
+					</Tooltip>
+					<Tooltip label='Start'>
+						<ActionIcon
+							variant='light'
+							radius='xl'
+							color='blue'
+							onClick={() => openEditModal(workshop)}
+							disabled={workshop?.status !== 'APPROVED'}
+						>
+							<IconCircleChevronRight className='h-4 w-4' />
+						</ActionIcon>
+					</Tooltip>
+					<Tooltip label='Update'>
+						<ActionIcon
+							variant='light'
+							radius='xl'
+							onClick={() => openEditModal(workshop)}
+						>
+							<IconPencil className='h-4 w-4' />
+						</ActionIcon>
+					</Tooltip>
+					<Tooltip label='Reject'>
+						<ActionIcon
+							variant='light'
+							radius='xl'
+							color='red'
+						>
+							<IconBan className='h-4 w-4' />
+						</ActionIcon>
+					</Tooltip>
+				</Group>
+			</Table.Td>
+		</Table.Tr>
+	))
 
 	return (
-		<section className='flex gap-5'>
+		<Paper
+			withBorder
+			className='mx-auto overflow-hidden'
+		>
 			<Table
-				classNames={{
-					th: 'text-center',
-					table: 'min-h-[520px]',
-				}}
-				aria-label='Workshops table'
-				color='primary'
-				selectionMode='single'
-				topContent={
-					<div>
-						<Dropdown>
-							<DropdownTrigger className='hidden sm:flex'>
-								<Button
-									endContent={<FiChevronDown className='text-small' />}
-									variant='flat'
-								>
-									Status
-								</Button>
-							</DropdownTrigger>
-							<DropdownMenu
-								disallowEmptySelection
-								aria-label='Table Columns'
-								closeOnSelect={false}
-								selectedKeys={statusFilter}
-								selectionMode='multiple'
-								onSelectionChange={setStatusFilter}
-							>
-								{DEFAULT_STATUSES.map(status => (
-									<DropdownItem
-										key={status}
-										className='capitalize'
-									>
-										{capitalize(status)}
-									</DropdownItem>
-								))}
-							</DropdownMenu>
-						</Dropdown>
-					</div>
-				}
-				bottomContent={
-					hasMore ? (
-						<div className='flex w-full justify-center'>
-							<Button
-								onPress={() => void fetchNextPage()}
-								isLoading={isLoading}
-							>
-								Load more
-							</Button>
-						</div>
-					) : null
-				}
+				stickyHeader
+				highlightOnHover
+				captionSide='top'
 			>
-				<TableHeader columns={columns}>
-					{column => <TableColumn key={column.key}>{column.label}</TableColumn>}
-				</TableHeader>
-				<TableBody
-					items={items}
-					loadingContent={<Spinner />}
-					loadingState={loadingState}
-				>
-					{item => (
-						<TableRow key={item?.id}>
-							{columnKey => (
-								<TableCell>
-									<AdminWorkshopTableCell
-										workshop={item}
-										columnKey={columnKey}
-									/>
-								</TableCell>
-							)}
-						</TableRow>
-					)}
-				</TableBody>
+				<Table.Thead>
+					<Table.Tr>
+						<Table.Th>
+							<Text
+								ta='center'
+								fw={600}
+							>
+								Host
+							</Text>
+						</Table.Th>
+						<Table.Th>
+							<Text
+								ta='center'
+								fw={600}
+							>
+								Topic
+							</Text>
+						</Table.Th>
+						{/* <Table.Th>
+							<Text
+								ta='center'
+								fw={600}
+							>
+								Description
+							</Text>
+						</Table.Th> */}
+						<Table.Th>
+							<Text
+								ta='center'
+								fw={600}
+							>
+								Status
+							</Text>
+						</Table.Th>
+						<Table.Th>
+							<Text
+								ta='center'
+								fw={600}
+							>
+								Start
+							</Text>
+						</Table.Th>
+						<Table.Th>
+							<Text
+								ta='center'
+								fw={600}
+							>
+								Created
+							</Text>
+						</Table.Th>
+						<Table.Th>
+							<Text
+								ta='center'
+								fw={600}
+							>
+								Action
+							</Text>
+						</Table.Th>
+					</Table.Tr>
+				</Table.Thead>
+				<Table.Tbody>{rows}</Table.Tbody>
 			</Table>
-		</section>
+		</Paper>
 	)
 }

@@ -15,19 +15,20 @@ import { FilterGroup } from './FilterGroup'
 
 interface WorkshopFilters {
 	metadata?: WorkshopMetadata
+	isAdmin?: boolean
 }
 
-export const WorkshopFilters = ({ metadata }: WorkshopFilters) => {
+export const WorkshopFilters = ({ metadata, isAdmin }: WorkshopFilters) => {
 	const router = useRouter()
 	const form = useForm<GetWorkshopParams>()
 
 	useEffect(() => {
 		const params = omitBy(form.values, value => (isNumber(value) ? false : isEmpty(value)))
-		console.log('params: ', params)
+		const baseUrl = isAdmin ? '/admin/workshop' : '/workshop/listing'
 		const searchParams = new URLSearchParams(params as Record<string, string>)
 
-		router.push(`/workshop/listing?${searchParams.toString()}`, { scroll: false })
-	}, [form.values, router])
+		router.push(`${baseUrl}?${searchParams.toString()}`, { scroll: false })
+	}, [form.values, router, isAdmin])
 
 	const hosts = metadata?.users.map(user => ({
 		label: user.name,

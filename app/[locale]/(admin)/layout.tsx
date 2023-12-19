@@ -21,11 +21,13 @@ const RootAdminLayout = async ({ children }: { children: React.ReactNode }) => {
 	}
 
 	return (
-		<>
+		<div className='flex min-h-screen flex-col'>
 			<AdminHeader />
-			{children}
-			<Footer />
-		</>
+			<div className='flex flex-1 flex-col justify-between overflow-auto bg-black-haze'>
+				<div className='h-full'>{children}</div>
+				<Footer />
+			</div>
+		</div>
 	)
 }
 

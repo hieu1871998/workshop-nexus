@@ -7,7 +7,7 @@ export const AdminHeader = async () => {
 	const session = await getServerSession(authOptions)
 
 	return (
-		<header className='sticky top-0 z-50 bg-black-haze bg-opacity-90 shadow-md shadow-gray-50 backdrop-blur-md'>
+		<header className='sticky top-0 z-50 border-b bg-white'>
 			<div className='container mx-auto px-4'>
 				<AdminNavigationBar session={session} />
 			</div>

@@ -27,6 +27,16 @@ body {
 	scroll-behavior: smooth;
 }
 
+::-webkit-scrollbar {
+	width: 4px;
+	height: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--mantine-color-dark-7);
+	border-radius: 9999px;
+}
+
 body {
 	height: auto;
 	background-color: var(--background);

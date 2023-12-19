@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import { UserDropdown } from '@components'
 import { Logo } from '@components/icons/Logo'
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle } from '@nextui-org/react'
+import { Group, Tabs } from '@mantine/core'
+import { calSans } from '@theme/fonts/calsans'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Session } from 'next-auth'
@@ -17,49 +18,38 @@ export const AdminNavigationBar = ({ session }: AdminNavigationBarProps) => {
 	const pathname = usePathname()
 
 	return (
-		<div className='w-full'>
-			<Navbar
-				maxWidth='2xl'
-				classNames={{
-					wrapper: 'px-0',
-				}}
-				onMenuOpenChange={setIsMenuOpen}
-			>
-				<NavbarMenuToggle
-					aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-					className='sm:hidden'
-				/>
-				<NavbarBrand>
-					<Link href='/admin'>
-						<div className='-mx-2 p-2 text-gray-900 transition-all hover:bg-gray-900 hover:text-white'>
-							<Logo className='h-12 w-12' />
-						</div>
-					</Link>
-				</NavbarBrand>
-				<NavbarContent
-					className='hidden gap-5 sm:flex'
-					justify='center'
+		<Group justify='space-between'>
+			<Link href='/'>
+				<div className='-mx-2 flex items-center gap-2 p-2'>
+					<Logo className='h-10 w-10' />
+					<span className={`${calSans.className} text-xl`}>Workshop Nexus</span>
+				</div>
+			</Link>
+			<Group gap={10}>
+				<Tabs
+					variant='pills'
+					value={pathname}
+					classNames={{
+						tabLabel: 'font-semibold',
+					}}
 				>
-					<NavbarItem isActive={pathname === '/admin'}>
-						<Link href='/admin'>Dashboard</Link>
-					</NavbarItem>
-					<NavbarItem isActive={pathname === '/admin/workshop'}>
-						<Link href='/admin/workshop'>Workshops</Link>
-					</NavbarItem>
-					<NavbarItem isActive={pathname === '/admin/users'}>
-						<Link href='/admin/users'>Users</Link>
-					</NavbarItem>
-					<NavbarItem isActive={pathname === '/admin/settings'}>
-						<Link href='/admin/settings'>Settings</Link>
-					</NavbarItem>
-				</NavbarContent>
-				<NavbarContent
-					as='div'
-					justify='end'
-				>
-					<UserDropdown session={session} />
-				</NavbarContent>
-			</Navbar>
-		</div>
+					<Tabs.List>
+						<Link href='/admin'>
+							<Tabs.Tab value='/admin'>Dashboard</Tabs.Tab>
+						</Link>
+						<Link href='/admin/workshop'>
+							<Tabs.Tab value='/admin/workshop'>Workshops</Tabs.Tab>
+						</Link>
+						<Link href='/admin/users'>
+							<Tabs.Tab value='/admin/users'>Users</Tabs.Tab>
+						</Link>
+						<Link href='/admin/settings'>
+							<Tabs.Tab value='/admin/settings'>Settings</Tabs.Tab>
+						</Link>
+					</Tabs.List>
+				</Tabs>
+				<UserDropdown session={session} />
+			</Group>
+		</Group>
 	)
 }

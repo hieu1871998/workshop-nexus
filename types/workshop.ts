@@ -53,11 +53,11 @@ const adminWorkshop = Prisma.validator<Prisma.WorkshopDefaultArgs>()({
 
 export type AdminWorkshop = Prisma.WorkshopGetPayload<typeof adminWorkshop>
 
-export interface GetAdminWorkshopsPayload extends BaseListPayload {
+export interface GetAdminWorkshopParams extends GetWorkshopParams {
 	status: WorkshopStatus[]
 }
 
-export interface GetWorkshopParams {
+export interface GetWorkshopParams extends BaseListPayload {
 	categoryId?: string[]
 	tagIds?: number[]
 	hostId?: string

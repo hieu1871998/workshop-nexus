@@ -6,28 +6,6 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const getWorkshops = async (_: GetWorkshopParams) => {
 	const workshops = await prisma.workshop.findFirst({
-		// where: {
-		// 	categoryId,
-		// 	hostId,
-		// 	presentationDate: {
-		// 		gt: fromDate,
-		// 		lt: toDate,
-		// 	},
-		// 	topic: {
-		// 		search,
-		// 	},
-		// 	description: {
-		// 		search,
-		// 	},
-		// 	requirement: {
-		// 		search,
-		// 	},
-		// 	tags: {
-		// 		every: {
-		// 			id: { in: tagIds },
-		// 		},
-		// 	},
-		// },
 		include: {
 			category: true,
 			host: true,

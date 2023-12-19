@@ -1,13 +1,17 @@
-import { DashboardWorkshopSection } from '@components/Admin/DashboardWorkshopSection'
+import { DashboardWorkshopSection } from '@components'
+import { getAdminWorkshopStats } from '@network/fetchers'
 
-import { getWorkshopCounts } from './action'
+export interface StatItem {
+	label: React.ReactNode
+	count: number
+}
 
 const AdminHomePage = async () => {
-	const workshopCounts = await getWorkshopCounts()
+	const stats = await getAdminWorkshopStats()
 
 	return (
-		<main className='container mx-auto min-h-screen px-5 py-20'>
-			<DashboardWorkshopSection workshopCounts={workshopCounts} />
+		<main>
+			<DashboardWorkshopSection stats={stats} />
 		</main>
 	)
 }

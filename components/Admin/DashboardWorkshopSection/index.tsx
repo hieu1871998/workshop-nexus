@@ -1,41 +1,77 @@
 'use client'
-import { WorkshopCounts } from '@app/[locale]/(admin)/admin/action'
-import { Card, CardBody, CardHeader, Divider } from '@nextui-org/react'
-import { BarList, Flex, Metric, Text, Title } from '@tremor/react'
+
+import { WorkshopStats } from '@app/api/admin/workshop/stats/route'
+import { Badge, Card, Grid, Tabs } from '@mantine/core'
+
+import { CategoryTagStatsCard } from '../CategoryStatsCard'
+import { WorkshopStatsCard } from '../WorkshopStatsCard'
 
 interface DashboardWorkshopSection {
-	workshopCounts: WorkshopCounts
+	stats?: WorkshopStats
 }
 
-export const DashboardWorkshopSection = ({ workshopCounts }: DashboardWorkshopSection) => {
+export const DashboardWorkshopSection = ({ stats }: DashboardWorkshopSection) => {
+	const pendings = stats?.workshopStats.counts.find(item => item.status === 'PENDING')
 	return (
-		<section>
-			<Card className='mx-auto max-w-lg'>
-				<CardHeader>
-					<div>
-						<Title>Workshops</Title>
-						<Flex
-							justifyContent='start'
-							alignItems='baseline'
-							className='space-x-2'
+		<Tabs
+			variant='pills'
+			defaultValue='workshops'
+			classNames={{
+				root: 'bg-white',
+				list: 'bg-white px-4 container mx-auto py-2',
+				panel: 'bg-black-haze border-t',
+			}}
+		>
+			<Tabs.List>
+				<Tabs.Tab
+					value='workshops'
+					rightSection={
+						<Badge
+							color='yellow'
+							c='dark'
+							size='xs'
 						>
-							<Metric>{workshopCounts.total}</Metric>
-							<Text>total workshops</Text>
-						</Flex>
-					</div>
-				</CardHeader>
-				<Divider />
-				<CardBody>
-					<Flex>
-						<Text>Status</Text>
-						<Text className='text-right'>Count</Text>
-					</Flex>
-					<BarList
-						className='mt-2'
-						data={workshopCounts.statuses}
-					/>
-				</CardBody>
-			</Card>
-		</section>
+							{pendings?.count}
+						</Badge>
+					}
+				>
+					Workshops
+				</Tabs.Tab>
+				<Tabs.Tab value='users'>Users</Tabs.Tab>
+			</Tabs.List>
+
+			<Tabs.Panel value='workshops'>
+				<div className='container mx-auto max-w-5xl py-10'>
+					<Card
+						withBorder
+						mt={20}
+					>
+						<Grid>
+							<Grid.Col span={12}>
+								<WorkshopStatsCard stats={stats?.workshopStats} />
+							</Grid.Col>
+							<Grid.Col span={6}>
+								<CategoryTagStatsCard
+									title='Categories'
+									stats={stats?.categoryStats}
+								/>
+							</Grid.Col>
+							<Grid.Col span={6}>
+								<CategoryTagStatsCard
+									title='Workshop tags'
+									stats={stats?.tagStats}
+								/>
+							</Grid.Col>
+						</Grid>
+					</Card>
+				</div>
+			</Tabs.Panel>
+
+			<Tabs.Panel value='users'>
+				<div className='container mx-auto max-w-5xl py-10'>
+					<Card withBorder>Messages tab content</Card>
+				</div>
+			</Tabs.Panel>
+		</Tabs>
 	)
 }

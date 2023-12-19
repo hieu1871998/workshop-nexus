@@ -1,5 +1,5 @@
 import prisma from '@lib/prisma'
-import { Prisma } from '@prisma/client'
+import { Prisma, WorkshopStatus } from '@prisma/client'
 import { NextResponse } from 'next/server'
 
 const getMetadata = async () => {
@@ -30,11 +30,21 @@ const getMetadata = async () => {
 			},
 		},
 	})
+	const statuses = [
+		WorkshopStatus.APPROVED,
+		WorkshopStatus.CANCELED,
+		WorkshopStatus.COMPLETED,
+		WorkshopStatus.DRAFT,
+		WorkshopStatus.ONGOING,
+		WorkshopStatus.PENDING,
+		WorkshopStatus.REJECTED,
+	]
 
 	const data = {
 		users,
 		categories,
 		tags,
+		statuses,
 	}
 
 	return data
@@ -69,11 +79,21 @@ export const GET = async () => {
 				},
 			},
 		})
+		const statuses = [
+			WorkshopStatus.APPROVED,
+			WorkshopStatus.CANCELED,
+			WorkshopStatus.COMPLETED,
+			WorkshopStatus.DRAFT,
+			WorkshopStatus.ONGOING,
+			WorkshopStatus.PENDING,
+			WorkshopStatus.REJECTED,
+		]
 
 		const data = {
 			users,
 			categories,
 			tags,
+			statuses,
 		}
 
 		return NextResponse.json({ data }, { status: 200 })
