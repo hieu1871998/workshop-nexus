@@ -2,7 +2,7 @@ import { Footer, Header } from '@components'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-	title: 'Zenith',
+	title: 'Workshop Nexus',
 	description: 'A place to share your ideas with workshops, and to look forward to the upcoming ones.',
 }
 

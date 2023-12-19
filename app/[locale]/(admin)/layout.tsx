@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 
 export const metadata: Metadata = {
-	title: 'Admin | Zenith',
+	title: 'Admin | Workshop Nexus',
 	description: 'A place to share your ideas with workshops, and to look forward to the upcoming ones.',
 }
 

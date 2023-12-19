@@ -4,7 +4,7 @@ import { fetchWorkshops } from '@network/fetchers'
 import { GetWorkshopParams } from '@types'
 
 export const metadata = {
-	title: 'Listing | Zenith',
+	title: 'Listing | Workshop Nexus',
 }
 
 const WorkshopPage = async ({ searchParams }: { searchParams: GetWorkshopParams }) => {

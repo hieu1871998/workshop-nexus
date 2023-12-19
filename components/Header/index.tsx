@@ -15,7 +15,7 @@ export const Header = async () => {
 				<Link href='/'>
 					<div className='-mx-2 flex items-center gap-2 p-2'>
 						<Logo className='h-10 w-10' />
-						<span className={`${calSans.className} text-xl`}>Zenith</span>
+						<span className={`${calSans.className} text-xl`}>Workshop Nexus</span>
 					</div>
 				</Link>
 				<NavigationBar session={session} />

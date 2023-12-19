@@ -9,7 +9,7 @@ export const generateMetadata = async ({ params }: { params: { slug: string } })
 	const workshop = await getWorkshopDetail(params.slug)
 
 	const metadata: Metadata = {
-		title: `${workshop?.topic} | Zenith`,
+		title: `${workshop?.topic} | Workshop Nexus`,
 	}
 
 	return metadata

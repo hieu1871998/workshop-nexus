@@ -16,7 +16,7 @@ export const UpcomingSection = ({ workshops }: UpcomingSection) => {
 	return (
 		<section
 			id='upcoming'
-			className='container mx-auto my-10 flex flex-col py-10'
+			className='container mx-auto mb-10 flex flex-col py-10'
 		>
 			<m.div
 				initial={{

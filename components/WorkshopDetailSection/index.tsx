@@ -1,10 +1,11 @@
 'use client'
 
+import { useState } from 'react'
 import { revalidateAllPath } from '@app/action'
 import { WorkshopWithAllFields } from '@app/api/workshop/route'
-import { Banner, UserHoverCard, WorkshopItem, WorkshopUpdateModal } from '@components'
+import { Banner, WorkshopItem, WorkshopUpdateModal } from '@components'
 import { ArrowLeftIcon, CalendarDaysIcon } from '@heroicons/react/24/outline'
-import { Avatar, Badge, Button, Card, Group, Paper, Stack, Text, Title } from '@mantine/core'
+import { Badge, Button, Card, Group, Stack, Text, Title } from '@mantine/core'
 import { modals } from '@mantine/modals'
 import { notifications } from '@mantine/notifications'
 import { publishWorkshop } from '@network/fetchers'
@@ -13,12 +14,12 @@ import { user } from '@nextui-org/react'
 import { User } from '@prisma/client'
 import { getBadgeColor } from '@utils'
 import dayjs from 'dayjs'
-import { isEmpty } from 'lodash'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Session } from 'next-auth'
 import { useTranslations } from 'next-intl'
+
+import { WorkshopDetailLeftSection } from './WorkshopDetailLeftSection'
 
 interface WorkshopDetailProps {
 	session: Session | null
@@ -29,6 +30,8 @@ interface WorkshopDetailProps {
 export const WorkshopDetailSection = ({ session, workshop, otherWorkshops }: WorkshopDetailProps) => {
 	const t = useTranslations('workshopDetailpage')
 	const router = useRouter()
+
+	const [opened, setOpened] = useState(false)
 
 	const isOwnWorkshop = session?.user.id === workshop?.hostId
 
@@ -165,61 +168,12 @@ export const WorkshopDetailSection = ({ session, workshop, otherWorkshops }: Wor
 				)}
 			</div>
 			<div className='mt-5 grid grid-cols-12 gap-5'>
-				<div className='col-span-3 flex flex-col gap-4'>
-					{!isOwnWorkshop && (
-						<Button
-							px={80}
-							size='lg'
-							onClick={openAttendModal}
-							disabled={isOwnWorkshop}
-						>
-							{t('attendButtonTitle')}
-						</Button>
-					)}
-					<Paper
-						withBorder
-						component={Link}
-						href={`/user/${workshop?.host.id}`}
-						classNames={{ root: 'hover:shadow-lg transition-all' }}
-					>
-						<div className='flex flex-col gap-3 p-5'>
-							<div className='flex items-center gap-2'>
-								<Avatar
-									src={workshop?.host.image}
-									size='xl'
-								/>
-								<div className='flex flex-col'>
-									<Text size='xl'>
-										<span className='font-semibold'>{isOwnWorkshop ? 'You' : workshop?.host.name}</span>
-									</Text>
-									<Text c='dimmed'>{workshop?.host.email}</Text>
-								</div>
-							</div>
-						</div>
-					</Paper>
-					<Paper
-						withBorder
-						p={20}
-					>
-						<Text
-							fw={600}
-							size='lg'
-						>
-							Who&apos;s participating?
-						</Text>
-						<Group mt={12}>
-							{isEmpty(workshop?.participants) ? (
-								<Text>No participants yet</Text>
-							) : (
-								workshop?.participants.map(participant => (
-									<UserHoverCard
-										key={participant.id}
-										user={participant}
-									/>
-								))
-							)}
-						</Group>
-					</Paper>
+				<div className='col-span-3'>
+					<WorkshopDetailLeftSection
+						workshop={workshop}
+						isOwnWorkshop={isOwnWorkshop}
+						session={session}
+					/>
 				</div>
 				<div className='col-span-6'>
 					<Card

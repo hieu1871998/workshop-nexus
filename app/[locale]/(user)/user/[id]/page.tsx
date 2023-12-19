@@ -12,7 +12,7 @@ export const generateMetadata = async ({ params }: { params: { id: string } }) =
 	const user = await getUser(params.id)
 
 	const metadata: Metadata = {
-		title: `${user.name} | Zenith`,
+		title: `${user.name} | Workshop Nexus`,
 	}
 
 	return metadata
