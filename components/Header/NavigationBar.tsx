@@ -2,6 +2,7 @@
 
 import { UserDropdown } from '@components'
 import { Group, Tabs } from '@mantine/core'
+import { IconDiamonds } from '@tabler/icons-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Session } from 'next-auth'
@@ -30,7 +31,12 @@ export const NavigationBar = ({ session }: { session: Session | null }) => {
 					</Link>
 					{session?.user.role === 'ADMIN' && (
 						<Link href='/admin'>
-							<Tabs.Tab value='/admin'>Dashboard</Tabs.Tab>
+							<Tabs.Tab
+								value='/admin'
+								leftSection={<IconDiamonds className='h-4 w-4' />}
+							>
+								Dashboard
+							</Tabs.Tab>
 						</Link>
 					)}
 				</Tabs.List>
