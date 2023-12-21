@@ -5,13 +5,24 @@ import { WorkshopMetadata } from '@app/api/workshop/metadata/route'
 import { Badge, Checkbox, Group, MultiSelect, Stack, Text, TextInput } from '@mantine/core'
 import { DatePickerInput } from '@mantine/dates'
 import { useForm } from '@mantine/form'
+import { WorkshopStatus } from '@prisma/client'
 import { IconCategory, IconSearch, IconTag } from '@tabler/icons-react'
-import { GetWorkshopParams } from '@types'
+import { GetAdminWorkshopParams, GetWorkshopParams } from '@types'
 import dayjs from 'dayjs'
-import { isEmpty, isNumber, omitBy } from 'lodash'
+import { capitalize, isEmpty, isNumber, omitBy } from 'lodash'
 import { useRouter } from 'next/navigation'
 
 import { FilterGroup } from './FilterGroup'
+
+const workshopStatuses: WorkshopStatus[] = [
+	WorkshopStatus.APPROVED,
+	WorkshopStatus.CANCELED,
+	WorkshopStatus.COMPLETED,
+	WorkshopStatus.DRAFT,
+	WorkshopStatus.ONGOING,
+	WorkshopStatus.PENDING,
+	WorkshopStatus.REJECTED,
+]
 
 interface WorkshopFilters {
 	metadata?: WorkshopMetadata
@@ -20,7 +31,7 @@ interface WorkshopFilters {
 
 export const WorkshopFilters = ({ metadata, isAdmin }: WorkshopFilters) => {
 	const router = useRouter()
-	const form = useForm<GetWorkshopParams>()
+	const form = useForm<GetWorkshopParams | GetAdminWorkshopParams>()
 
 	useEffect(() => {
 		const params = omitBy(form.values, value => (isNumber(value) ? false : isEmpty(value)))
@@ -33,6 +44,11 @@ export const WorkshopFilters = ({ metadata, isAdmin }: WorkshopFilters) => {
 	const hosts = metadata?.users.map(user => ({
 		label: user.name,
 		value: user.id,
+	}))
+
+	const statuses = workshopStatuses.map(status => ({
+		label: capitalize(status),
+		value: status,
 	}))
 
 	return (
@@ -66,6 +82,15 @@ export const WorkshopFilters = ({ metadata, isAdmin }: WorkshopFilters) => {
 					clearable
 					searchable
 				/>
+				{isAdmin && (
+					<MultiSelect
+						{...form.getInputProps('status')}
+						placeholder='Filter by status'
+						data={statuses}
+						checkIconPosition='right'
+						clearable
+					/>
+				)}
 			</Stack>
 			<div className='mt-3'>
 				<FilterGroup

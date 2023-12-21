@@ -13,9 +13,13 @@ export const GET = async (request: NextRequest) => {
 	const tagIds = searchParams.get('tagIds') ? searchParams.get('tagIds')?.split(',') : undefined
 	const toDate = searchParams.get('toDate')
 	const status = searchParams.get('status')
+	const page = parseInt(searchParams.get('page') ?? '0')
+	const pageSize = parseInt(searchParams.get('pageSize') ?? '20')
+	const orderBy = searchParams.get('orderBy') ?? 'createdAt'
+	const orderDirection = searchParams.get('orderDirection') ?? 'desc'
 
 	try {
-		const data = await prisma.workshop.findMany({
+		const workshops = await prisma.workshop.findMany({
 			where: {
 				categoryId: {
 					in: categoryId ? categoryId.toString().split(',') : undefined,
@@ -63,11 +67,24 @@ export const GET = async (request: NextRequest) => {
 				},
 			},
 			orderBy: {
-				createdAt: 'desc',
+				[orderBy]: orderDirection,
 			},
+			take: pageSize,
+			skip: page * pageSize,
 		})
+		const total = await prisma.workshop.count()
+		const nextPageIndex = page + 1
 
-		return NextResponse.json({ data }, { status: 200 })
+		return NextResponse.json(
+			{
+				data: {
+					workshops,
+					total,
+					nextPageIndex,
+				},
+			},
+			{ status: 200 }
+		)
 	} catch (error) {
 		console.error('Error getting workshops: ', error)
 

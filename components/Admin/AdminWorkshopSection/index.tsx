@@ -3,9 +3,9 @@
 import { revalidateAllPath } from '@app/action'
 import { WorkshopWithAllFields } from '@app/api/workshop/route'
 import { WorkshopUpdateModal } from '@components/WorkshopUpdateModal'
-import { ActionIcon, Anchor, Avatar, Badge, Group, Paper, Table, Text, Tooltip } from '@mantine/core'
+import { ActionIcon, Anchor, Avatar, Badge, Group, Pagination, Paper, Table, Text, Tooltip } from '@mantine/core'
 import { modals } from '@mantine/modals'
-import { approveWorkshop, rejectWorkshop, startWorkshop } from '@network/fetchers'
+import { approveWorkshop, canceltWorkshop, rejectWorkshop, startWorkshop } from '@network/fetchers'
 import { User } from '@prisma/client'
 import { IconBan, IconCircleCheck, IconCircleChevronRight, IconCircleRectangle, IconPencil } from '@tabler/icons-react'
 import { getBadgeColor } from '@utils'
@@ -14,9 +14,10 @@ import Link from 'next/link'
 
 interface AdminWorkshopSection {
 	workshops?: WorkshopWithAllFields[]
+	total: number
 }
 
-export const AdminWorkshopSection = ({ workshops = [] }: AdminWorkshopSection) => {
+export const AdminWorkshopSection = ({ workshops = [], total }: AdminWorkshopSection) => {
 	const openEditModal = (workshop: WorkshopWithAllFields) =>
 		modals.open({
 			title: <Text fw={600}>Update workshop</Text>,
@@ -32,15 +33,7 @@ export const AdminWorkshopSection = ({ workshops = [] }: AdminWorkshopSection) =
 	const handleApprove = async (workshop: WorkshopWithAllFields) => {
 		try {
 			await approveWorkshop(workshop?.id ?? '')
-			revalidateAllPath()
-		} catch (error) {
-			console.error(error)
-		}
-	}
 
-	const handleReject = async (workshop: WorkshopWithAllFields) => {
-		try {
-			await rejectWorkshop(workshop?.id ?? '')
 			revalidateAllPath()
 		} catch (error) {
 			console.error(error)
@@ -50,6 +43,21 @@ export const AdminWorkshopSection = ({ workshops = [] }: AdminWorkshopSection) =
 	const handleStart = async (workshop: WorkshopWithAllFields) => {
 		try {
 			await startWorkshop(workshop?.id ?? '')
+
+			revalidateAllPath()
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	const handleCancelReject = async (workshop: WorkshopWithAllFields) => {
+		try {
+			if (workshop?.status === 'PENDING') {
+				await rejectWorkshop(workshop?.id ?? '')
+			} else {
+				await canceltWorkshop(workshop?.id ?? '')
+			}
+
 			revalidateAllPath()
 		} catch (error) {
 			console.error(error)
@@ -95,14 +103,6 @@ export const AdminWorkshopSection = ({ workshops = [] }: AdminWorkshopSection) =
 					</Anchor>
 				</Text>
 			</Table.Td>
-			{/* <Table.Td maw={360}>
-				<Text
-					className='line-clamp-2'
-					size='sm'
-				>
-					{workshop?.description}
-				</Text>
-			</Table.Td> */}
 			<Table.Td>
 				<div className='flex items-center justify-center'>
 					<Badge
@@ -187,13 +187,13 @@ export const AdminWorkshopSection = ({ workshops = [] }: AdminWorkshopSection) =
 							<IconPencil className='h-4 w-4' />
 						</ActionIcon>
 					</Tooltip>
-					<Tooltip label='Reject'>
+					<Tooltip label={workshop?.status === 'PENDING' ? 'Reject' : 'Cancel'}>
 						<ActionIcon
 							variant='light'
 							radius='xl'
 							color='red'
-							onClick={() => void handleReject(workshop)}
-							disabled={workshop?.status !== 'PENDING'}
+							onClick={() => void handleCancelReject(workshop)}
+							disabled={workshop?.status === 'DRAFT' || workshop?.status === 'COMPLETED'}
 						>
 							<IconBan className='h-4 w-4' />
 						</ActionIcon>
@@ -205,76 +205,78 @@ export const AdminWorkshopSection = ({ workshops = [] }: AdminWorkshopSection) =
 
 	return (
 		<Paper
+			className='px-2'
 			withBorder
-			className='container mx-auto h-min overflow-hidden'
 		>
-			<Table
-				stickyHeader
-				highlightOnHover
-				captionSide='top'
+			<Group
+				className='py-2'
+				justify='flex-end'
 			>
-				<Table.Thead>
-					<Table.Tr>
-						<Table.Th>
-							<Text
-								ta='center'
-								fw={600}
-							>
-								Host
-							</Text>
-						</Table.Th>
-						<Table.Th>
-							<Text
-								ta='center'
-								fw={600}
-							>
-								Topic
-							</Text>
-						</Table.Th>
-						{/* <Table.Th>
-							<Text
-								ta='center'
-								fw={600}
-							>
-								Description
-							</Text>
-						</Table.Th> */}
-						<Table.Th>
-							<Text
-								ta='center'
-								fw={600}
-							>
-								Status
-							</Text>
-						</Table.Th>
-						<Table.Th>
-							<Text
-								ta='center'
-								fw={600}
-							>
-								Start
-							</Text>
-						</Table.Th>
-						<Table.Th>
-							<Text
-								ta='center'
-								fw={600}
-							>
-								Created
-							</Text>
-						</Table.Th>
-						<Table.Th>
-							<Text
-								ta='center'
-								fw={600}
-							>
-								Action
-							</Text>
-						</Table.Th>
-					</Table.Tr>
-				</Table.Thead>
-				<Table.Tbody>{rows}</Table.Tbody>
-			</Table>
+				<Pagination
+					size='sm'
+					total={Math.ceil(total / 20)}
+				/>
+			</Group>
+			<Table.ScrollContainer minWidth={768}>
+				<Table
+					stickyHeader
+					highlightOnHover
+					captionSide='top'
+					verticalSpacing='sm'
+				>
+					<Table.Thead>
+						<Table.Tr>
+							<Table.Th>
+								<Text fw={600}>Host</Text>
+							</Table.Th>
+							<Table.Th>
+								<Text fw={600}>Topic</Text>
+							</Table.Th>
+							{/* <Table.Th>
+								<Text
+									ta='center'
+									fw={600}
+								>
+									Description
+								</Text>
+							</Table.Th> */}
+							<Table.Th>
+								<Text
+									ta='center'
+									fw={600}
+								>
+									Status
+								</Text>
+							</Table.Th>
+							<Table.Th>
+								<Text
+									ta='center'
+									fw={600}
+								>
+									Start
+								</Text>
+							</Table.Th>
+							<Table.Th>
+								<Text
+									ta='center'
+									fw={600}
+								>
+									Created
+								</Text>
+							</Table.Th>
+							<Table.Th>
+								<Text
+									ta='center'
+									fw={600}
+								>
+									Action
+								</Text>
+							</Table.Th>
+						</Table.Tr>
+					</Table.Thead>
+					<Table.Tbody>{rows}</Table.Tbody>
+				</Table>
+			</Table.ScrollContainer>
 		</Paper>
 	)
 }

@@ -1,8 +1,9 @@
-import { AdminHeader, Footer } from '@components'
 import { authOptions } from '@lib/auth'
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
+
+import { AdminShell } from './AdminShell'
 
 export const metadata: Metadata = {
 	title: 'Admin | Workshop Nexus',
@@ -20,15 +21,7 @@ const RootAdminLayout = async ({ children }: { children: React.ReactNode }) => {
 		redirect('/')
 	}
 
-	return (
-		<div className='flex min-h-screen flex-col'>
-			<AdminHeader />
-			<div className='flex flex-1 flex-col justify-between overflow-auto bg-black-haze'>
-				<div className='h-full'>{children}</div>
-				<Footer />
-			</div>
-		</div>
-	)
+	return <AdminShell session={session}>{children}</AdminShell>
 }
 
 export default RootAdminLayout

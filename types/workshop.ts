@@ -1,3 +1,4 @@
+import { WorkshopWithAllFields } from '@app/api/workshop/route'
 import { Prisma, WorkshopStatus } from '@prisma/client'
 
 import { BaseListPayload } from './common'
@@ -54,7 +55,7 @@ const adminWorkshop = Prisma.validator<Prisma.WorkshopDefaultArgs>()({
 export type AdminWorkshop = Prisma.WorkshopGetPayload<typeof adminWorkshop>
 
 export interface GetAdminWorkshopParams extends GetWorkshopParams {
-	status: WorkshopStatus[]
+	status?: WorkshopStatus[]
 }
 
 export interface GetWorkshopParams extends BaseListPayload {
@@ -64,4 +65,10 @@ export interface GetWorkshopParams extends BaseListPayload {
 	search?: string
 	fromDate?: number
 	toDate?: number
+}
+
+export interface AdminWorkshopResponse {
+	workshops: WorkshopWithAllFields[]
+	total: number
+	nextPageIndex: number
 }

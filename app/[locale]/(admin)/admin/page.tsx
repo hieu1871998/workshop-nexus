@@ -10,7 +10,7 @@ const AdminHomePage = async () => {
 	const stats = await getAdminWorkshopStats()
 
 	return (
-		<main>
+		<main className='container mx-auto py-5'>
 			<DashboardWorkshopSection stats={stats} />
 		</main>
 	)

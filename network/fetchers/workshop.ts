@@ -5,7 +5,7 @@ import { WorkshopWithAllFields } from '@app/api/workshop/route'
 import { fetcher } from '@network/utils/fetcher'
 import { Category, Workshop } from '@prisma/client'
 import {
-	AdminWorkshopsResponse,
+	AdminWorkshopResponse,
 	GetAdminWorkshopParams,
 	GetWorkshopParams,
 	WorkshopApplyPayload,
@@ -73,7 +73,7 @@ export const getAdminWorkshops = async (payload?: GetAdminWorkshopParams) => {
 	const queryParams = new URLSearchParams(payload as unknown as Record<string, string>)
 	const url = `/api/admin/workshop?${queryParams.toString()}`
 
-	return fetcher<WorkshopWithAllFields[]>(url, {
+	return fetcher<AdminWorkshopResponse>(url, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
@@ -122,6 +122,15 @@ export const rejectWorkshop = async (id: string) => {
 
 export const startWorkshop = async (id: string) => {
 	return fetcher(`/api/admin/workshop/${id}/start`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+}
+
+export const canceltWorkshop = async (id: string) => {
+	return fetcher(`/api/admin/workshop/${id}/cancel`, {
 		method: 'PUT',
 		headers: {
 			'Content-Type': 'application/json',
