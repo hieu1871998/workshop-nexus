@@ -39,6 +39,6 @@ export const useGetAdminWorkshops = (payload: GetAdminWorkshopParams) =>
 		queryKey: ['GET_ADMIN_WORKSHOPS', payload],
 		queryFn: ({ pageParam = 0 }) => getAdminWorkshops({ ...payload, page: pageParam }),
 		refetchOnWindowFocus: false,
-		getNextPageParam: (lastPage, allPages) => ((lastPage?.length ?? 0) < 20 ? undefined : allPages.length),
+		getNextPageParam: (lastPage, allPages) => ((lastPage?.workshops.length ?? 0) < 20 ? undefined : allPages.length),
 		initialPageParam: 0,
 	})
