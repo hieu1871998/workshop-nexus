@@ -3,7 +3,7 @@
 import { ErrorInfo } from 'react'
 import { ErrorBoundary as ReactErrorBoundary, FallbackProps as ReactFallbackProps } from 'react-error-boundary'
 import { InlineCodeHighlight } from '@mantine/code-highlight'
-import { ActionIcon, Button, Card, Group, Stack, Title, Tooltip } from '@mantine/core'
+import { ActionIcon, Card, Group, Stack, Title, Tooltip } from '@mantine/core'
 import { IconArrowBack, IconRotateClockwise } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'

@@ -31,7 +31,7 @@ export const AdminWorkshopTagSettings = () => {
 	const [search, setSearch] = useState('')
 	const [isEdit, setEdit] = useState(false)
 	const [opened, { open, close }] = useDisclosure(false)
-	const [selected, setSelected] = useState<AdminWorkshopTag>()
+	const [selected, setSelected] = useState<Omit<AdminWorkshopTag, 'createdAt'>>()
 	const [payload, setPayload] = useState({
 		page: 1,
 	} as GetAdminWorkshopTagsPayload)

@@ -3,7 +3,7 @@
 import { generateColors } from '@mantine/colors-generator'
 import { createTheme, rem } from '@mantine/core'
 
-import { ButtonTheme, InputTheme, NotificationTheme } from './components'
+import { ButtonTheme, InputTheme, NotificationTheme, SelectTheme } from './components'
 
 export const theme = createTheme({
 	colors: {
@@ -27,6 +27,7 @@ export const theme = createTheme({
 		Button: ButtonTheme,
 		Input: InputTheme,
 		Notification: NotificationTheme,
+		Select: SelectTheme,
 	},
 	fontSizes: {
 		xs: rem(12),

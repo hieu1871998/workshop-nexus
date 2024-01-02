@@ -45,7 +45,7 @@ const RootLayout = async ({ children, params }: { children: React.ReactNode; par
 			</head>
 			<body
 				id='app'
-				className={`${urbanist.className} min-h-screen bg-black-haze`}
+				className={`${urbanist.className} relative min-h-screen bg-black-haze`}
 			>
 				<MantineProvider theme={theme}>
 					<Providers

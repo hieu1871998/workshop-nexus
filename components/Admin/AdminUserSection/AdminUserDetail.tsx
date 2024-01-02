@@ -5,8 +5,8 @@ import { AdminUserResponse } from '@app/[locale]/(admin)/admin/users/[id]/edit/a
 import {
 	Avatar,
 	Badge,
-	Box,
 	Button,
+	Card,
 	Flex,
 	Grid,
 	GridCol,
@@ -59,7 +59,7 @@ const AdminUserDetail = ({
 	}
 
 	return (
-		<section>
+		<Card withBorder>
 			<Flex
 				justify='space-between'
 				align='flex-start'
@@ -82,18 +82,15 @@ const AdminUserDetail = ({
 
 				{isAdmin && (
 					<Group justify='flex-end'>
-						{isDirty() && (
-							<Button
-								color='red'
-								onClick={reset}
-								variant='outline'
-							>
-								Cancel
-							</Button>
-						)}
+						<Button
+							onClick={reset}
+							variant='outline'
+							disabled={!isDirty()}
+						>
+							Cancel
+						</Button>
 						<Button
 							onClick={() => onSubmit(handleSubmit)()}
-							color='blue'
 							disabled={!isDirty()}
 						>
 							Save
@@ -102,7 +99,10 @@ const AdminUserDetail = ({
 				)}
 			</Flex>
 
-			<Box style={{ maxWidth: 800 }}>
+			<Group
+				className='mt-2'
+				gap={4}
+			>
 				{user.tags.map(tag => (
 					<Badge
 						key={tag.id}
@@ -111,51 +111,54 @@ const AdminUserDetail = ({
 						{tag.label}
 					</Badge>
 				))}
-			</Box>
+			</Group>
 
-			<Grid mt='16px'>
-				<GridCol span={6}>
-					<TextInput
-						label='Workshops Hosted'
-						disabled
-						value={user._count.workshopsHosted}
-					/>
-				</GridCol>
-				<GridCol span={6}>
-					<TextInput
-						label='Workshops Participated'
-						disabled
-						value={user._count.workshopsParticipated}
-					/>
-				</GridCol>
+			<div className='max-w-3xl'>
+				<Grid mt='16px'>
+					<GridCol span={6}>
+						<TextInput
+							label='Workshops Hosted'
+							disabled
+							value={user._count.workshopsHosted}
+						/>
+					</GridCol>
+					<GridCol span={6}>
+						<TextInput
+							label='Workshops Participated'
+							disabled
+							value={user._count.workshopsParticipated}
+						/>
+					</GridCol>
 
-				<GridCol span={6}>
-					<Select
-						label='Role'
-						data={Object.values(Role)}
-						{...getInputProps('role')}
-						disabled={!isAdmin}
-					/>
-				</GridCol>
-				<GridCol span={6}>
-					<TextInput
-						label='Permission'
-						disabled={!isAdmin}
-					/>
-				</GridCol>
+					<GridCol span={6}>
+						<Select
+							label='Role'
+							data={Object.values(Role)}
+							{...getInputProps('role')}
+							disabled={!isAdmin}
+							checkIconPosition='right'
+						/>
+					</GridCol>
+					<GridCol span={6}>
+						<TextInput
+							label='Permission'
+							disabled={!isAdmin}
+						/>
+					</GridCol>
 
-				<GridCol span={12}>
-					<MultiSelect
-						label='Tags'
-						{...getInputProps('tags')}
-						data={userTags.map(tag => tag.label)}
-						hidePickedOptions
-						searchable
-						disabled={!isAdmin}
-					/>
-				</GridCol>
-			</Grid>
-		</section>
+					<GridCol span={12}>
+						<MultiSelect
+							label='Tags'
+							{...getInputProps('tags')}
+							data={userTags.map(tag => tag.label)}
+							hidePickedOptions
+							searchable
+							disabled={!isAdmin}
+						/>
+					</GridCol>
+				</Grid>
+			</div>
+		</Card>
 	)
 }
 

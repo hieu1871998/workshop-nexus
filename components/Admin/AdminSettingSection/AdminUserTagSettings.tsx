@@ -31,7 +31,7 @@ export const AdminUserTagSettings = () => {
 	const [search, setSearch] = useState('')
 	const [isEdit, setEdit] = useState(false)
 	const [opened, { open, close }] = useDisclosure(false)
-	const [selected, setSelected] = useState<AdminUserTag>()
+	const [selected, setSelected] = useState<Omit<AdminUserTag, 'createdAt'>>()
 	const [payload, setPayload] = useState({
 		page: 1,
 	} as GetAdminUserTagsPayload)

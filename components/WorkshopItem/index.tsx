@@ -91,9 +91,9 @@ export const WorkshopItem = ({ workshop }: WorkshopItem) => {
 					>
 						<Badge
 							size='sm'
-							color={workshop?.category.color}
+							color={workshop?.category?.color}
 						>
-							{workshop?.category.label}
+							{workshop?.category?.label}
 						</Badge>
 						<Text size='xs'>{workshop?.duration} minutes</Text>
 					</Group>

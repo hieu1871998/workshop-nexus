@@ -1,11 +1,8 @@
 'use client'
 
 import { UserDropdown } from '@components'
-import { Logo } from '@components/icons/Logo'
-import { AppShell, Burger, Group, NavLink, ScrollArea, Stack, Tabs } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
-import { IconArticle, IconCategory, IconGauge, IconSettings2, IconTags, IconUsers } from '@tabler/icons-react'
-import { calSans } from '@theme/fonts/calsans'
+import { AppShell, Group, NavLink, ScrollArea, Stack } from '@mantine/core'
+import { IconArticle, IconGauge, IconSettings2, IconTags, IconUsers } from '@tabler/icons-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Session } from 'next-auth'
@@ -19,7 +16,7 @@ export const AdminNavigationBar = ({ session }: AdminNavigationBarProps) => {
 
 	const links = [
 		{
-			href: '/admin',
+			href: '/admin/dashboard',
 			label: 'Dashboard',
 			icon: <IconGauge />,
 		},
@@ -34,13 +31,8 @@ export const AdminNavigationBar = ({ session }: AdminNavigationBarProps) => {
 			icon: <IconUsers />,
 		},
 		{
-			href: '/admin/category',
-			label: 'Categories',
-			icon: <IconCategory />,
-		},
-		{
-			href: '/admin/tag',
-			label: 'Tags',
+			href: '/admin/categories-tags',
+			label: 'Categories & Tags',
 			icon: <IconTags />,
 		},
 		{
@@ -65,7 +57,7 @@ export const AdminNavigationBar = ({ session }: AdminNavigationBarProps) => {
 							href={link.href}
 							label={link.label}
 							leftSection={link.icon}
-							active={pathname === link.href}
+							active={pathname.startsWith(link.href)}
 						/>
 					))}
 					{/* <Tabs

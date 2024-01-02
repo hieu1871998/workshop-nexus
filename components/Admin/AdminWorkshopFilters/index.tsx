@@ -1,19 +1,8 @@
 import { WorkshopMetadata } from '@app/api/workshop/metadata/route'
 import { Group, MultiSelect, MultiSelectProps } from '@mantine/core'
-import { WorkshopStatus } from '@prisma/client'
 import { capitalize } from 'lodash'
 
 import { MultiSelectLimited } from './MultiSelectLimited'
-
-const DEFAULT_STATUSES: WorkshopStatus[] = [
-	'APPROVED',
-	'CANCELED',
-	'COMPLETED',
-	'DRAFT',
-	'ONGOING',
-	'PENDING',
-	'REJECTED',
-]
 
 interface AdminWorkshopFilters {
 	metadata?: WorkshopMetadata

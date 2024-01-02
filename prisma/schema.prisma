@@ -80,7 +80,7 @@ model Workshop {
   duration            Int                  @default(0)
   expectedOutcome     String?
   requirement         String?
-  category            Category             @relation(fields: [categoryId], references: [id])
+  category            Category?            @relation(fields: [categoryId], references: [id])
   host                User                 @relation("WorkshopHost", fields: [hostId], references: [id])
   workshopThumbnail   WorkshopThumbnail    @relation(fields: [workshopThumbnailId], references: [id])
   workshopAttachment  WorkshopAttachment[]
@@ -94,14 +94,16 @@ model Category {
   color     TagColor   @default(dark)
   variant   TagVariant @default(default)
   workshops Workshop[]
+  createdAt DateTime   @default(now())
 }
 
 model UserTag {
-  id      String     @id @default(cuid())
-  label   String     @unique
-  variant TagVariant @default(default)
-  color   TagColor   @default(dark)
-  users   User[]     @relation("UserToUserTag")
+  id        String     @id @default(cuid())
+  label     String     @unique
+  variant   TagVariant @default(default)
+  color     TagColor   @default(dark)
+  users     User[]     @relation("UserToUserTag")
+  createdAt DateTime   @default(now())
 }
 
 model WorkshopTag {
@@ -110,6 +112,7 @@ model WorkshopTag {
   variant   TagVariant @default(default)
   color     TagColor   @default(dark)
   workshops Workshop[] @relation("WorkshopToWorkshopTag")
+  createdAt DateTime   @default(now())
 }
 
 model Contact {
@@ -128,6 +131,7 @@ model WorkshopThumbnail {
   contentDisposition String
   url                String
   workshop           Workshop?
+  createdAt          DateTime  @default(now())
 }
 
 model WorkshopAttachment {
@@ -138,6 +142,7 @@ model WorkshopAttachment {
   url                String
   workshopId         String?
   workshop           Workshop? @relation(fields: [workshopId], references: [id])
+  createdAt          DateTime  @default(now())
 }
 
 enum Role {

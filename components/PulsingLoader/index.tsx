@@ -1,11 +1,11 @@
-import { Logo } from '@components/icons/Logo'
+import { LogoAnimated } from '@components/icons/LogoAnimated'
 
 import styles from './PulsingLoader.module.scss'
 
 export const PulsingLoader = () => {
 	return (
 		<div className={styles.loader}>
-			<Logo className='h-20 w-20' />
+			<LogoAnimated className='text-7xl text-gray-900' />
 		</div>
 	)
 }

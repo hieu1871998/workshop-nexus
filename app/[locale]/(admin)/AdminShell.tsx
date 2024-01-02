@@ -33,7 +33,7 @@ export const AdminShell = ({ session, children }: { session: Session | null; chi
 			<AppShell.Navbar>
 				<AdminNavigationBar session={session} />
 			</AppShell.Navbar>
-			<AppShell.Main className='flex overflow-auto bg-black-haze'>{children}</AppShell.Main>
+			<AppShell.Main className='flex h-full overflow-auto bg-black-haze'>{children}</AppShell.Main>
 		</AppShell>
 	)
 }

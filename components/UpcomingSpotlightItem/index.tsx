@@ -53,7 +53,7 @@ export const UpcomingSpotlightItem = ({ workshop }: { workshop: WorkshopWithAllF
 							/>
 						</div>
 						<div>
-							<Badge color={workshop?.category.color}>{workshop?.category.label}</Badge>
+							<Badge color={workshop?.category?.color}>{workshop?.category?.label}</Badge>
 							<Title
 								className='line-clamp-1'
 								order={2}

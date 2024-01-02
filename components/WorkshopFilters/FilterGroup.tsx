@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Box, Collapse, Divider, Group, rem, Text, ThemeIcon, UnstyledButton } from '@mantine/core'
-import { IconChevronRight, IconMinus, IconPlus, TablerIconsProps } from '@tabler/icons-react'
+import { IconMinus, IconPlus, TablerIconsProps } from '@tabler/icons-react'
 import { AnimatePresence, m } from 'framer-motion'
 
 import classes from './FilterGroup.module.scss'

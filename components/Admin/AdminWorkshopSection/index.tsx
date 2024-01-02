@@ -5,7 +5,7 @@ import { WorkshopWithAllFields } from '@app/api/workshop/route'
 import { WorkshopUpdateModal } from '@components/WorkshopUpdateModal'
 import { ActionIcon, Anchor, Avatar, Badge, Group, Pagination, Paper, Table, Text, Tooltip } from '@mantine/core'
 import { modals } from '@mantine/modals'
-import { approveWorkshop, canceltWorkshop, rejectWorkshop, startWorkshop } from '@network/fetchers'
+import { approveWorkshop, cancelWorkshop, rejectWorkshop, startWorkshop } from '@network/fetchers'
 import { User } from '@prisma/client'
 import { IconBan, IconCircleCheck, IconCircleChevronRight, IconCircleRectangle, IconPencil } from '@tabler/icons-react'
 import { getBadgeColor } from '@utils'
@@ -55,7 +55,7 @@ export const AdminWorkshopSection = ({ workshops = [], total }: AdminWorkshopSec
 			if (workshop?.status === 'PENDING') {
 				await rejectWorkshop(workshop?.id ?? '')
 			} else {
-				await canceltWorkshop(workshop?.id ?? '')
+				await cancelWorkshop(workshop?.id ?? '')
 			}
 
 			revalidateAllPath()
@@ -137,7 +137,7 @@ export const AdminWorkshopSection = ({ workshops = [], total }: AdminWorkshopSec
 			</Table.Td>
 			<Table.Td>
 				<Group
-					gap={8}
+					gap={4}
 					justify='center'
 				>
 					<Tooltip label='Approve'>

@@ -62,7 +62,7 @@ export const DashboardWorkshopSection = ({ stats }: DashboardWorkshopSection) =>
 				</Tabs.Panel>
 
 				<Tabs.Panel value='users'>
-					<div className='container mx-auto max-w-5xl py-10'>
+					<div className='container mx-auto max-w-5xl p-10'>
 						<Card withBorder>Messages tab content</Card>
 					</div>
 				</Tabs.Panel>

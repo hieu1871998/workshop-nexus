@@ -31,7 +31,7 @@ export const AdminCategorySettings = () => {
 	const [search, setSearch] = useState('')
 	const [isEdit, setEdit] = useState(false)
 	const [opened, { open, close }] = useDisclosure(false)
-	const [selected, setSelected] = useState<AdminCategory>()
+	const [selected, setSelected] = useState<Omit<AdminCategory, 'createdAt'>>()
 	const [payload, setPayload] = useState({
 		page: 1,
 	} as GetAdminCategoriesPayload)

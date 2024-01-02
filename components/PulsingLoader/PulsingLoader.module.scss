@@ -12,15 +12,15 @@
 		content: '';
 		position: absolute;
 		border-radius: 50%;
-		animation: pulsOut 1.8s ease-in-out infinite;
-		filter: drop-shadow(0 0 1rem rgba(0, 0, 0, 0.75));
+		animation: pulse-out 1.8s ease-in-out infinite;
+		filter: drop-shadow(0 0 1rem rgb(0 0 0 / 75%));
 	}
 
 	&::before {
 		width: 100%;
 		padding-bottom: 100%;
 		box-shadow: inset 0 0 0 8px #333;
-		animation-name: pulsIn;
+		animation-name: pulse-in;
 	}
 
 	&::after {
@@ -29,11 +29,12 @@
 		box-shadow: 0 0 0 0 #333;
 	}
 
-	@keyframes pulsIn {
+	@keyframes pulse-in {
 		0% {
 			box-shadow: inset 0 0 0 8px #333;
 			opacity: 1;
 		}
+
 		50%,
 		100% {
 			box-shadow: inset 0 0 0 0 #333;
@@ -41,12 +42,13 @@
 		}
 	}
 
-	@keyframes pulsOut {
+	@keyframes pulse-out {
 		0%,
 		50% {
 			box-shadow: 0 0 0 0 #333;
 			opacity: 0;
 		}
+
 		100% {
 			box-shadow: 0 0 0 8px #333;
 			opacity: 1;

@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { toast } from 'react-hot-toast'
 import { applyWorkshop } from '@app/[locale]/(user)/workshop/apply/action'
 import { revalidateAllPath } from '@app/action'
 import { WorkshopMetadata } from '@app/api/workshop/metadata/route'
@@ -36,7 +35,6 @@ import dayjs from 'dayjs'
 import { m } from 'framer-motion'
 import { isEmpty } from 'lodash'
 import NextImage from 'next/image'
-import Link from 'next/link'
 import { Session } from 'next-auth'
 import { useTranslations } from 'next-intl'
 

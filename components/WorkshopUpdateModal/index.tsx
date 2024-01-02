@@ -29,7 +29,6 @@ import { notifications } from '@mantine/notifications'
 import { updateWorkshop, uploadWorkshopThumbnail } from '@network/fetchers'
 import { useGetWorkshopCategories } from '@network/queries'
 import { User } from '@prisma/client'
-import { IconCheck } from '@tabler/icons-react'
 import { WorkshopUpdatePayload } from '@types'
 import dayjs from 'dayjs'
 import { isEmpty } from 'lodash'
@@ -116,8 +115,8 @@ export const WorkshopUpdateModal = (props: WorkshopUpdateModal) => {
 
 	const categoryItems =
 		categoriesResp?.map(category => ({
-			value: category.id,
-			label: category.label,
+			value: category?.id ?? '',
+			label: category?.label ?? '',
 		})) ?? []
 
 	const previewUrl = useMemo(() => (isEmpty(files) ? undefined : URL.createObjectURL(files[0])), [files])

@@ -1,10 +1,9 @@
 import prisma from '@lib/prisma'
 import { Prisma } from '@prisma/client'
-import { GetWorkshopParams } from '@types'
 import dayjs from 'dayjs'
 import { NextRequest, NextResponse } from 'next/server'
 
-const getWorkshops = async (_: GetWorkshopParams) => {
+const getWorkshops = async () => {
 	const workshops = await prisma.workshop.findFirst({
 		include: {
 			category: true,
