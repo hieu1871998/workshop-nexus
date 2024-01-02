@@ -66,7 +66,7 @@ export const AdminUserSection = ({ session }: { session: Session | null }) => {
 		<div>
 			<Flex>
 				<TextInput
-					className='w-full'
+					className='w-full max-w-sm'
 					placeholder='Search for name, email'
 					value={search}
 					onKeyDown={e => onSearchChange(e)}

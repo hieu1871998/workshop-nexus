@@ -5,50 +5,33 @@ import { WorkshopMetadata } from '@app/api/workshop/metadata/route'
 import { Badge, Checkbox, Group, MultiSelect, Stack, Text, TextInput } from '@mantine/core'
 import { DatePickerInput } from '@mantine/dates'
 import { useForm } from '@mantine/form'
-import { WorkshopStatus } from '@prisma/client'
 import { IconCategory, IconSearch, IconTag } from '@tabler/icons-react'
-import { GetAdminWorkshopParams, GetWorkshopParams } from '@types'
+import { GetWorkshopParams } from '@types'
 import dayjs from 'dayjs'
-import { capitalize, isEmpty, isNumber, omitBy } from 'lodash'
+import { isEmpty, isNumber, omitBy } from 'lodash'
 import { useRouter } from 'next/navigation'
 
 import { FilterGroup } from './FilterGroup'
-
-const workshopStatuses: WorkshopStatus[] = [
-	WorkshopStatus.APPROVED,
-	WorkshopStatus.CANCELED,
-	WorkshopStatus.COMPLETED,
-	WorkshopStatus.DRAFT,
-	WorkshopStatus.ONGOING,
-	WorkshopStatus.PENDING,
-	WorkshopStatus.REJECTED,
-]
 
 interface WorkshopFilters {
 	metadata?: WorkshopMetadata
 	isAdmin?: boolean
 }
 
-export const WorkshopFilters = ({ metadata, isAdmin }: WorkshopFilters) => {
+export const WorkshopFilters = ({ metadata }: WorkshopFilters) => {
 	const router = useRouter()
-	const form = useForm<GetWorkshopParams | GetAdminWorkshopParams>()
+	const form = useForm<GetWorkshopParams>()
 
 	useEffect(() => {
 		const params = omitBy(form.values, value => (isNumber(value) ? false : isEmpty(value)))
-		const baseUrl = isAdmin ? '/admin/workshop' : '/workshop/listing'
 		const searchParams = new URLSearchParams(params as Record<string, string>)
 
-		router.push(`${baseUrl}?${searchParams.toString()}`, { scroll: false })
-	}, [form.values, router, isAdmin])
+		router.push(`/workshop/listing?${searchParams.toString()}`, { scroll: false })
+	}, [form.values, router])
 
 	const hosts = metadata?.users.map(user => ({
 		label: user.name,
 		value: user.id,
-	}))
-
-	const statuses = workshopStatuses.map(status => ({
-		label: capitalize(status),
-		value: status,
 	}))
 
 	return (
@@ -82,15 +65,6 @@ export const WorkshopFilters = ({ metadata, isAdmin }: WorkshopFilters) => {
 					clearable
 					searchable
 				/>
-				{isAdmin && (
-					<MultiSelect
-						{...form.getInputProps('status')}
-						placeholder='Filter by status'
-						data={statuses}
-						checkIconPosition='right'
-						clearable
-					/>
-				)}
 			</Stack>
 			<div className='mt-3'>
 				<FilterGroup

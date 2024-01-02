@@ -2,6 +2,7 @@
 
 import { revalidateAllPath } from '@app/action'
 import { WorkshopWithAllFields } from '@app/api/workshop/route'
+import { Empty } from '@components/Empty'
 import { WorkshopUpdateModal } from '@components/WorkshopUpdateModal'
 import { ActionIcon, Anchor, Avatar, Badge, Group, Pagination, Paper, Table, Text, Tooltip } from '@mantine/core'
 import { modals } from '@mantine/modals'
@@ -205,78 +206,82 @@ export const AdminWorkshopSection = ({ workshops = [], total }: AdminWorkshopSec
 
 	return (
 		<Paper
-			className='px-2'
+			className='flex min-h-0 flex-1 flex-col overflow-auto px-2'
 			withBorder
 		>
+			<Table
+				className='min-h-0 w-full flex-1 overflow-auto'
+				stickyHeader
+				highlightOnHover
+				captionSide='top'
+				verticalSpacing='sm'
+			>
+				<Table.Thead>
+					<Table.Tr>
+						<Table.Th>
+							<Text fw={600}>Host</Text>
+						</Table.Th>
+						<Table.Th>
+							<Text fw={600}>Topic</Text>
+						</Table.Th>
+						{/* <Table.Th>
+						<Text
+							ta='center'
+							fw={600}
+						>
+							Description
+						</Text>
+					</Table.Th> */}
+						<Table.Th>
+							<Text
+								ta='center'
+								fw={600}
+							>
+								Status
+							</Text>
+						</Table.Th>
+						<Table.Th>
+							<Text
+								ta='center'
+								fw={600}
+							>
+								Start
+							</Text>
+						</Table.Th>
+						<Table.Th>
+							<Text
+								ta='center'
+								fw={600}
+							>
+								Created
+							</Text>
+						</Table.Th>
+						<Table.Th>
+							<Text
+								ta='center'
+								fw={600}
+							>
+								Action
+							</Text>
+						</Table.Th>
+					</Table.Tr>
+				</Table.Thead>
+				<Table.Tbody>{rows}</Table.Tbody>
+			</Table>
 			<Group
 				className='py-2'
-				justify='flex-end'
+				justify='center'
 			>
 				<Pagination
 					size='sm'
 					total={Math.ceil(total / 20)}
 				/>
 			</Group>
-			<Table.ScrollContainer minWidth={768}>
-				<Table
-					stickyHeader
-					highlightOnHover
-					captionSide='top'
-					verticalSpacing='sm'
-				>
-					<Table.Thead>
-						<Table.Tr>
-							<Table.Th>
-								<Text fw={600}>Host</Text>
-							</Table.Th>
-							<Table.Th>
-								<Text fw={600}>Topic</Text>
-							</Table.Th>
-							{/* <Table.Th>
-								<Text
-									ta='center'
-									fw={600}
-								>
-									Description
-								</Text>
-							</Table.Th> */}
-							<Table.Th>
-								<Text
-									ta='center'
-									fw={600}
-								>
-									Status
-								</Text>
-							</Table.Th>
-							<Table.Th>
-								<Text
-									ta='center'
-									fw={600}
-								>
-									Start
-								</Text>
-							</Table.Th>
-							<Table.Th>
-								<Text
-									ta='center'
-									fw={600}
-								>
-									Created
-								</Text>
-							</Table.Th>
-							<Table.Th>
-								<Text
-									ta='center'
-									fw={600}
-								>
-									Action
-								</Text>
-							</Table.Th>
-						</Table.Tr>
-					</Table.Thead>
-					<Table.Tbody>{rows}</Table.Tbody>
-				</Table>
-			</Table.ScrollContainer>
+			{workshops.length === 0 && (
+				<div className='flex w-full justify-center py-10'>
+					<Empty />
+				</div>
+			)}
 		</Paper>
 	)
 }
