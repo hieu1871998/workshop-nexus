@@ -161,6 +161,7 @@ export const AdminUserSection = ({ session }: { session: Session | null }) => {
 														<Badge
 															key={tag.id}
 															color={tag.color}
+															variant={tag.variant}
 														>
 															{tag.label}
 														</Badge>

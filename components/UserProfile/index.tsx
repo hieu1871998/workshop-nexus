@@ -27,6 +27,7 @@ export const UserProfile = ({ user }: { user: UserWithProfile }) => {
 						<Badge
 							key={tag.id}
 							color={tag.color}
+							variant={tag.variant}
 						>
 							{tag.label}
 						</Badge>

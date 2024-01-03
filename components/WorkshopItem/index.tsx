@@ -92,6 +92,7 @@ export const WorkshopItem = ({ workshop }: WorkshopItem) => {
 						<Badge
 							size='sm'
 							color={workshop?.category?.color}
+							variant={workshop?.category?.variant}
 						>
 							{workshop?.category?.label}
 						</Badge>

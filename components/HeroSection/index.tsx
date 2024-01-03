@@ -11,7 +11,7 @@ export const HeroSection = async () => {
 
 	return (
 		<section
-			className={`${styles.heroSection} container mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center gap-5`}
+			className={`${styles.heroSection} container mx-auto flex max-w-5xl flex-col items-center justify-center gap-5 py-40`}
 		>
 			<HeroSectionTitle />
 			<div className='flex w-full justify-start sm:justify-center'>

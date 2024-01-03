@@ -53,7 +53,12 @@ export const UpcomingSpotlightItem = ({ workshop }: { workshop: WorkshopWithAllF
 							/>
 						</div>
 						<div>
-							<Badge color={workshop?.category?.color}>{workshop?.category?.label}</Badge>
+							<Badge
+								color={workshop?.category?.color}
+								variant={workshop?.category?.variant}
+							>
+								{workshop?.category?.label}
+							</Badge>
 							<Title
 								className='line-clamp-1'
 								order={2}
@@ -83,7 +88,12 @@ export const UpcomingSpotlightItem = ({ workshop }: { workshop: WorkshopWithAllF
 										key={tag.id}
 										label={tag.label}
 									>
-										<Badge color={tag.color}>{tag.label}</Badge>
+										<Badge
+											color={tag.color}
+											variant={tag.variant}
+										>
+											{tag.label}
+										</Badge>
 									</Tooltip>
 								))}
 							</Group>

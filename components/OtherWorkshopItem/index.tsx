@@ -32,7 +32,12 @@ export const OtherWorkshopItem = (props: OtherWorkshopItem) => {
 				/>
 			</Card.Section>
 			<div className='mt-4'>
-				<Badge color={workshop?.category?.color}>{workshop?.category?.label}</Badge>
+				<Badge
+					color={workshop?.category?.color}
+					variant={workshop?.category?.variant}
+				>
+					{workshop?.category?.label}
+				</Badge>
 				<Title order={4}>{workshop?.topic}</Title>
 				<div className='mt-2 flex justify-between'>
 					<Text size='xs'>{dayjs(workshop?.presentationDate).format('ddd, DD MMM YYYY')}</Text>

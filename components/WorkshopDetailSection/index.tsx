@@ -146,7 +146,12 @@ export const WorkshopDetailSection = ({ session, workshop, otherWorkshops }: Wor
 							)}
 						</Card.Section>
 						<div className='mt-5'>
-							<Badge color={workshop?.category?.color}>{workshop?.category?.label}</Badge>
+							<Badge
+								color={workshop?.category?.color}
+								variant={workshop?.category?.variant}
+							>
+								{workshop?.category?.label}
+							</Badge>
 							<Title order={1}>{workshop?.topic}</Title>
 							<div className='flex items-center gap-2'>
 								<CalendarDaysIcon className='h-5 w-5' />
@@ -167,6 +172,7 @@ export const WorkshopDetailSection = ({ session, workshop, otherWorkshops }: Wor
 									<Badge
 										key={tag.id}
 										color={tag.color}
+										variant={tag.variant}
 									>
 										{tag.label}
 									</Badge>
