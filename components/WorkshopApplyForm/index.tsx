@@ -35,6 +35,7 @@ import dayjs from 'dayjs'
 import { m } from 'framer-motion'
 import { isEmpty } from 'lodash'
 import NextImage from 'next/image'
+import { useRouter } from 'next/navigation'
 import { Session } from 'next-auth'
 import { useTranslations } from 'next-intl'
 
@@ -44,6 +45,7 @@ interface WorkshopApplyFormProps {
 }
 
 export const WorkshopApplyForm = ({ session, metadata }: WorkshopApplyFormProps) => {
+	const router = useRouter()
 	const t = useTranslations('apply')
 
 	const form = useForm<WorkshopApplyPayload>({
@@ -106,6 +108,7 @@ export const WorkshopApplyForm = ({ session, metadata }: WorkshopApplyFormProps)
 
 			setLoading(false)
 			form.reset()
+			router.push('/workshop/apply/success')
 		} catch (error) {
 			notifications.update({
 				id: 'apply-notification',
