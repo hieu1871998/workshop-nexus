@@ -72,7 +72,39 @@ export const GET = async (request: NextRequest) => {
 			take: pageSize,
 			skip: page * pageSize,
 		})
-		const total = await prisma.workshop.count()
+		const total = await prisma.workshop.count({
+			where: {
+				categoryId: {
+					in: categoryId ? categoryId.toString().split(',') : undefined,
+				},
+				hostId: {
+					in: hostId ? hostId.split(',') : undefined,
+				},
+				presentationDate: {
+					lte: toDate ? dayjs(parseInt(toDate)).toDate() : undefined,
+					gte: fromDate ? dayjs(parseInt(fromDate)).toDate() : undefined,
+				},
+				topic: {
+					search,
+				},
+				description: {
+					search,
+				},
+				requirement: {
+					search,
+				},
+				tags: {
+					every: {
+						id: {
+							in: tagIds,
+						},
+					},
+				},
+				status: {
+					in: status ? (status.split(',') as WorkshopStatus[]) : undefined,
+				},
+			},
+		})
 		const nextPageIndex = page + 1
 
 		return NextResponse.json(

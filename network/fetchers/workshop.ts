@@ -75,6 +75,9 @@ export const getOtherWorkshops = async (payload: { id: string }) => {
 }
 
 export const getAdminWorkshops = async (payload?: GetAdminWorkshopParams) => {
+	if (payload?.page) {
+		payload.page = payload.page - 1
+	}
 	const queryParams = new URLSearchParams(payload as unknown as Record<string, string>)
 	const url = `/api/admin/workshop?${queryParams.toString()}`
 

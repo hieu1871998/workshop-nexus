@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { revalidateAllPath } from '@app/action'
 import { WorkshopWithAllFields } from '@app/api/workshop/route'
 import { Empty } from '@components/Empty'
@@ -9,16 +10,22 @@ import { modals } from '@mantine/modals'
 import { approveWorkshop, cancelWorkshop, rejectWorkshop, startWorkshop } from '@network/fetchers'
 import { User } from '@prisma/client'
 import { IconBan, IconCircleCheck, IconCircleChevronRight, IconCircleRectangle, IconPencil } from '@tabler/icons-react'
+import { GetAdminWorkshopParams } from '@types'
 import { getBadgeColor } from '@utils'
 import dayjs from 'dayjs'
 import Link from 'next/link'
 
+import { useChangeFilter } from '../AdminUserSection/components/useChangeFilter'
+
 interface AdminWorkshopSection {
 	workshops?: WorkshopWithAllFields[]
 	total: number
+	searchParams: GetAdminWorkshopParams
 }
 
-export const AdminWorkshopSection = ({ workshops = [], total }: AdminWorkshopSection) => {
+export const AdminWorkshopSection = ({ workshops = [], total, searchParams }: AdminWorkshopSection) => {
+	const [payload, setPayload] = useChangeFilter()
+
 	const openEditModal = (workshop: WorkshopWithAllFields) =>
 		modals.open({
 			title: <Text fw={600}>Update workshop</Text>,
@@ -204,6 +211,13 @@ export const AdminWorkshopSection = ({ workshops = [], total }: AdminWorkshopSec
 		</Table.Tr>
 	))
 
+	// useEffect(() => {
+	// 	if (!searchParams.page) {
+	// 		setPayload({ page: 1 })
+	// 	}
+	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
+	// }, [searchParams])
+
 	return (
 		<Paper
 			className='flex h-full w-full flex-col overflow-auto'
@@ -265,7 +279,11 @@ export const AdminWorkshopSection = ({ workshops = [], total }: AdminWorkshopSec
 			>
 				<Pagination
 					size='sm'
-					total={Math.ceil(total / 20)}
+					total={Math.ceil((total || 0) / (payload?.pageSize || 20))}
+					value={payload?.page || 1}
+					onChange={page => {
+						setPayload({ ...payload, page })
+					}}
 				/>
 			</Group>
 			{workshops.length === 0 && (

@@ -13,6 +13,7 @@ const AdminWorkshopPage = async ({ searchParams }: { searchParams: GetAdminWorks
 			<AdminWorkshopSection
 				workshops={workshopRes?.workshops}
 				total={workshopRes?.total ?? 0}
+				searchParams={searchParams}
 			/>
 		</div>
 	)
