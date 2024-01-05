@@ -1,6 +1,6 @@
 'use client'
 
-import { UserDropdown } from '@components'
+import { NotificationCenter, UserDropdown } from '@components'
 import { Group, Tabs } from '@mantine/core'
 import { IconDiamonds } from '@tabler/icons-react'
 import Link from 'next/link'
@@ -41,6 +41,7 @@ export const NavigationBar = ({ session }: { session: Session | null }) => {
 					)}
 				</Tabs.List>
 			</Tabs>
+			<NotificationCenter session={session} />
 			<UserDropdown session={session} />
 		</Group>
 	)

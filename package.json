@@ -21,6 +21,7 @@
 		"@heroicons/react": "^2.0.18",
 		"@internationalized/date": "^3.5.0",
 		"@knocklabs/node": "^0.5.0",
+		"@knocklabs/react-notification-feed": "^0.8.14",
 		"@mantine/carousel": "^7.3.1",
 		"@mantine/code-highlight": "^7.3.1",
 		"@mantine/colors-generator": "^7.2.2",
@@ -54,6 +55,7 @@
 		"@tiptap/react": "^2.1.13",
 		"@tiptap/starter-kit": "^2.1.13",
 		"@tremor/react": "^3.11.1",
+		"@types/uuid": "^9.0.7",
 		"@vercel/blob": "^0.15.1",
 		"@vercel/postgres": "^0.5.1",
 		"bcrypt": "^5.1.1",
@@ -85,6 +87,7 @@
 		"socket.io": "^4.7.3",
 		"socket.io-client": "^4.7.3",
 		"typescript": "5.3.2",
+		"uuid": "^9.0.1",
 		"webpack": "^5.89.0"
 	},
 	"devDependencies": {

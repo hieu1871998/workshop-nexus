@@ -209,32 +209,21 @@ export const WorkshopDetailSection = ({ session, workshop, otherWorkshops }: Wor
 				autoClose: false,
 			})
 
-			const res = (await startWorkshop(workshop?.id ?? '')) as { error: string }
+			await startWorkshop(workshop?.id ?? '')
 			revalidateAllPath()
 
-			if (res?.error) {
-				notifications.update({
-					id: 'publish-notification',
-					title: 'Error',
-					message: res.error,
-					color: 'red',
-					loading: false,
-					autoClose: 5000,
-				})
-			} else {
-				notifications.update({
-					id: 'publish-notification',
-					title: 'Start successfully!',
-					message: (
-						<span>
-							You have started <b>{workshop?.topic}</b> workshop
-						</span>
-					),
-					color: 'green',
-					loading: false,
-					autoClose: 5000,
-				})
-			}
+			notifications.update({
+				id: 'publish-notification',
+				title: 'Start successfully!',
+				message: (
+					<span>
+						You have started <b>{workshop?.topic}</b> workshop
+					</span>
+				),
+				color: 'green',
+				loading: false,
+				autoClose: 5000,
+			})
 		} catch (error) {
 			notifications.update({
 				id: 'start-notification',

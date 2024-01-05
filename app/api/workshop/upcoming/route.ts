@@ -8,6 +8,7 @@ const getUpcomingWorkshops = async ({ pageIndex = 0, pageSize = 10 }: { pageSize
 			presentationDate: {
 				gt: new Date(),
 			},
+			status: 'APPROVED',
 		},
 		include: {
 			category: true,

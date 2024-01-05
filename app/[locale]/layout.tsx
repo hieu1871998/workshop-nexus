@@ -1,10 +1,13 @@
 import { Providers } from '@app/providers'
+import { authOptions } from '@lib/auth'
 import { ColorSchemeScript, MantineProvider } from '@mantine/core'
 import { DatesProvider } from '@mantine/dates'
 import { Notifications } from '@mantine/notifications'
+import { identify } from '@network/fetchers'
 import { theme } from '@theme/mantine'
 import { Urbanist } from 'next/font/google'
 import { notFound } from 'next/navigation'
+import { getServerSession } from 'next-auth'
 import { useLocale } from 'next-intl'
 
 import 'dayjs/locale/en'
@@ -38,6 +41,17 @@ const RootLayout = async ({ children, params }: { children: React.ReactNode; par
 		notFound()
 	}
 
+	const session = await getServerSession(authOptions)
+
+	if (session) {
+		await identify({
+			id: session.user.id ?? '',
+			name: session.user.name ?? '',
+			email: session.user.email ?? '',
+			avatar: session.user.image ?? '',
+		})
+	}
+
 	return (
 		<html>
 			<head>
@@ -51,6 +65,7 @@ const RootLayout = async ({ children, params }: { children: React.ReactNode; par
 					<Providers
 						locale={locale}
 						messages={messages as IntlMessages}
+						session={session}
 					>
 						<Notifications position='top-right' />
 						<DatesProvider settings={{ locale }}>{children}</DatesProvider>

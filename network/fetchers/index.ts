@@ -1,3 +1,5 @@
+export * from './knock'
+export * from './setting'
 export * from './upload'
 export * from './user'
 export * from './workshop'
