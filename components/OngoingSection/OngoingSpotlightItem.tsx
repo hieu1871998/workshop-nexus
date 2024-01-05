@@ -31,7 +31,7 @@ export const OngoingSpotlightItem = ({ workshop }: { workshop: WorkshopWithAllFi
 			>
 				<div className='grid grid-cols-10 gap-5'>
 					<div className='col-span-4 flex flex-col justify-between'>
-						<div className='flex justify-start gap-10'>
+						<div>
 							<Link href={`/user/${workshop?.host.id}`}>
 								<Group>
 									<Avatar src={workshop?.host.image} />
@@ -46,25 +46,28 @@ export const OngoingSpotlightItem = ({ workshop }: { workshop: WorkshopWithAllFi
 									</Stack>
 								</Group>
 							</Link>
-						</div>
-						<div className='mt-20'>
+							<Title
+								className='line-clamp-1'
+								order={1}
+								mt={12}
+								mb={4}
+							>
+								{workshop?.topic}
+							</Title>
 							<Badge
 								color={workshop?.category?.color}
 								variant={workshop?.category?.variant}
 								size='lg'
+								mb={20}
 							>
 								{workshop?.category?.label}
 							</Badge>
-							<Title
-								className='line-clamp-1'
-								order={1}
-								mb={8}
-							>
-								{workshop?.topic}
-							</Title>
 							<Text className='line-clamp-3 text-lg'>{workshop?.description}</Text>
-							<Divider my='md' />
-							{workshop?.participants && workshop?.participants.length > 0 && (
+						</div>
+						{workshop?.participants && workshop?.participants.length > 0 && (
+							<div>
+								<Text className='text-lg font-semibold'>Participants</Text>
+								<Divider mb='md' />
 								<Group>
 									{workshop?.participants.map(participant => (
 										<UserHoverCard
@@ -73,8 +76,8 @@ export const OngoingSpotlightItem = ({ workshop }: { workshop: WorkshopWithAllFi
 										/>
 									))}
 								</Group>
-							)}
-						</div>
+							</div>
+						)}
 					</div>
 					<div className='relative col-span-6 aspect-16/9'>
 						<Image
