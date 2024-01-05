@@ -2,7 +2,7 @@
 
 import { UserDropdown } from '@components'
 import { AppShell, Group, NavLink, ScrollArea, Stack } from '@mantine/core'
-import { IconArticle, IconGauge, IconSettings2, IconTags, IconUsers } from '@tabler/icons-react'
+import { IconArticle, IconGauge, IconTags, IconUsers } from '@tabler/icons-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Session } from 'next-auth'
@@ -35,11 +35,11 @@ export const AdminNavigationBar = ({ session }: AdminNavigationBarProps) => {
 			label: 'Categories & Tags',
 			icon: <IconTags />,
 		},
-		{
-			href: '/admin/settings',
-			label: 'Settings',
-			icon: <IconSettings2 />,
-		},
+		// {
+		// 	href: '/admin/settings',
+		// 	label: 'Settings',
+		// 	icon: <IconSettings2 />,
+		// },
 	]
 
 	return (

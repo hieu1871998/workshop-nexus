@@ -3,6 +3,10 @@ generator client {
   previewFeatures = ["fullTextIndex", "fullTextSearch", "postgresqlExtensions"]
 }
 
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
 datasource db {
   provider  = "postgresql"
   url       = env("POSTGRES_PRISMA_URL")
@@ -113,15 +117,6 @@ model WorkshopTag {
   color     TagColor   @default(dark)
   workshops Workshop[] @relation("WorkshopToWorkshopTag")
   createdAt DateTime   @default(now())
-}
-
-model Contact {
-  id       String   @id
-  name     String
-  email    String
-  subject  String
-  message  String
-  sentDate DateTime @default(now())
 }
 
 model WorkshopThumbnail {

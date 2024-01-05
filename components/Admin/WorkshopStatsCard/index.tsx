@@ -8,7 +8,7 @@ interface WorkshopStatsCard {
 
 export const WorkshopStatsCard = ({ stats }: WorkshopStatsCard) => {
 	return (
-		<Card>
+		<Card withBorder>
 			<Group gap={8}>
 				<Title order={3}>Workshops</Title>
 				<Badge>{stats?.total}</Badge>

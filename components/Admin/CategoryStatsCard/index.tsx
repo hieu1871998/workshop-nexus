@@ -8,7 +8,7 @@ interface CategoryTagStatsCard {
 
 export const CategoryTagStatsCard = ({ title, stats }: CategoryTagStatsCard) => {
 	return (
-		<Card>
+		<Card withBorder>
 			<Group gap={8}>
 				<Title order={3}>{title}</Title>
 				<Badge>{stats?.total}</Badge>

@@ -7,7 +7,7 @@ import { NotificationFeedPopover, NotificationIconButton, useKnockFeed } from '@
 import { notifications } from '@mantine/notifications'
 import { Session } from 'next-auth'
 
-import '@knocklabs/react-notification-feed/dist/index.css'
+import './styles.css'
 
 interface NotificationCenterProps {
 	session: Session | null

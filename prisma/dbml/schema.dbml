@@ -1,0 +1,185 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table Account {
+  id String [pk]
+  userId String [not null]
+  type String [not null]
+  provider String [not null]
+  providerAccountId String [not null]
+  refresh_token String
+  access_token String
+  expires_at Int
+  token_type String
+  scope String
+  id_token String
+  session_state String
+  user User [not null]
+
+  indexes {
+    (provider, providerAccountId) [unique]
+  }
+}
+
+Table Session {
+  id String [pk]
+  sessionToken String [unique, not null]
+  userId String [not null]
+  expires DateTime [not null]
+  user User [not null]
+}
+
+Table User {
+  id String [pk]
+  email String [unique, not null]
+  role Role [not null, default: 'USER']
+  emailVerified DateTime
+  image String [not null]
+  name String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  accounts Account [not null]
+  sessions Session [not null]
+  workshopsHosted Workshop [not null]
+  tags UserTag [not null]
+  workshopsParticipated Workshop [not null]
+}
+
+Table VerificationToken {
+  identifier String [not null]
+  token String [unique, not null]
+  expires DateTime [not null]
+
+  indexes {
+    (identifier, token) [unique]
+  }
+}
+
+Table Workshop {
+  id String [pk]
+  hostId String [not null]
+  topic String [not null]
+  presentationDate DateTime [not null]
+  maxParticipants Int [not null]
+  description String [not null]
+  categoryId String [not null]
+  status WorkshopStatus [not null, default: 'DRAFT']
+  approvalDate DateTime
+  completionDate DateTime
+  createdAt DateTime [default: `now()`, not null]
+  startDate DateTime
+  submissionDate DateTime
+  workshopThumbnailId String [unique, not null]
+  slug String [unique, not null]
+  duration Int [not null, default: 0]
+  expectedOutcome String
+  requirement String
+  category Category
+  host User [not null]
+  workshopThumbnail WorkshopThumbnail [not null]
+  workshopAttachment WorkshopAttachment [not null]
+  participants User [not null]
+  tags WorkshopTag [not null]
+}
+
+Table Category {
+  id String [pk]
+  label String [unique, not null]
+  color TagColor [not null, default: 'dark']
+  variant TagVariant [not null, default: 'default']
+  workshops Workshop [not null]
+  createdAt DateTime [default: `now()`, not null]
+}
+
+Table UserTag {
+  id String [pk]
+  label String [unique, not null]
+  variant TagVariant [not null, default: 'default']
+  color TagColor [not null, default: 'dark']
+  users User [not null]
+  createdAt DateTime [default: `now()`, not null]
+}
+
+Table WorkshopTag {
+  id String [pk]
+  label String [unique, not null]
+  variant TagVariant [not null, default: 'default']
+  color TagColor [not null, default: 'dark']
+  workshops Workshop [not null]
+  createdAt DateTime [default: `now()`, not null]
+}
+
+Table WorkshopThumbnail {
+  id String [pk]
+  pathname String [not null]
+  contentType String
+  contentDisposition String [not null]
+  url String [not null]
+  workshop Workshop
+  createdAt DateTime [default: `now()`, not null]
+}
+
+Table WorkshopAttachment {
+  id String [pk]
+  pathname String [not null]
+  contentType String [not null]
+  contentDisposition String [not null]
+  url String [not null]
+  workshopId String
+  workshop Workshop
+  createdAt DateTime [default: `now()`, not null]
+}
+
+Enum Role {
+  USER
+  ADMIN
+}
+
+Enum WorkshopStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  ONGOING
+  COMPLETED
+  CANCELED
+  DRAFT
+}
+
+Enum TagVariant {
+  filled
+  light
+  outline
+  dot
+  transparent
+  default
+  white
+}
+
+Enum TagColor {
+  dark
+  gray
+  red
+  pink
+  grape
+  violet
+  indigo
+  blue
+  cyan
+  teal
+  green
+  lime
+  yellow
+  orange
+}
+
+Ref: Account.userId > User.id [delete: Cascade]
+
+Ref: Session.userId > User.id [delete: Cascade]
+
+Ref: Workshop.categoryId > Category.id
+
+Ref: Workshop.hostId > User.id
+
+Ref: Workshop.workshopThumbnailId - WorkshopThumbnail.id
+
+Ref: WorkshopAttachment.workshopId > Workshop.id

@@ -278,7 +278,7 @@ export const WorkshopDetailSection = ({ session, workshop, otherWorkshops }: Wor
 		workshop?.status !== 'PENDING' && workshop?.status !== 'DRAFT' && workshop?.status !== 'APPROVED'
 	const showEdit = isAdmin || isOwnWorkshop
 	const disableEdit = workshop?.status === 'COMPLETED'
-	const showDraft = workshop?.status !== 'DRAFT'
+	const showDraft = workshop?.status !== 'DRAFT' && isOwnWorkshop
 	const disableDraft = !isOwnWorkshop || workshop?.status === 'ONGOING' || workshop?.status === 'COMPLETED'
 	const showStart = workshop?.status === 'APPROVED'
 	const showComplete = workshop?.status === 'ONGOING'
