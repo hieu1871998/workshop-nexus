@@ -97,6 +97,17 @@ export const getUpcomingWorkshops = async (params?: { pageSize?: number; pageInd
 	})
 }
 
+export const getOngoingWorkshops = async (params?: { pageSize?: number; pageIndex?: number }) => {
+	const searchParams = new URLSearchParams(params as Record<string, string>)
+
+	return fetcher<WorkshopWithAllFields[]>(`/api/workshop/ongoing?${searchParams.toString()}`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+}
+
 export const getWorkshopMetadata = async () => {
 	return fetcher<WorkshopMetadata>('/api/workshop/metadata', {
 		method: 'GET',
