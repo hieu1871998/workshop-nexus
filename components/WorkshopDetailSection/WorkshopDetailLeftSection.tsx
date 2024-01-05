@@ -80,7 +80,7 @@ export const WorkshopDetailLeftSection = ({ workshop, isOwnWorkshop, session }: 
 							px={80}
 							size='lg'
 							onClick={() => setOpened(o => !o)}
-							disabled={!!isAttended}
+							disabled={!!isAttended || workshop?.status !== 'APPROVED'}
 						>
 							{isAttended ? (
 								<Text
@@ -88,6 +88,13 @@ export const WorkshopDetailLeftSection = ({ workshop, isOwnWorkshop, session }: 
 									fw={600}
 								>
 									Already signed up to attend
+								</Text>
+							) : workshop?.status !== 'APPROVED' ? (
+								<Text
+									size='md'
+									fw={600}
+								>
+									Cannot attent this workshop
 								</Text>
 							) : (
 								t('attendButtonTitle')

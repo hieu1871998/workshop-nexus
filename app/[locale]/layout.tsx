@@ -52,7 +52,7 @@ const RootLayout = async ({ children, params }: { children: React.ReactNode; par
 						locale={locale}
 						messages={messages as IntlMessages}
 					>
-						<Notifications />
+						<Notifications position='top-right' />
 						<DatesProvider settings={{ locale }}>{children}</DatesProvider>
 					</Providers>
 				</MantineProvider>

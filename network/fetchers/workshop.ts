@@ -150,6 +150,15 @@ export const startWorkshop = async (id: string) => {
 	})
 }
 
+export const completeWorkshop = async (id: string) => {
+	return fetcher(`/api/admin/workshop/${id}/complete`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+}
+
 export const createCategory = async (payload: Omit<Category, 'id' | 'createdAt'>) => {
 	return fetcher<Category>('/api/admin/workshop/category', {
 		method: 'POST',

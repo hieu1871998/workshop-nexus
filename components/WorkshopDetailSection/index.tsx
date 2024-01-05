@@ -7,10 +7,17 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import { Badge, Button, Card, Group, Stack, Text, Title } from '@mantine/core'
 import { modals } from '@mantine/modals'
 import { notifications } from '@mantine/notifications'
-import { approveWorkshop, cancelWorkshop, draftWorkshop, publishWorkshop } from '@network/fetchers'
+import {
+	approveWorkshop,
+	cancelWorkshop,
+	completeWorkshop,
+	draftWorkshop,
+	publishWorkshop,
+	startWorkshop,
+} from '@network/fetchers'
 import { user } from '@nextui-org/react'
 import { User } from '@prisma/client'
-import { IconCircleCheck, IconNotes, IconShare2 } from '@tabler/icons-react'
+import { IconCircleCaretRight, IconCircleCheck, IconNotes, IconShare2 } from '@tabler/icons-react'
 import { getBadgeColor } from '@utils'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -192,6 +199,90 @@ export const WorkshopDetailSection = ({ session, workshop, otherWorkshops }: Wor
 		}
 	}
 
+	const handleStart = async () => {
+		try {
+			notifications.show({
+				id: 'start-notification',
+				title: 'Please wait a moment',
+				message: `Communicating with server...`,
+				loading: true,
+				autoClose: false,
+			})
+
+			await startWorkshop(workshop?.id ?? '')
+			revalidateAllPath()
+
+			notifications.update({
+				id: 'publish-notification',
+				title: 'Start successfully!',
+				message: (
+					<span>
+						You have started <b>{workshop?.topic}</b> workshop
+					</span>
+				),
+				color: 'green',
+				loading: false,
+				autoClose: 5000,
+			})
+		} catch (error) {
+			notifications.update({
+				id: 'start-notification',
+				title: 'Start failed!',
+				message: `Cancel ${workshop?.topic} workshop failed`,
+				color: 'red',
+				loading: false,
+				autoClose: 3000,
+			})
+		}
+	}
+
+	const handleComplete = async () => {
+		try {
+			notifications.show({
+				id: 'complete-notification',
+				title: 'Please wait a moment',
+				message: `Communicating with server...`,
+				loading: true,
+				autoClose: false,
+			})
+
+			await completeWorkshop(workshop?.id ?? '')
+			revalidateAllPath()
+
+			notifications.update({
+				id: 'complete-notification',
+				title: 'Complete successfully!',
+				message: (
+					<span>
+						You have completed <b>{workshop?.topic}</b> workshop
+					</span>
+				),
+				color: 'green',
+				loading: false,
+				autoClose: 5000,
+			})
+		} catch (error) {
+			notifications.update({
+				id: 'publish-notification',
+				title: 'Publish failed!',
+				message: `Cancel ${workshop?.topic} workshop failed`,
+				color: 'red',
+				loading: false,
+				autoClose: 3000,
+			})
+		}
+	}
+
+	const showCancel = isAdmin || isOwnWorkshop
+	const disableCancel =
+		workshop?.status !== 'PENDING' && workshop?.status !== 'DRAFT' && workshop?.status !== 'APPROVED'
+	const showEdit = isAdmin || isOwnWorkshop
+	const disableEdit = workshop?.status === 'COMPLETED'
+	const showDraft = workshop?.status !== 'DRAFT'
+	const disableDraft = !isOwnWorkshop || workshop?.status === 'ONGOING' || workshop?.status === 'COMPLETED'
+	const showStart = workshop?.status === 'APPROVED'
+	const showComplete = workshop?.status === 'ONGOING'
+
 	return (
 		<div>
 			<div className='flex justify-between'>
@@ -202,15 +293,76 @@ export const WorkshopDetailSection = ({ session, workshop, otherWorkshops }: Wor
 				>
 					Back
 				</Button>
-				{(isOwnWorkshop || isAdmin) && (
-					<Group>
-						<Button
-							variant='default'
-							onClick={openEditModal}
-						>
-							Edit
-						</Button>
-						{workshop?.status === 'DRAFT' ? (
+				<Group>
+					{showCancel && (
+						<Button.Group>
+							<Button
+								onClick={() => {
+									modals.openConfirmModal({
+										title: 'Are you sure you want to cancel this workshop?',
+										labels: { cancel: 'No', confirm: 'Yes' },
+										onConfirm: () => void handleCancel(),
+									})
+								}}
+								disabled={disableCancel}
+								color='red'
+							>
+								Cancel
+							</Button>
+							{showStart && (
+								<Button
+									onClick={() => {
+										modals.openConfirmModal({
+											title: 'Are you sure you want to cancel this workshop?',
+											labels: { cancel: 'No', confirm: 'Yes' },
+											onConfirm: () => void handleStart(),
+										})
+									}}
+									rightSection={<IconCircleCaretRight className='h-4 w-4' />}
+								>
+									Start
+								</Button>
+							)}
+							{showComplete && (
+								<Button
+									onClick={() => {
+										modals.openConfirmModal({
+											title: 'Are you sure you want to cancel this workshop?',
+											labels: { cancel: 'No', confirm: 'Yes' },
+											onConfirm: () => void handleComplete(),
+										})
+									}}
+								>
+									Complete
+								</Button>
+							)}
+						</Button.Group>
+					)}
+					<Button.Group>
+						{showEdit && (
+							<Button
+								variant='default'
+								onClick={openEditModal}
+								disabled={disableEdit}
+							>
+								Edit
+							</Button>
+						)}
+						{showDraft ? (
+							<Button
+								onClick={() => {
+									modals.openConfirmModal({
+										title: 'Are you sure you want to publish this workshop?',
+										labels: { cancel: 'No', confirm: 'Yes' },
+										onConfirm: () => void handleDraft(),
+									})
+								}}
+								disabled={disableDraft}
+								rightSection={<IconNotes className='h-4 w-4' />}
+							>
+								Draft
+							</Button>
+						) : (
 							<Button
 								onClick={() => {
 									modals.openConfirmModal({
@@ -224,37 +376,6 @@ export const WorkshopDetailSection = ({ session, workshop, otherWorkshops }: Wor
 							>
 								Publish
 							</Button>
-						) : (
-							<>
-								<Button
-									onClick={() => {
-										modals.openConfirmModal({
-											title: 'Are you sure you want to cancel this workshop?',
-											labels: { cancel: 'No', confirm: 'Yes' },
-											onConfirm: () => void handleCancel(),
-										})
-									}}
-									disabled={
-										!isOwnWorkshop || workshop?.status === 'REJECTED' || (workshop?.status === 'CANCELED' && !isAdmin)
-									}
-									color='red'
-								>
-									Cancel
-								</Button>
-								<Button
-									onClick={() => {
-										modals.openConfirmModal({
-											title: 'Are you sure you want to publish this workshop?',
-											labels: { cancel: 'No', confirm: 'Yes' },
-											onConfirm: () => void handleDraft(),
-										})
-									}}
-									disabled={!isOwnWorkshop || !(workshop?.status === 'PENDING')}
-									rightSection={<IconNotes className='h-4 w-4' />}
-								>
-									Draft
-								</Button>
-							</>
 						)}
 						{isAdmin && (
 							<Button
@@ -271,8 +392,8 @@ export const WorkshopDetailSection = ({ session, workshop, otherWorkshops }: Wor
 								Approve
 							</Button>
 						)}
-					</Group>
-				)}
+					</Button.Group>
+				</Group>
 			</div>
 			<div className='mt-5 grid grid-cols-12 gap-5'>
 				<div className='col-span-3'>

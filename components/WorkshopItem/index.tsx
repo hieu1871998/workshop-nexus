@@ -3,6 +3,7 @@
 import { FiCalendar } from 'react-icons/fi'
 import { WorkshopWithAllFields } from '@app/api/workshop/route'
 import { Avatar, Badge, Card, Group, Text, Title, Tooltip } from '@mantine/core'
+import { getBadgeColor } from '@utils'
 import dayjs from 'dayjs'
 import { m } from 'framer-motion'
 import Image from 'next/image'
@@ -46,6 +47,16 @@ export const WorkshopItem = ({ workshop }: WorkshopItem) => {
 							fill
 							sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
 						/>
+						{workshop?.status === 'COMPLETED' && (
+							<>
+								<Badge
+									className='absolute left-4 top-4 z-[210] border shadow'
+									color={getBadgeColor(workshop?.status ?? 'DRAFT')}
+								>
+									{workshop?.status}
+								</Badge>
+							</>
+						)}
 					</div>
 				</Card.Section>
 				<div className='mt-4'>

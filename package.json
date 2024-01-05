@@ -20,6 +20,7 @@
 		"@formatjs/intl-localematcher": "^0.5.2",
 		"@heroicons/react": "^2.0.18",
 		"@internationalized/date": "^3.5.0",
+		"@knocklabs/node": "^0.5.0",
 		"@mantine/carousel": "^7.3.1",
 		"@mantine/code-highlight": "^7.3.1",
 		"@mantine/colors-generator": "^7.2.2",
@@ -81,6 +82,8 @@
 		"react-stately": "^3.28.0",
 		"sass": "^1.69.5",
 		"sharp": "^0.32.6",
+		"socket.io": "^4.7.3",
+		"socket.io-client": "^4.7.3",
 		"typescript": "5.3.2",
 		"webpack": "^5.89.0"
 	},

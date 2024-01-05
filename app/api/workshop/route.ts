@@ -64,6 +64,9 @@ export const GET = async (request: NextRequest) => {
 						},
 					},
 				},
+				status: {
+					in: ['APPROVED', 'COMPLETED', 'ONGOING'],
+				},
 			},
 			include: {
 				category: true,
