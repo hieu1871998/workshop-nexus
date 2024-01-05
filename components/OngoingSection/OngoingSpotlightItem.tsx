@@ -51,25 +51,29 @@ export const OngoingSpotlightItem = ({ workshop }: { workshop: WorkshopWithAllFi
 							<Badge
 								color={workshop?.category?.color}
 								variant={workshop?.category?.variant}
+								size='lg'
 							>
 								{workshop?.category?.label}
 							</Badge>
 							<Title
 								className='line-clamp-1'
-								order={2}
+								order={1}
+								mb={8}
 							>
 								{workshop?.topic}
 							</Title>
-							<Text className='line-clamp-3'>{workshop?.description}</Text>
+							<Text className='line-clamp-3 text-lg'>{workshop?.description}</Text>
 							<Divider my='md' />
-							<Group>
-								{workshop?.participants.map(participant => (
-									<UserHoverCard
-										key={participant.id}
-										user={participant}
-									/>
-								))}
-							</Group>
+							{workshop?.participants && workshop?.participants.length > 0 && (
+								<Group>
+									{workshop?.participants.map(participant => (
+										<UserHoverCard
+											key={participant.id}
+											user={participant}
+										/>
+									))}
+								</Group>
+							)}
 						</div>
 					</div>
 					<div className='relative col-span-6 aspect-16/9'>

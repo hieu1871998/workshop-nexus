@@ -1,4 +1,5 @@
 import prisma from '@lib/prisma'
+import dayjs from 'dayjs'
 import { NextResponse } from 'next/server'
 
 export const GET = async () => {
@@ -11,7 +12,7 @@ export const GET = async () => {
 				},
 			},
 			data: {
-				status: 'COMPLETED',
+				presentationDate: dayjs().add(14, 'day').toDate(),
 			},
 		})
 
