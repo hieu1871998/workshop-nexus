@@ -106,7 +106,23 @@ export const getWorkshopMetadata = async () => {
 
 export const publishWorkshop = async (payload: { id?: string }) => {
 	return fetcher<boolean>('/api/workshop/publish', {
-		method: 'POST',
+		method: 'PUT',
+		body: JSON.stringify(payload),
+		headers: { 'Content-Type': 'application/json' },
+	})
+}
+
+export const cancelWorkshop = async (payload: { id?: string }) => {
+	return fetcher(`/api/workshop/cancel`, {
+		method: 'PUT',
+		body: JSON.stringify(payload),
+		headers: { 'Content-Type': 'application/json' },
+	})
+}
+
+export const draftWorkshop = async (payload: { id?: string }) => {
+	return fetcher(`/api/workshop/draft`, {
+		method: 'PUT',
 		body: JSON.stringify(payload),
 		headers: { 'Content-Type': 'application/json' },
 	})
@@ -127,15 +143,6 @@ export const rejectWorkshop = async (id: string) => {
 
 export const startWorkshop = async (id: string) => {
 	return fetcher(`/api/admin/workshop/${id}/start`, {
-		method: 'PUT',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	})
-}
-
-export const cancelWorkshop = async (id: string) => {
-	return fetcher(`/api/admin/workshop/${id}/cancel`, {
 		method: 'PUT',
 		headers: {
 			'Content-Type': 'application/json',

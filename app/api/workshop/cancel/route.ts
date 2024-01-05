@@ -1,7 +1,7 @@
 import prisma from '@lib/prisma'
 import { NextRequest, NextResponse } from 'next/server'
 
-export const POST = async (request: NextRequest) => {
+export const PUT = async (request: NextRequest) => {
 	try {
 		const { id } = (await request.json()) as { id: string }
 

@@ -6,7 +6,7 @@ const AdminUserPage = async () => {
 	const session = await getServerSession(authOptions)
 
 	return (
-		<div className='h-full w-full p-5'>
+		<div className='h-[calc(100vh - 56px)] w-full p-5'>
 			<AdminUserSection session={session} />
 		</div>
 	)

@@ -8,7 +8,7 @@ const AdminWorkshopPage = async ({ searchParams }: { searchParams: GetAdminWorks
 	const workshopRes = await getAdminWorkshops(searchParams)
 
 	return (
-		<div className='flex h-[100vh-56px] w-full flex-col overflow-auto p-5'>
+		<div className='flex h-[calc(100vh-56px)] w-full flex-col overflow-auto p-5'>
 			<AdminWorkshopFilters metadata={metadata} />
 			<AdminWorkshopSection
 				workshops={workshopRes?.workshops}

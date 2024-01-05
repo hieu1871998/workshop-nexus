@@ -56,7 +56,7 @@ export const AdminWorkshopSection = ({ workshops = [], total }: AdminWorkshopSec
 			if (workshop?.status === 'PENDING') {
 				await rejectWorkshop(workshop?.id ?? '')
 			} else {
-				await cancelWorkshop(workshop?.id ?? '')
+				await cancelWorkshop({ id: workshop?.id })
 			}
 
 			revalidateAllPath()
@@ -206,17 +206,16 @@ export const AdminWorkshopSection = ({ workshops = [], total }: AdminWorkshopSec
 
 	return (
 		<Paper
-			className='flex min-h-0 flex-1 flex-col overflow-auto px-2'
+			className='flex h-full w-full flex-col overflow-auto'
 			withBorder
 		>
 			<Table
-				className='min-h-0 w-full flex-1 overflow-auto'
+				className='min-h-0 flex-1 overflow-auto'
 				stickyHeader
 				highlightOnHover
-				captionSide='top'
 				verticalSpacing='sm'
 			>
-				<Table.Thead>
+				<Table.Thead className='z-50 shadow'>
 					<Table.Tr>
 						<Table.Th>
 							<Text fw={600}>Host</Text>
@@ -224,14 +223,6 @@ export const AdminWorkshopSection = ({ workshops = [], total }: AdminWorkshopSec
 						<Table.Th>
 							<Text fw={600}>Topic</Text>
 						</Table.Th>
-						{/* <Table.Th>
-						<Text
-							ta='center'
-							fw={600}
-						>
-							Description
-						</Text>
-					</Table.Th> */}
 						<Table.Th>
 							<Text
 								ta='center'
@@ -269,8 +260,8 @@ export const AdminWorkshopSection = ({ workshops = [], total }: AdminWorkshopSec
 				<Table.Tbody>{rows}</Table.Tbody>
 			</Table>
 			<Group
-				className='py-2'
-				justify='center'
+				className='sticky bottom-0 bg-white py-2'
+				justify='end'
 			>
 				<Pagination
 					size='sm'

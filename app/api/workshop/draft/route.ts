@@ -10,8 +10,7 @@ export const PUT = async (request: NextRequest) => {
 				id,
 			},
 			data: {
-				status: 'PENDING',
-				submissionDate: new Date(),
+				status: 'DRAFT',
 			},
 		})
 

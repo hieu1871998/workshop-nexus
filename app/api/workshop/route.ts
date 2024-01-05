@@ -80,6 +80,9 @@ export const GET = async (request: NextRequest) => {
 					},
 				},
 			},
+			orderBy: {
+				presentationDate: 'desc',
+			},
 		})
 
 		return NextResponse.json({ data }, { status: 200 })

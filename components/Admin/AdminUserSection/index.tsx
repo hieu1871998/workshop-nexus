@@ -8,8 +8,6 @@ import {
 	Avatar,
 	Badge,
 	Flex,
-	Grid,
-	GridCol,
 	Group,
 	Pagination,
 	Paper,
@@ -63,7 +61,7 @@ export const AdminUserSection = ({ session }: { session: Session | null }) => {
 	if (isLoading || isFetching) return <LoadingPage />
 
 	return (
-		<div>
+		<div className='flex h-full w-full flex-col overflow-auto'>
 			<Flex>
 				<TextInput
 					className='w-full max-w-sm'
@@ -76,117 +74,111 @@ export const AdminUserSection = ({ session }: { session: Session | null }) => {
 				/>
 			</Flex>
 			<Paper
-				className='mt-5 p-2'
+				className='mt-5 flex min-h-0 flex-1 flex-col overflow-auto p-2'
 				withBorder
 			>
-				<Grid>
-					{!!data?.users.length && (
-						<GridCol>
-							<Group justify='flex-end'>
-								{!!data.total && (
-									<Text size='sm'>
-										{((payload.page || 1) - 1) * (payload.pageSize || 10) + 1} -{' '}
-										{Math.min((payload.page || 0) * (payload?.pageSize || 10), data.total)} in {data.total}
-									</Text>
-								)}
-								<Select
-									style={{ width: '95px' }}
-									data={['10 / page', '25 / page', '50 / page']}
-									size='xs'
-									value={`${payload.pageSize || 10} / page`}
-									withCheckIcon={false}
-									onChange={value => setPayload({ ...payload, pageSize: parseInt(value || '10') })}
-								/>
-								<Pagination
-									total={Math.ceil((data?.total || 0) / (payload?.pageSize || 10))}
-									value={payload.page}
-									size='sm'
-									onChange={page => {
-										setPayload({ ...payload, page })
-									}}
-								/>
-							</Group>
-						</GridCol>
-					)}
-					<GridCol span={12}>
-						<Table>
-							<TableThead>
-								<TableTr>
-									{HEAD.map((head, idx) => (
-										<TableTh key={idx}>{head}</TableTh>
-									))}
-								</TableTr>
-							</TableThead>
-							<TableTbody>
-								{data?.users.map(user => {
-									return (
-										<TableTr key={user.id}>
-											<TableTd>
-												<Anchor
-													c='blue'
-													fw={600}
+				<Table className='min-h-0 flex-1 overflow-auto'>
+					<TableThead>
+						<TableTr>
+							{HEAD.map((head, idx) => (
+								<TableTh key={idx}>{head}</TableTh>
+							))}
+						</TableTr>
+					</TableThead>
+					<TableTbody>
+						{data?.users.map(user => {
+							return (
+								<TableTr key={user.id}>
+									<TableTd>
+										<Anchor
+											c='blue'
+											fw={600}
+											size='sm'
+											component={Link}
+											href={`/user/${user.id}`}
+										>
+											<Group>
+												<Avatar
+													src={user.image || null}
 													size='sm'
-													component={Link}
-													href={`/user/${user.id}`}
-												>
-													<Group>
-														<Avatar
-															src={user.image || null}
-															size='sm'
-														/>
-														<Text>{user.name}</Text>
-													</Group>
-												</Anchor>
-											</TableTd>
-											<TableTd>{user.email}</TableTd>
-											<TableTd>
+												/>
+												<Text>{user.name}</Text>
+											</Group>
+										</Anchor>
+									</TableTd>
+									<TableTd>{user.email}</TableTd>
+									<TableTd>
+										<Badge
+											key={user.id}
+											color={getRoleColor(user.role)}
+											style={{ minWidth: 72 }}
+										>
+											{user.role}
+										</Badge>
+									</TableTd>
+									<TableTd>{user?.workshopsHosted?.length}</TableTd>
+									<TableTd>{user?.workshopsParticipated?.length}</TableTd>
+									<TableTd>
+										<Group
+											key={user.id}
+											gap={4}
+											wrap='nowrap'
+											maw={200}
+										>
+											{user.tags.map(tag => (
 												<Badge
-													key={user.id}
-													color={getRoleColor(user.role)}
-													style={{ minWidth: 72 }}
+													key={tag.id}
+													color={tag.color}
+													variant={tag.variant}
 												>
-													{user.role}
+													{tag.label}
 												</Badge>
-											</TableTd>
-											<TableTd>{user?.workshopsHosted?.length}</TableTd>
-											<TableTd>{user?.workshopsParticipated?.length}</TableTd>
-											<TableTd>
-												<Group
-													key={user.id}
-													gap={4}
-													wrap='nowrap'
-													maw={200}
-												>
-													{user.tags.map(tag => (
-														<Badge
-															key={tag.id}
-															color={tag.color}
-															variant={tag.variant}
-														>
-															{tag.label}
-														</Badge>
-													))}
-												</Group>
-											</TableTd>
-											{userRole === 'ADMIN' && (
-												<TableTd>
-													<ActionIcon
-														key={user.id}
-														component={Link}
-														href={`/admin/users/${user.id}/edit`}
-														variant='subtle'
-													>
-														<IconEdit className='h-4 w-4' />
-													</ActionIcon>
-												</TableTd>
-											)}
-										</TableTr>
-									)
-								})}
-							</TableTbody>
-						</Table>
-					</GridCol>
-				</Grid>
+											))}
+										</Group>
+									</TableTd>
+									{userRole === 'ADMIN' && (
+										<TableTd>
+											<ActionIcon
+												key={user.id}
+												component={Link}
+												href={`/admin/users/${user.id}/edit`}
+												variant='subtle'
+											>
+												<IconEdit className='h-4 w-4' />
+											</ActionIcon>
+										</TableTd>
+									)}
+								</TableTr>
+							)
+						})}
+					</TableTbody>
+				</Table>
+				{!!data?.users.length && (
+					<Group justify='flex-end'>
+						{!!data.total && (
+							<Text size='sm'>
+								{((payload.page || 1) - 1) * (payload.pageSize || 10) + 1} -{' '}
+								{Math.min((payload.page || 0) * (payload?.pageSize || 10), data.total)} in {data.total}
+							</Text>
+						)}
+						<Select
+							style={{ width: '95px' }}
+							data={['10 / page', '25 / page', '50 / page']}
+							size='xs'
+							value={`${payload.pageSize || 10} / page`}
+							withCheckIcon={false}
+							onChange={value => setPayload({ ...payload, pageSize: parseInt(value || '10') })}
+						/>
+						<Pagination
+							total={Math.ceil((data?.total || 0) / (payload?.pageSize || 10))}
+							value={payload.page}
+							size='sm'
+							onChange={page => {
+								setPayload({ ...payload, page })
+							}}
+						/>
+					</Group>
+				)}
 			</Paper>
 		</div>
 	)

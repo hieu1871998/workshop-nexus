@@ -3,10 +3,12 @@
 import { useState } from 'react'
 import { WorkshopWithAllFields } from '@app/api/workshop/route'
 import { UserHoverCard } from '@components/UserHoverCard'
-import { Avatar, Button, Group, Paper, Popover, Stack, Text } from '@mantine/core'
+import { Avatar, Button, Divider, Group, Paper, Popover, Stack, Text } from '@mantine/core'
+import { DatePicker, TimeInput } from '@mantine/dates'
 import { notifications } from '@mantine/notifications'
 import { fetcher } from '@network/utils/fetcher'
-import { IconLogin } from '@tabler/icons-react'
+import { IconCalendar, IconClock, IconLogin, IconUsers } from '@tabler/icons-react'
+import dayjs from 'dayjs'
 import { isEmpty } from 'lodash'
 import Link from 'next/link'
 import { Session } from 'next-auth'
@@ -155,24 +157,71 @@ export const WorkshopDetailLeftSection = ({ workshop, isOwnWorkshop, session }: 
 				withBorder
 				p={20}
 			>
-				<Text
-					fw={600}
-					size='lg'
-				>
-					Who&apos;s participating?
-				</Text>
-				<Group mt={12}>
-					{isEmpty(workshop?.participants) ? (
-						<Text>No participants yet</Text>
-					) : (
-						workshop?.participants.map(participant => (
-							<UserHoverCard
-								key={participant.id}
-								user={participant}
+				<Stack>
+					<Stack gap={4}>
+						<Group>
+							<IconCalendar className='h-5 w-5' />
+							<Text
+								fw={600}
+								size='lg'
+							>
+								Presentation date
+							</Text>
+						</Group>
+						<Stack
+							align='center'
+							gap={4}
+						>
+							<DatePicker
+								date={dayjs(workshop?.presentationDate).toDate()}
+								value={dayjs(workshop?.presentationDate).toDate()}
+								maxLevel='month'
 							/>
-						))
-					)}
-				</Group>
+							<TimeInput
+								leftSection={<IconClock className='h-4 w-4' />}
+								value={dayjs(workshop?.presentationDate).format('HH:mm')}
+								readOnly
+							/>
+						</Stack>
+					</Stack>
+					<Divider />
+					<Stack gap={4}>
+						<Group>
+							<IconClock className='h-5 w-5' />
+							<Text
+								fw={600}
+								size='lg'
+							>
+								Duration
+							</Text>
+						</Group>
+						<Text ml={36}>{workshop?.duration} minutes</Text>
+					</Stack>
+					<Divider />
+					<Stack gap={4}>
+						<Group>
+							<IconUsers className='h-5 w-5' />
+							<Text
+								fw={600}
+								size='lg'
+							>
+								Who&apos;s participating?
+							</Text>
+						</Group>
+						<Group ml={36}>
+							{isEmpty(workshop?.participants) ? (
+								<Text>No participants yet</Text>
+							) : (
+								workshop?.participants.map(participant => (
+									<UserHoverCard
+										key={participant.id}
+										user={participant}
+									/>
+								))
+							)}
+						</Group>
+					</Stack>
+				</Stack>
 			</Paper>
 		</div>
 	)
