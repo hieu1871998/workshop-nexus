@@ -1,6 +1,4 @@
-import { Footer, Header, OngoingBanner } from '@components'
-import { getOngoingWorkshops } from '@network/fetchers'
-import { isEmpty } from 'lodash'
+import { Footer, Header } from '@components'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -8,12 +6,9 @@ export const metadata: Metadata = {
 	description: 'A place to share your ideas with workshops, and to look forward to the upcoming ones.',
 }
 
-const RootUserLayout = async ({ children }: { children: React.ReactNode }) => {
-	const ongoings = await getOngoingWorkshops()
-
+const RootUserLayout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<main className='bg-black-haze'>
-			{ongoings && !isEmpty(ongoings) && <OngoingBanner workshops={ongoings} />}
 			<Header />
 			{children}
 			<Footer />

@@ -17,11 +17,16 @@ export const OngoingBanner = ({ workshops }: { workshops: WorkshopWithAllFields[
 				<Text
 					c='white'
 					ta='center'
-					fw={500}
 					fz='sm'
 				>
-					The <Link href={`workshop/${workshop?.slug}`}>{workshop?.topic}</Link> workshop is currently ongoing. Check it
-					out along with other ongoing workshops!
+					The{' '}
+					<Link
+						className='font-semibold underline'
+						href={`workshop/${workshop?.slug}`}
+					>
+						{workshop?.topic}
+					</Link>{' '}
+					workshop is currently ongoing. Check it out along with other ongoing workshops!
 				</Text>
 			</Group>
 		</div>
